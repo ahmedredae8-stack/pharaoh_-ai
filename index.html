@@ -304,9 +304,9 @@
                     <span class="block">2. مسار الخبراء المتوسطين</span>
                     <span class="block text-sm font-normal">(تحليل وتكتيكات)</span>
                 </button>
-                <button data-path="upperIntermediate" class="path-btn btn-adventure w-full text-2xl py-6">
+                <button data-path="upper-intermediate" class="path-btn btn-adventure w-full text-2xl py-6 opacity-50 cursor-not-allowed" disabled>
                     <span class="block">3. مسار فوق المتوسط</span>
-                    <span class="block text-sm font-normal">(دفاع وهجوم متقدم)</span>
+                    <span class="block text-sm font-normal">(قريباً...)</span>
                 </button>
                 <button data-path="advanced" class="path-btn btn-adventure w-full text-2xl py-6 opacity-50 cursor-not-allowed" disabled>
                     <span class="block">4. مسار المحارب المتقدم</span>
@@ -631,103 +631,16 @@
                         },
                     ]
                 },
-                // *** مسار فوق المتوسط (Upper-Intermediate) - تم تحديثه ***
+                // مسار فوق المتوسط (Upper-Intermediate)
                 upperIntermediate: {
                     title: "مسار فوق المتوسط",
                     description: "صقل المهارات الدفاعية والهجومية الأخلاقية.",
                     lessons: [
-                        {
-                            title: "1. هندسة الأمن البشري (Social Engineering) المتقدمة",
-                            storyTitle: "فن الخداع الصوتي",
-                            dialogue: [
-                                { char: 'ahmed', text: "أهلاً بك في المستوى المتقدم أيها المجند. لقد أثبتَّ جدارتك في الأساسيات. لكن العدو الآن أكثر دهاءً. سلاحه ليس البرمجيات فقط، بل... الكلمات." },
-                                { char: 'recruit', text: "الهندسة الاجتماعية؟ أعرفها... التصيد الاحتيالي (Phishing) صحيح؟" },
-                                { char: 'rital', text: "صحيح، لكننا نتحدث عن مستوى أعلى. ليس مجرد بريد إلكتروني. ماذا عن 'التصيد الصوتي' (Vishing)؟ تخيل أني أتصل بك الآن... *[صوت ريتال يتغير ليصبح رسمياً]* 'مرحباً، معك قسم الدعم التقني للمملكة. رصدنا نشاطاً غريباً على حسابك. نحتاج لتأكيد هويتك فوراً بإعطائنا كلمة المرور الخاصة بك'." },
-                                { char: 'recruit', text: "م... مستحيل! لن أعطي كلمة المرور أبداً!" },
-                                { char: 'rital', text: "*[تعود لصوتها الطبيعي]* جيد. لكن ماذا لو طلبت منك 'تأكيد اسم المستخدم' فقط؟ أو 'آخر 4 أرقام من هويتك'؟ المهاجم يجمع هذه الأجزاء الصغيرة (Pretexting) ليبني هجوماً كاملاً." },
-                                { char: 'ahmed', text: "الهندسة الاجتماعية المتقدمة هي فن بناء 'ذريعة' (Pretext) مقنعة. المهاجم يجعلك *ترغب* في مساعدته. قد يتظاهر بأنه زميل جديد يحتاج مساعدة، أو مدير مستعجل. الضغط النفسي هو سلاحه." },
-                                { char: 'pharaoh', text: "تذكر أيها الحارس: الجدار الناري الأقوى في مملكتنا هو... أنت. إذا تم خداعك، تسقط كل الدفاعات التقنية. الشك هو درعك الأول." }
-                            ],
-                            summary: "الهندسة الاجتماعية المتقدمة تستخدم تقنيات مثل 'التصيد الصوتي' (Vishing) و 'الذرائع' (Pretexting) لخداعك. المهاجم يستغل الثقة والضغط النفسي لجمع معلومات حساسة قطعة بقطعة. الدفاع الأول هو الشك والتحقق الدائم.",
-                            quiz: [
-                                { q: "ما هو 'Vishing'؟", options: ["هجوم عبر الفيديو", "هجوم تصيد عبر المكالمات الهاتفية", "نوع من الفيروسات"], correct: 1 },
-                                { q: "ما هي أفضل طريقة للدفاع ضد مكالمة Vishing تطلب معلومات حساسة؟", options: ["إعطاؤهم معلومات خاطئة", "إنهاء المكالمة والاتصال بالجهة الرسمية عبر رقم موثوق للتحقق", "الاستمرار في المكالمة لجمع معلومات عنهم"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "2. أمن أنظمة التحكم الصناعي (ICS/SCADA)",
-                            storyTitle: "خطر على شبكة الكهرباء",
-                            dialogue: [
-                                { char: 'pharaoh', text: "تنبيه خطير! تخيل لو أن أضواء المملكة انطفأت فجأة. أو توقفت محطات تنقية المياه. هذه ليست بيانات بنكية، هذه هي الحياة المادية لشعبنا." },
-                                { char: 'recruit', text: "ما الذي يتسبب بهذا؟" },
-                                { char: 'ahmed', text: "أنظمة التحكم الصناعي (ICS) وأنظمة SCADA. هذه هي العقول الرقمية التي تدير البنية التحتية الحيوية: الكهرباء، المياه، المصانع." },
-                                { char: 'rital', text: "المشكلة يا مجند، أن هذه الأنظمة صُممت منذ عقود. كان تركيزها على 'السلامة' (Safety) و'التوافر' (Availability)... وليس 'الأمن' (Security). كانوا يفترضون أنها معزولة تماماً (Air-gapped)." },
-                                { char: 'recruit', text: "وهل هي كذلك؟" },
-                                { char: 'rital', text: "لم تعد كذلك! الصيانة تتم عن بعد، والأنظمة أصبحت متصلة بالإنترنت. هجوم 'Stuxnet' الشهير أثبت أنه يمكن تدمير معدات مادية (مثل أجهزة الطرد المركزي) عبر هجوم رقمي." },
-                                { char: 'ahmed', text: "مهمتنا هنا ليست حماية بيانات فقط، بل حماية الجسور والمصانع. يجب أن نفهم بروتوكولاتهم الغريبة (مثل Modbus) ونطبق 'تقسيم الشبكة' (Segmentation) لعزلهم حتى لو تم اختراق الشبكة الرئيسية." }
-                            ],
-                            summary: "أنظمة التحكم الصناعي (ICS/SCADA) تدير البنية التحتية الحيوية (كهرباء، ماء). تاريخياً، كانت هذه الأنظمة معزولة (Air-gapped) وركزت على السلامة لا الأمن، مما يجعلها ضعيفة. الدفاع عنها يتطلب تقنيات عزل متقدمة مثل تقسيم الشبكة.",
-                            quiz: [
-                                { q: "ما هو الخطر الرئيسي في أنظمة SCADA؟", options: ["سرقة بيانات العملاء", "التحكم في معدات مادية وتدميرها", "إرسال رسائل مزعجة"], correct: 1 },
-                                { q: "لماذا تعتبر أنظمة ICS/SCADA ضعيفة أمنياً؟", options: ["لأنها جديدة جداً وتستخدم الذكاء الاصطناعي", "لأنها قديمة وركزت على السلامة وليس الأمن السيبراني", "لأنها لا تستخدم الكهرباء"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "3. التوقيعات الرقمية والبنية التحتية للمفتاح العام (PKI)",
-                            storyTitle: "الختم الملكي الرقمي",
-                            dialogue: [
-                                { char: 'recruit', text: "قائد أحمد، ذكرت سابقاً التشفير غير المتماثل (المفتاح العام والخاص). لكن كيف أثق أن 'المفتاح العام' الذي أرسلته لي هو لك فعلاً؟ قد يكون المهاجم في المنتصف!" },
-                                { char: 'ahmed', text: "سؤال ممتاز. هذا هو جوهر الثقة الرقمية. الجواب هو 'البنية التحتية للمفتاح العام' (PKI). تخيلها كـ 'مكتب السجلات الملكية'." },
-                                { char: 'rital', text: "بالضبط! في هذا المكتب، توجد جهة موثوقة جداً نسميها 'سلطة التصديق' (CA - Certificate Authority). مثل جوجل، أمازون، أو حكومتنا." },
-                                { char: 'rital', text: "عندما أطلب 'شهادة رقمية' (Digital Certificate)، أقدم مفتاحي العام وهويتي للـ CA. يتحققون مني، ثم 'يختمون' مفتاحي العام بهويتهم الموثوقة. هذا الختم هو 'التوقيع الرقمي' للـ CA." },
-                                { char: 'recruit', text: "إذاً، عندما أتصل بموقع البنك، هو يرسل لي شهادته. متصفحي يرى الختم، ويثق به لأن المتصفح 'يعرف' الـ CA مسبقاً؟" },
-                                { char: 'ahmed', text: "أحسنت. والتوقيع الرقمي لا يثبت الهوية (Authentication) فقط، بل يضمن 'السلامة' (Integrity) و'عدم الإنكار' (Non-repudiation). لا أستطيع أن أنكر أني أرسلت الرسالة، لأن مفتاحي الخاص 'فقط' هو من يملك الختم." }
-                            ],
-                            summary: "البنية التحتية للمفتاح العام (PKI) هي نظام للثقة الرقمية. 'سلطة التصديق' (CA) هي جهة موثوقة تصدر 'شهادات رقمية'. هذه الشهادات تربط هوية الشخص بمفتاحه العام. 'التوقيع الرقمي' يستخدم المفتاح الخاص لضمان الهوية، السلامة، وعدم الإنكار.",
-                            quiz: [
-                                { q: "ما هي الوظيفة الرئيسية لـ 'سلطة التصديق' (CA)؟", options: ["كتابة الكود", "إصدار شهادات رقمية للتحقق من الهويات", "بيع أجهزة الكمبيوتر"], correct: 1 },
-                                { q: "التوقيع الرقمي يضمن ثلاثة أشياء، منها:", options: ["السرعة، القوة، التكلفة", "الهوية، السلامة، عدم الإنكار", "التشفير، الضغط، الإرسال"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "4. تقنيات الاستجابة للحوادث (IR)",
-                            storyTitle: "إطفاء الحريق الرقمي",
-                            dialogue: [
-                                { char: 'pharaoh', text: "تنبيه! تم رصد اختراق! الجدار الناري الخارجي سقط! تحركوا!" },
-                                { char: 'recruit', text: "ماذا نفعل؟؟ هل نعيد تشغيل الخوادم؟!" },
-                                { char: 'ahmed', text: "قف! لا تلمس شيئاً! أول رد فعل خاطئ قد يدمر الأدلة. نحن نتبع 'خطة الاستجابة للحوادث' (IR Plan) خطوة بخطوة. ريتال، ما هي المرحلة؟" },
-                                { char: 'rital', text: "نحن في مرحلة 'التحديد' (Identification). تأكدنا أنه اختراق حقيقي وليس إنذاراً كاذباً. الآن، الخطوة الأهم: 'الاحتواء' (Containment)." },
-                                { char: 'ahmed', text: "بالضبط. اعزل الخادم المصاب عن الشبكة *فوراً*! افصل الكابل! لا نريد للنار أن تنتشر. هذا أهم من استعادة الخدمة الآن." },
-                                { char: 'rital', text: "بعد الاحتواء، نبدأ 'الاستئصال' (Eradication). العثور على 'الثغرة' التي دخل منها وإصلاحها. ثم 'الاسترداد' (Recovery)، أي إعادة بناء الخادم من نسخة احتياطية نظيفة." },
-                                { char: 'recruit', text: "وانتهى الأمر؟" },
-                                { char: 'ahmed', text: "لا. أهم خطوة هي الأخيرة: 'الدروس المستفادة' (Lessons Learned). لماذا حدث هذا؟ كيف نمنعه المرة القادمة؟ الحارس الذي لا يتعلم من أخطائه، سيكررها." }
-                            ],
-                            summary: "خطة الاستجابة للحوادث (IR) لها مراحل: 1. الإعداد، 2. التحديد (هل هو حقيقي؟)، 3. الاحتواء (عزل الضرر)، 4. الاستئصال (إصلاح السبب)، 5. الاسترداد (إعادة الخدمة)، 6. الدروس المستفادة (التحسين المستمر).",
-                            quiz: [
-                                { q: "ما هي أهم خطوة *بعد* تحديد الاختراق مباشرة؟", options: ["الدروس المستفادة", "الاحتواء (عزل النظام)", "الاسترداد (إعادة التشغيل)"], correct: 1 },
-                                { q: "لماذا تعتبر مرحلة 'الدروس المستفادة' مهمة؟", options: ["لمعاقبة المخطئ", "لمنع تكرار نفس الاختراق مستقبلاً", "لكتابة تقرير طويل"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "5. التحليل الساكن والديناميكي للبرامج الضارة",
-                            storyTitle: "تشريح الأفعى الرقمية",
-                            dialogue: [
-                                { char: 'rital', text: "أيها المجند، وصلتنا 'هدية' من المهاجمين. ملف غريب تم إرساله لأحد الموظفين. مهمتنا: تشريحه." },
-                                { char: 'recruit', text: "هل... هل نفتحه؟" },
-                                { char: 'rital', text: "مطلقاً! ليس على نظامنا. سنبدأ بـ 'التحليل الساكن' (Static Analysis). هذا يعني أننا نفحصه وهو 'ميت'. ننظر إلى الكود، والنصوص المخفية بداخله (Strings)، دون تشغيله." },
-                                { char: 'rital', text: "أرى هنا... نصوص تشير إلى 'Encrypt' واتصال بموقع إنترنت غريب. هذا مثير للريبة، لكنه غير كافٍ." },
-                                { char: 'ahmed', text: "الآن للخطوة الأخطر. 'التحليل الديناميكي' (Dynamic Analysis). ريتال، جهزي 'الصندوق الرملي' (Sandbox)." },
-                                { char: 'rital', text: "الصندوق الرملي هو جهاز كمبيوتر افتراضي معزول تماماً. مثل غرفة تجارب محكمة الإغلاق. سنشغل الملف بداخلها ونراقب سلوكه." },
-                                { char: 'rital', text: "*[صوت نقر]*... بدأ التشغيل... إنه يحاول الاتصال بذلك الموقع الغريب! ويقوم ب... نعم! بدأ في تشفير الملفات! إنها 'برمجية فدية' (Ransomware)!" },
-                                { char: 'ahmed', text: "ممتاز. الآن عرفنا سلوكه (Behavior) وبصمته الشبكية (Network Signature). يمكننا حظر ذلك الموقع على مستوى المملكة كلها. دمروا الصندوق الرملي وابدأوا كتابة التقرير." }
-                            ],
-                            summary: "تحليل البرامج الضارة نوعان: 1. التحليل الساكن (Static): فحص الكود دون تشغيله. 2. التحليل الديناميكي (Dynamic): تشغيل البرنامج في بيئة آمنة ومعزولة تسمى 'الصندوق الرملي' (Sandbox) لمراقبة سلوكه الفعلي.",
-                            quiz: [
-                                { q: "ما هي 'البيئة المعزولة' المستخدمة لتشغيل الفيروسات بأمان؟", options: ["نظام التشغيل الرئيسي", "الصندوق الرملي (Sandbox)", "متصفح الإنترنت"], correct: 1 },
-                                { q: "ما الفرق بين التحليل الساكن والديناميكي؟", options: ["الساكن بطيء والديناميكي سريع", "الساكن يفحص الكود 'ميتاً'، الديناميكي يشغله لمراقبة سلوكه", "الساكن للصور والديناميكي للفيديو"], correct: 1 }
-                            ]
-                        },
-                        // الدروس المتبقية فوق المتوسط
+                        { title: "1. هندسة الأمن البشري (Social Engineering) المتقدمة", storyTitle: "(قريباً...)" },
+                        { title: "2. أمن أنظمة التحكم الصناعي (ICS/SCADA)", storyTitle: "(قريباً...)" },
+                        { title: "3. التوقيعات الرقمية والبنية التحتية للمفتاح العام (PKI)", storyTitle: "(قريباً...)" },
+                        { title: "4. تقنيات الاستجابة للحوادث السيبرانية", storyTitle: "(قريباً...)" },
+                        { title: "5. التحليل الديناميكي والساكن للبرامج الضارة", storyTitle: "(قريباً...)" },
                         { title: "6. القرصنة الأخلاقية والبحث عن الثغرات", storyTitle: "(قريباً...)" },
                         { title: "7. الحماية المتقدمة للشبكات (IDS/IPS, Honeypots)", storyTitle: "(قريباً...)" },
                         { title: "8. أمن الحاويات (Docker/Kubernetes)", storyTitle: "(قريباً...)" },
@@ -766,11 +679,7 @@
             isTyping: false,
             currentTypingTimeout: null,
             progress: {
-                // القيم الافتراضية قبل التحميل
-                beginnerUnlockedLesson: 0,
-                intermediateUnlockedLesson: 0,
-                upperIntermediateUnlockedLesson: 0,
-                advancedUnlockedLesson: 0, 
+                unlockedLesson: 0, // يبدأ من الدرس الأول (مؤقتاً 0)
                 scores: {}
             }
         };
@@ -834,24 +743,23 @@
                 if (docSnap.exists()) {
                     console.log("تم العثور على بيانات المستخدم:", docSnap.data());
                     // دمج البيانات المحملة مع الحالة الافتراضية
+                    // نستخدم مفتاح المسار كـ key في progress (مثل 'beginnerUnlockedLesson') لتعميم التقدم
                     const loadedData = docSnap.data();
                     state.progress = { 
                         // القيمة الافتراضية
+                        unlockedLesson: loadedData.unlockedLesson || 0,
+                        // إضافة حالة فتح الدروس لكل مسار
                         beginnerUnlockedLesson: loadedData.beginnerUnlockedLesson || 0,
                         intermediateUnlockedLesson: loadedData.intermediateUnlockedLesson || 0,
-                        upperIntermediateUnlockedLesson: loadedData.upperIntermediateUnlockedLesson || 0,
-                        advancedUnlockedLesson: loadedData.advancedUnlockedLesson || 0,
                         // دمج النقاط المحفوظة
                         scores: loadedData.scores || {}
                     };
                 } else {
                     // لا يوجد مستند، هذا هو المستخدم الأول مرة
                     console.log("مستخدم جديد. جاري إنشاء سجل التقدم...");
-                    // حفظ الحالة الافتراضية (الدرس الأول (0) مفتوح في كل مسار مبدئياً)
+                    // حفظ الحالة الافتراضية (الدرس الأول مفتوح في كل مسار مبدئياً)
                     state.progress.beginnerUnlockedLesson = 0;
                     state.progress.intermediateUnlockedLesson = 0;
-                    state.progress.upperIntermediateUnlockedLesson = 0;
-                    state.progress.advancedUnlockedLesson = 0;
                     await saveUserData(); 
                 }
             } catch (error) {
@@ -866,8 +774,6 @@
                 const dataToSave = {
                     beginnerUnlockedLesson: state.progress.beginnerUnlockedLesson,
                     intermediateUnlockedLesson: state.progress.intermediateUnlockedLesson,
-                    upperIntermediateUnlockedLesson: state.progress.upperIntermediateUnlockedLesson,
-                    advancedUnlockedLesson: state.progress.advancedUnlockedLesson,
                     scores: state.progress.scores
                 };
                 await setDoc(userDocRef, dataToSave, { merge: true });
@@ -886,13 +792,11 @@
                     state.progress = { 
                         beginnerUnlockedLesson: newData.beginnerUnlockedLesson || 0,
                         intermediateUnlockedLesson: newData.intermediateUnlockedLesson || 0,
-                        upperIntermediateUnlockedLesson: newData.upperIntermediateUnlockedLesson || 0,
-                        advancedUnlockedLesson: newData.advancedUnlockedLesson || 0,
                         scores: newData.scores || {}
                     };
                     
                     // تحديث واجهة المستخدم إذا كانت تعتمد على التقدم
-                    if(state.currentScreen === 'lesson-list') {
+                    if(state.currentScreen === 'lessons') {
                         showLessonList(state.currentPathId); // إعادة رسم قائمة الدروس
                     }
                 }
@@ -1054,7 +958,7 @@
             const info = getCharacterInfo(char);
             const speakerBar = document.getElementById('current-speaker-bar');
 
-            if (state.currentScreen === 'intro-chat' || state.currentScreen === 'splash' || state.currentScreen === 'loading') {
+            if (state.currentScreen === 'intro-chat' || state.currentScreen === 'splash') {
                 speakerBar.classList.add('hidden');
                 return;
             }
@@ -1126,11 +1030,10 @@
             
             // جلب حالة التقدم للمسار الحالي
             const unlockedKey = `${pathId}UnlockedLesson`;
-            const unlockedLesson = state.progress[unlockedKey] !== undefined ? state.progress[unlockedKey] : -1; // -1 يعني لا شيء مفتوح
+            const unlockedLesson = state.progress[unlockedKey] !== undefined ? state.progress[unlockedKey] : -1;
             
             pathData.lessons.forEach((lesson, index) => {
-                // الدرس التالي لآخر درس تم فتحه (index + 1) هو الذي يتم فتحه، وما بعده مغلق
-                // unlockedLesson هو *آخر* درس تم إكماله بنجاح
+                // الدرس التالي لآخر درس تم فتحه هو الذي يتم فتحه، وما بعده مغلق
                 const isLocked = index > (unlockedLesson + 1); 
                 const isIncomplete = !lesson.dialogue || lesson.dialogue.length === 0;
 
@@ -1255,7 +1158,7 @@
                 
                 // تحديد مفتاح التقدم للمسار الحالي
                 const unlockedKey = `${state.currentPathId}UnlockedLesson`;
-                const currentLessonIndex = state.currentLessonIndex;
+                const nextLessonIndex = state.currentLessonIndex + 1;
                 
                 if (score < total) {
                     feedbackText = `لقد حصلت على ${score} من ${total}. عليك مراجعة بعض النقاط لتكون حارساً كاملاً.`;
@@ -1265,9 +1168,8 @@
                     feedbackColor = 'text-green-400';
                     
                     // فتح الدرس التالي وحفظ التقدم
-                    // فقط إذا كان الدرس الحالي هو آخر درس مفتوح
-                    if (currentLessonIndex === state.progress[unlockedKey]) {
-                         state.progress[unlockedKey] = currentLessonIndex + 1; // فتح الدرس التالي
+                    if (nextLessonIndex > state.progress[unlockedKey]) {
+                         state.progress[unlockedKey] = nextLessonIndex;
                          saveUserData();
                     }
                 }
@@ -1349,3 +1251,4 @@
     
 </body>
 </html>
+
