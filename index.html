@@ -4,78 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>فرعون Ai - مغامرة الأمن السيبراني</title>
-    
-    <!-- تحميل Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- تحميل خط "IBM Plex Sans Arabic" --><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- أيقونات بسيطة (Heroicons) --><script type="module" src="https://unpkg.com/heroicons@2.1.1/24/outline/dist/index.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/heroicons@2.1.1/24/outline/dist/index.js"></script>
 
     <style>
-        /* تطبيق الخط الافتراضي الجديد */
         body {
             font-family: 'IBM Plex Sans Arabic', sans-serif;
-            -webkit-user-select: none; /* Safari */
-            -ms-user-select: none; /* IE 10 and IE 11 */
-            user-select: none; /* Standard syntax */
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
-        /* خلفية التطبيق الرئيسية - مظهر فخم/مغامرة */
         #app-container {
-            background-color: #0D1B2A; /* أزرق ليلي غامق */
+            background-color: #0D1B2A;
             background-image: linear-gradient(rgba(13, 27, 42, 0.95), rgba(0, 0, 0, 0.98)), url('https://www.transparenttextures.com/patterns/papyrus.png');
-            color: #F5EAAA; /* لون بيج فاتح (لون البردي) */
+            color: #F5EAAA;
         }
 
-        /* إخفاء الشاشات بشكل افتراضي */
         .screen {
             display: none;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
         }
 
-        /* إظهار الشاشة النشطة */
         .screen.active {
-            display: flex; /* نستخدم flex للتحكم بالتموضع */
+            display: flex;
             opacity: 1;
         }
 
-        /* === تحسين تصميم الأزرار === */
         .btn-adventure {
-            background-image: linear-gradient(to bottom, #FFD700, #D4AF37); /* تدرج ذهبي */
+            background-image: linear-gradient(to bottom, #FFD700, #D4AF37);
             color: #0D1B2A;
             font-weight: 700;
             border-radius: 12px;
             padding: 12px 24px;
-            border: 2px solid #B8860B; /* ذهبي أغمق للحدود */
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.2); /* ظل أغنى */
+            border: 2px solid #B8860B;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.2);
             transition: all 0.2s ease-out;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* ظل خفيف للنص */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
         .btn-adventure:hover:not(:disabled) {
-            background-image: linear-gradient(to bottom, #FFEB99, #FFD700); /* تدرج أفتح عند المرور */
+            background-image: linear-gradient(to bottom, #FFEB99, #FFD700);
             box-shadow: 0 7px 25px rgba(255, 215, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.3);
-            transform: translateY(-3px); /* تأثير بروز */
+            transform: translateY(-3px);
         }
         .btn-adventure:active:not(:disabled) {
-            transform: translateY(1px); /* تأثير ضغط */
-            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2); /* ظل داخلي عند الضغط */
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        /* تحديث ستايل التعطيل لضمان الحفاظ على الشكل الذهبي ما أمكن */
         .btn-adventure:disabled {
-             background-image: linear-gradient(to bottom, #999, #777); /* رمادي خفيف */
+             background-image: linear-gradient(to bottom, #999, #777);
              border-color: #555;
              color: #CCC;
              box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
              transform: none;
-             opacity: 0.7; /* لتبدو معطلة */
+             opacity: 0.7;
              cursor: not-allowed;
              text-shadow: none;
         }
 
         .btn-back {
-            background-color: #1A2737; /* لون خلفية أغمق */
+            background-color: #1A2737;
             color: #ccc;
             border: 1px solid #333;
             box-shadow: none;
@@ -86,11 +77,10 @@
             transform: none;
         }
 
-        /* زر اختيار الدرس */
         .btn-lesson {
             background-color: rgba(255, 255, 255, 0.05);
             border: 2px solid;
-            border-image: linear-gradient(to right, #D4AF37, #FFD700) 1; /* حدود متدرجة */
+            border-image: linear-gradient(to right, #D4AF37, #FFD700) 1;
             color: #F5EAAA;
             border-radius: 12px;
             padding: 16px;
@@ -101,7 +91,7 @@
         .btn-lesson:hover {
             background-color: rgba(212, 175, 55, 0.2);
             border-image: linear-gradient(to right, #FFD700, #FFEB99) 1;
-            transform: scale(1.02); /* تكبير بسيط */
+            transform: scale(1.02);
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
         }
         .btn-lesson.locked {
@@ -118,8 +108,69 @@
         .lesson-lock {
             display: none;
         }
+        
+        #splash-screen h1 {
+            font-size: 3.75rem;
+        }
+        @media (min-width: 768px) {
+            #splash-screen h1 {
+                font-size: 4.5rem;
+            }
+        }
+        
+        #path-selection-screen h2 {
+            font-size: 2.25rem;
+        }
+        @media (min-width: 768px) {
+            #path-selection-screen h2 {
+                font-size: 2.5rem;
+            }
+        }
+        .path-btn {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        @media (min-width: 768px) {
+            .path-btn {
+                padding-top: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+        }
 
-        /* === تأثيرات الدردشة الجديدة والمحسّنة === */
+        #path-title {
+            font-size: 1.875rem;
+        }
+        @media (min-width: 768px) {
+            #path-title {
+                font-size: 2.25rem;
+            }
+        }
+        .btn-lesson h3 {
+            font-size: 1.25rem;
+        }
+        @media (min-width: 768px) {
+            .btn-lesson h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        #summary-screen h2, #quiz-screen h2 {
+            font-size: 1.875rem;
+        }
+        @media (min-width: 768px) {
+            #summary-screen h2, #quiz-screen h2 {
+                font-size: 2.25rem;
+            }
+        }
+        #quiz-question {
+            font-size: 1.25rem;
+        }
+        @media (min-width: 768px) {
+            #quiz-question {
+                font-size: 1.5rem;
+            }
+        }
+
         @keyframes fadeIn {
             to {
                 opacity: 1;
@@ -165,13 +216,11 @@
             transition: opacity 0.3s ease;
         }
 
-        /* ألوان وفقاعات الشخصيات */
         .chat-pharaoh .chat-speaker-name { color: #FFD700; }
         .chat-ahmed .chat-speaker-name { color: #87CEEB; }
         .chat-rital .chat-speaker-name { color: #90EE90; }
         .chat-recruit .chat-speaker-name { color: #F5EAAA; }
 
-        /* محاذاة الفقاعات والأسماء */
         .chat-pharaoh, .chat-ahmed, .chat-rital {
             align-items: flex-start;
         }
@@ -252,94 +301,94 @@
 </head>
 <body class="bg-black overflow-hidden">
 
-    <!-- حاوية التطبيق الرئيسية --><div id="app-container" class="relative w-screen h-screen overflow-hidden">
+    <div id="app-container" class="relative w-screen h-screen overflow-hidden">
 
-        <!-- شاشة التحميل --><div id="loading-screen" class="screen active flex-col items-center justify-center w-full h-full">
+        <div id="loading-screen" class="screen active flex-col items-center justify-center w-full h-full">
             <svg class="w-24 h-24 text-yellow-500 animate-pulse" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242a3 3 0 0 1-4.242-4.243" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c.4756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242a3 3 0 0 1-4.242-4.243" />
             </svg>
             <p class="text-xl font-bold mt-4 text-yellow-500">جاري تفعيل بروتوكول الاتصال... الخطر وشيك.</p>
         </div>
 
-        <!-- 1. شاشة البداية (Splash) --><div id="splash-screen" class="screen flex-col items-center justify-center w-full h-full text-center">
+        <div id="splash-screen" class="screen flex-col items-center justify-center w-full h-full text-center p-4">
             <svg class="w-32 h-32 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.37-3.371A8.25 8.25 0 0 0 15.362 5.214ZM14.25 10.5a8.983 8.983 0 0 0-3.37-3.371M14.25 10.5a8.983 8.983 0 0 1 3.37-3.371m0 0a8.25 8.25 0 0 0-3.37-3.372m3.37 3.372a8.25 8.25 0 0 1 3.372 3.37M9 12.601a8.983 8.983 0 0 1-3.37 3.371M9 12.601a8.983 8.983 0 0 0-3.37 3.372m0 0a8.25 8.25 0 0 0 3.37 3.37m-3.37-3.37a8.25 8.25 0 0 1-3.372-3.37m3.372 3.37a8.25 8.25 0 0 0 3.37-3.37M9 12.601A8.25 8.25 0 0 0 6.038 7.047" />
             </svg>
             
-            <h1 class="text-6xl font-black text-yellow-400 mt-4" style="text-shadow: 0 0 15px rgba(255,215,0,0.7);">فرعون Ai</h1>
+            <h1 class="font-black text-yellow-400 mt-4" style="text-shadow: 0 0 15px rgba(255,215,0,0.7);">فرعون Ai</h1>
             <p class="text-2xl text-red-400 mt-2 font-bold tracking-widest">مغامرة الأمن السيبراني</p>
             <p class="text-lg text-gray-300 mt-4">نظام الدفاع الأخير عن المملكة الرقمية.</p>
         </div>
 
-        <!-- 2. شاشة المحادثة التعريفية --><div id="intro-chat-screen" class="screen flex-col w-full h-full p-4 overflow-y-auto">
-            <div id="intro-chat-messages" class="flex-grow flex flex-col space-y-4 p-4 pt-10">
-                <!-- رسائل الدردشة تضاف هنا بواسطة JS --></div>
-            <div id="intro-chat-actions" class="p-4 text-center hidden">
+        <div id="intro-chat-screen" class="screen flex-col w-full h-full overflow-hidden">
+            <div id="intro-chat-messages" class="flex-grow flex flex-col space-y-4 p-4 pt-10 overflow-y-auto">
+            </div>
+            <div id="intro-chat-actions" class="p-4 text-center hidden flex-shrink-0">
                 <button id="start-learning-btn" class="btn-adventure text-lg">
                     أنا مستعد! لِتبدأ المهمة
                 </button>
             </div>
         </div>
 
-        <!-- 3. شاشة اختيار المسار --><div id="path-selection-screen" class="screen flex-col items-center justify-center w-full h-full p-8">
-            <h2 class="text-4xl font-bold mb-8 text-center text-yellow-400">اختر مسار محارب السايبر</h2>
+        <div id="path-selection-screen" class="screen flex-col items-center justify-center w-full h-full p-8">
+            <h2 class="font-bold mb-8 text-center text-yellow-400">اختر مسار محارب السايبر</h2>
             <div id="path-grid" class="w-full max-w-md space-y-4">
-                <button data-path="beginner" class="path-btn btn-adventure w-full text-2xl py-6">
+                <button data-path="beginner" class="path-btn btn-adventure w-full text-2xl">
                     <span class="block">1. مسار الحارس المبتدئ</span>
                     <span class="block text-sm font-normal">(الأساس)</span>
                 </button>
-                <button data-path="intermediate" class="path-btn btn-adventure w-full text-2xl py-6">
+                <button data-path="intermediate" class="path-btn btn-adventure w-full text-2xl">
                     <span class="block">2. مسار الخبراء المتوسطين</span>
                     <span class="block text-sm font-normal">(تحليل وتكتيكات)</span>
                 </button>
-                <button data-path="upperIntermediate" class="path-btn btn-adventure w-full text-2xl py-6">
+                <button data-path="upperIntermediate" class="path-btn btn-adventure w-full text-2xl">
                     <span class="block">3. مسار فوق المتوسط</span>
                     <span class="block text-sm font-normal">(دفاع وهجوم متقدم)</span>
                 </button>
-                <button data-path="advanced" class="path-btn btn-adventure w-full text-2xl py-6 opacity-50 cursor-not-allowed" disabled>
+                <button data-path="advanced" class="path-btn btn-adventure w-full text-2xl opacity-50 cursor-not-allowed" disabled>
                     <span class="block">4. مسار المحارب المتقدم</span>
                     <span class="block text-sm font-normal">(قريباً...)</span>
                 </button>
             </div>
         </div>
 
-        <!-- 4. شاشة قائمة الدروس --><div id="lesson-list-screen" class="screen flex-col w-full h-full">
+        <div id="lesson-list-screen" class="screen flex-col w-full h-full overflow-hidden">
             <div class="flex-shrink-0 p-4 border-b border-yellow-800 flex justify-between items-center">
-                <h2 id="path-title" class="text-3xl font-bold text-yellow-400 text-center flex-grow">مسار المبتدئين: الأساس</h2>
+                <h2 id="path-title" class="font-bold text-yellow-400 text-center flex-grow">مسار المبتدئين: الأساس</h2>
                 <button id="back-to-paths-btn" class="btn-adventure btn-back text-base px-3 py-2">
                     العودة للمسارات
                 </button>
             </div>
             <div id="lesson-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-y-auto flex-grow">
-                <!-- أزرار الدروس تضاف هنا بواسطة JS --></div>
+            </div>
         </div>
         
-        <!-- 5. شاشة الدرس (عرض الحوار) --><div id="lesson-view-screen" class="screen flex-col w-full h-full">
-            <div id="current-speaker-bar" class="flex items-center p-3 px-4 shadow-xl border-yellow-800">
-                <!-- يتم ملؤه بواسطة JS --></div>
+        <div id="lesson-view-screen" class="screen flex-col w-full h-full overflow-hidden">
+            <div id="current-speaker-bar" class="flex items-center p-3 px-4 shadow-xl border-yellow-800 flex-shrink-0">
+            </div>
 
             <div id="lesson-dialogue-area" class="flex-grow flex flex-col space-y-2 p-4 overflow-y-auto">
-                <!-- رسائل الحوار تضاف هنا --></div>
-            <div class="p-2 text-center text-gray-400 text-sm border-t border-yellow-800">
+            </div>
+            <div class="p-2 text-center text-gray-400 text-sm border-t border-yellow-800 flex-shrink-0">
                 <p>اضغط في أي مكان للمتابعة</p>
             </div>
         </div>
 
-        <!-- 6. شاشة ملخص الدرس --><div id="summary-screen" class="screen flex-col w-full h-full p-6 justify-center">
+        <div id="summary-screen" class="screen flex-col w-full h-full p-6 justify-center overflow-y-auto">
             <h2 class="text-3xl font-bold text-yellow-400 text-center mb-6">ملخص المهمة</h2>
             <div id="summary-content" class="text-lg bg-black/20 p-6 rounded-lg border border-yellow-700 leading-relaxed">
-                <!-- محتوى الملخص يضاف هنا --></div>
+            </div>
             <button id="start-quiz-btn" class="btn-adventure text-lg mt-8 w-full max-w-xs mx-auto">
                 بدء الاختبار القصير
             </button>
         </div>
 
-        <!-- 7. شاشة الاختبار القصير --><div id="quiz-screen" class="screen flex-col w-full h-full p-6 justify-center">
-            <h2 class="text-3xl font-bold text-yellow-400 text-center mb-6">اختبار المهمة</h2>
+        <div id="quiz-screen" class="screen flex-col w-full h-full p-6 justify-center overflow-y-auto">
+            <h2 class="font-bold text-yellow-400 text-center mb-6">اختبار المهمة</h2>
             <div class="w-full max-w-lg mx-auto">
-                <p id="quiz-question" class="text-2xl text-center mb-8"></p>
+                <p id="quiz-question" class="text-center mb-8"></p>
                 <div id="quiz-options" class="flex flex-col space-y-4">
-                    <!-- خيارات الاختبار تضاف هنا --></div>
+                </div>
                 <p id="quiz-feedback" class="text-center text-lg mt-6 font-bold"></p>
                 <button id="next-question-btn" class="btn-adventure text-lg mt-8 w-full max-w-xs mx-auto hidden">
                     السؤال التالي
@@ -349,14 +398,7 @@
 
     </div>
 
-    <!-- 
-      --- تم إزالة جميع إستدعاءات Firebase ---
-      تم استبدالها بـ localStorage لحل مشكلة التهيئة
-    --><script type="module">
-        // --- (لا توجد إستدعاءات لـ Firebase) ---
-
-        // --- قاعدة بيانات محتوى التطبيق (ثابتة) ---
-        // (محتوى قاعدة البيانات الضخم موجود هنا، تم إخفاؤه للاختصار في هذا المثال، لكنه موجود في الكود الفعلي)
+    <script type="module">
         const database = {
             introChat: [
                 { char: 'pharaoh', text: "تنبيه! تم اختراق بروتوكول الأمن السيبراني. النظام يحتاج إلى حارس رقمي فوراً." },
@@ -423,13 +465,123 @@
                                 { q: "الشباك المفتوح في الهرم هو مثال على...؟", options: ["تهديد", "ثغرة", "خطر"], correct: 1 }
                             ]
                         },
-                        { title: "4. أنواع المهاجمين", storyTitle: "(قريباً...)" },
-                        { title: "5. أشهر أنواع الهجمات (الجزء الأول)", storyTitle: "(قريباً...)" },
-                        { title: "6. أشهر أنواع الهجمات (الجزء الثاني)", storyTitle: "(قريباً...)" },
-                        { title: "7. أساسيات الشبكات (الجزء الأول)", storyTitle: "(قريباً...)" },
-                        { title: "8. أساسيات الشبكات (الجزء الثاني)", storyTitle: "(قريباً...)" },
-                        { title: "9. أساسيات أنظمة التشغيل", storyTitle: "(قريباً...)" },
-                        { title: "10. الأمن الشخصي للمبتدئين", storyTitle: "(قريباً...)" },
+                        {
+                            title: "4. أنواع المهاجمين",
+                            storyTitle: "القبعات المختلفة",
+                            dialogue: [
+                                { char: 'ahmed', text: "لفهم العدو، يجب أن تعرف من هم. في عالمنا، لا يرتدي الأعداء زياً موحداً، بل 'قبعات' مختلفة." },
+                                { char: 'recruit', text: "قبعات؟ كيف ذلك؟" },
+                                { char: 'rital', text: "نعم! تخيلهم ثلاثة أنواع: الأول هو 'القبعة السوداء' (Black Hat). هذا هو اللص التقليدي. هدفه التدمير، أو السرقة من أجل المال، أو الفوضى. نواياهم سيئة تماماً." },
+                                { char: 'rital', text: "الثاني هو 'القبعة البيضاء' (White Hat). هؤلاء هم نحن! باحثون أمنيون ومخترقون أخلاقيون. نجد 'الثغرات' (مثل الشباك المفتوح) ونخبر صاحب الهرم ليغلقها قبل أن يجدها اللص." },
+                                { char: 'rital', text: "الثالث هو 'القبعة الرمادية' (Grey Hat). هذا النوع محير. هو يخترق بدون إذن (مثل القبعة السوداء)، ولكنه قد يخبرك بالثغرة (مثل القبعة البيضاء)... ربما مقابل مكافأة مالية أو للشهرة. هم في منطقة رمادية." },
+                                { char: 'recruit', text: "إذاً، مهمتنا هي أن نكون 'قبعات بيضاء' لنتصدى لـ 'القبعات السوداء'؟" },
+                                { char: 'ahmed', text: "بالضبط. يجب أن تفكر مثلهم لتتغلب عليهم." }
+                            ],
+                            summary: "المهاجمون ثلاثة أنواع: 1. القبعة السوداء (المجرم/المخرب)، 2. القبعة البيضاء (الباحث الأمني/الأخلاقي)، 3. القبعة الرمادية (يعمل في منطقة رمادية بين الاثنين).",
+                            quiz: [
+                                { q: "من هو 'القبعة السوداء'؟", options: ["باحث أمني يساعدك", "مخترق أخلاقي", "لص رقمي يهدف للسرقة أو التدمير"], correct: 2 },
+                                { q: "ما هو دور 'القبعة البيضاء'؟", options: ["إيجاد الثغرات وإصلاحها بشكل أخلاقي", "سرقة المال", "الاختراق من أجل الشهرة فقط"], correct: 0 }
+                            ]
+                        },
+                        {
+                            title: "5. أشهر أنواع الهجمات (الجزء الأول)",
+                            storyTitle: "البرامج الضارة",
+                            dialogue: [
+                                { char: 'pharaoh', text: "تنبيه! العدو يمتلك ترسانة من الأسلحة الرقمية. أخطرها هو 'البرامج الضارة' (Malware). إنها برامج صغيرة مصممة لإحداث ضرر." },
+                                { char: 'recruit', text: "أعرف كلمة 'فيروس'. هل كلها فيروسات؟" },
+                                { char: 'rital', text: "كلمة 'Malware' هي المظلة الكبيرة. 'الفيروس' (Virus) هو نوع واحد. تخيله كطفيلي، يحتاج أن 'يلتصق' بملف نظيف (مثل مستند Word) لينتشر. لا يعمل حتى تفتح أنت ذلك الملف." },
+                                { char: 'rital', text: "لكن الأخطر هي 'الدودة' (Worm). الدودة لا تحتاجك! إنها تنتشر من جهاز لجهاز عبر الشبكة بنفسها. إذا أصيب جهاز واحد، قد تصاب الشبكة كلها خلال دقائق." },
+                                { char: 'rital', text: "وأخيراً، 'حصان طروادة' (Trojan). تذكر قصة حصان طروادة؟ يبدو كهدية رائعة (لعبة مجانية، برنامج مفيد)، لكن بداخله يختبئ جنود العدو (البرنامج الضار). أنت تدخله بنفسك ظناً منك أنه آمن." },
+                                { char: 'ahmed', text: "فيروس، دودة، حصان طروادة. هذه هي الأساسيات. فهم كيف يعمل كل واحد هو خطوتك الأولى لتعلم كيفية إيقافهم." }
+                            ],
+                            summary: "البرامج الضارة (Malware) هي برامج سيئة. أشهرها: 1. الفيروس (Virus): يحتاج ملفاً مضيفاً وتفاعلاً بشرياً. 2. الدودة (Worm): تنتشر بنفسها عبر الشبكات. 3. حصان طروادة (Trojan): يتنكر كبرنامج مفيد." ,
+                            quiz: [
+                                { q: "ما هو البرنامج الضار الذي ينتشر عبر الشبكة بنفسه دون تدخل بشري؟", options: ["الفيروس (Virus)", "الدودة (Worm)", "حصان طروادة (Trojan)"], correct: 1 },
+                                { q: "ما هو 'حصان طروادة' (Trojan)؟", options: ["برنامج يتنكر في شكل شيء مفيد ليخدعك", "برنامج يصلح الأخطاء", "برنامج يبطئ الإنترنت"], correct: 0 }
+                            ]
+                        },
+                        {
+                            title: "6. أشهر أنواع الهجمات (الجزء الثاني)",
+                            storyTitle: "الفخاخ وبرامج الفدية",
+                            dialogue: [
+                                { char: 'ahmed', text: "نستكمل ترسانة العدو. هناك سلاحين يعتمدان على خداعك مباشرة: التصيد الاحتيالي وبرامج الفدية." },
+                                { char: 'rital', text: "'التصيد الاحتيالي' (Phishing) هو الفخ. رسالة بريد إلكتروني تبدو 'رسمية' من بنكك أو شركتك، تطلب منك 'تحديث كلمة مرورك' عبر رابط. هذا الرابط مزيف! هدفه سرقة بيانات دخولك." },
+                                { char: 'recruit', text: "كيف أتعرف عليه؟" },
+                                { char: 'rital', text: "دقق دائماً في عنوان المرسل، ولا تضغط على روابط لا تثق بها. البنك الحقيقي لن يطلب كلمة مرورك عبر الإيميل." },
+                                { char: 'ahmed', text: "أما 'برامج الفدية' (Ransomware)، فهي الأخطر على بياناتك. بمجرد أن تصيب جهازك، تقوم بتشفير كل ملفاتك - صورك، مستنداتك - وتجعلها غير قابلة للقراءة." },
+                                { char: 'pharaoh', text: "ثم يطالبك المهاجم بـ 'فدية' مالية (عادة بالعملات الرقمية) مقابل مفتاح فك التشفير. إنه اختطاف رقمي لكنوزك." }
+                            ],
+                            summary: "1. التصيد الاحتيالي (Phishing): خداعك عبر رسائل مزيفة لسرقة كلمات المرور. 2. برامج الفدية (Ransomware): تشفير ملفاتك وطلب فدية مالية لاستعادتها.",
+                            quiz: [
+                                { q: "ما هو هجوم 'التصيد الاحتيالي' (Phishing)؟", options: ["هجوم يبطئ الإنترنت", "رسالة مزيفة تطلب بياناتك السرية", "فيروس يحذف الملفات"], correct: 1 },
+                                { q: "ماذا تفعل 'برامج الفدية' (Ransomware)؟", options: ["تسرق صورك فقط", "تصلح ثغرات النظام", "تقفل (تشفر) ملفاتك وتطلب مالاً"], correct: 2 }
+                            ]
+                        },
+                        {
+                            title: "7. أساسيات الشبكات (الجزء الأول)",
+                            storyTitle: "لغة الاتصال: العنوان الرقمي",
+                            dialogue: [
+                                { char: 'rital', text: "أيها المجند، لكي تحمي المملكة، يجب أن تفهم شوارعها. 'الشبكة' (Network) هي مجموعة الأجهزة (كمبيوتر، هاتف) المتصلة ببعضها البعض." },
+                                { char: 'recruit', text: "كيف تعرف الأجهزة بعضها؟" },
+                                { char: 'rital', text: "لكل جهاز على الشبكة عنوانان، تماماً كعنوان منزلك. الأول هو 'عنوان IP'. إنه مثل عنوان الشارع والمنزل (مثال: 192.168.1.10). هذا العنوان يمكن أن يتغير عندما تتصل بشبكة مختلفة." },
+                                { char: 'rital', text: "الثاني هو 'عنوان MAC'. هذا هو الرقم التسلسلي الفريد لبطاقة الشبكة في جهازك. إنه مثل 'الرقم القومي' لجهازك، ثابت ولا يتغير." },
+                                { char: 'ahmed', text: "المهاجم يحتاج 'عنوان IP' الخاص بك ليصل إليك. معرفة هذه العناوين هي الخطوة الأولى لرصد حركة المرور المشبوهة." }
+                            ],
+                            summary: "الشبكة تربط الأجهزة. لكل جهاز عنوانان: 1. عنوان IP (مثل 192.168.1.1) وهو عنوان الجهاز على الشبكة ويمكن أن يتغير. 2. عنوان MAC وهو رقم فريد وثابت للجهاز.",
+                            quiz: [
+                                { q: "ما هو 'عنوان IP'؟", options: ["اسم الكمبيوتر", "العنوان الرقمي للجهاز على الشبكة", "نوع نظام التشغيل"], correct: 1 },
+                                { q: "ما هو العنوان الذي يعتبر ثابتاً ولا يتغير؟", options: ["عنوان IP", "عنوان MAC", "عنوان البريد الإلكتروني"], correct: 1 }
+                            ]
+                        },
+                        {
+                            title: "8. أساسيات الشبكات (الجزء الثاني)",
+                            storyTitle: "الأبواب والجدار الناري",
+                            dialogue: [
+                                { char: 'ahmed', text: "عرفنا أن 'عنوان IP' هو عنوان المبنى. لكن كيف تدخل؟ عبر 'المنافذ' (Ports)." },
+                                { char: 'recruit', text: "منافذ؟" },
+                                { char: 'rital', text: "نعم! تخيل أن جهازك (المبنى) به 65,535 باباً (منفذ). كل خدمة تستخدم باباً معيناً. مثلاً، تصفح الويب (HTTP) يستخدم المنفذ 80. التصفح الآمن (HTTPS) يستخدم 443." },
+                                { char: 'ahmed', text: "المخترق يبحث عن 'الأبواب المفتوحة' غير المحمية ليدخل منها. وهنا يأتي دور 'الجدار الناري' (Firewall)." },
+                                { char: 'pharaoh', text: "الجدار الناري هو حارس البوابة الرئيسي للمملكة. إنه يقرر أي الأبواب (المنافذ) مسموح بالدخول أو الخروج منها. إذا منعت كل المنافذ عدا 80 و 443، فأنت أغلقت 65,533 باباً في وجه المهاجمين." }
+                            ],
+                            summary: "المنافذ (Ports) هي أبواب رقمية للخدمات (مثل 80 للويب). 'الجدار الناري' (Firewall) هو نظام أمني يتحكم في المنافذ المفتوحة والمغلقة لحماية الشبكة.",
+                            quiz: [
+                                { q: "ما هي وظيفة 'الجدار الناري' (Firewall)؟", options: ["تسريع الإنترنت", "حماية الشبكة عبر التحكم بالمنافذ وحركة المرور", "إدارة الملفات"], correct: 1 },
+                                { q: "ما هو المنفذ (Port) الشائع لتصفح الويب الآمن (HTTPS)؟", options: ["22", "80", "443"], correct: 2 }
+                            ]
+                        },
+                        {
+                            title: "9. أساسيات أنظمة التشغيل",
+                            storyTitle: "قلب الجهاز: نظام التشغيل",
+                            dialogue: [
+                                { char: 'ahmed', text: "جهازك لا يعمل من تلقاء نفسه. 'نظام التشغيل' (OS) - مثل Windows, Linux, أو Android - هو العقل المدبر." },
+                                { char: 'rital', text: "نظام التشغيل يدير كل شيء: الذاكرة، البرامج التي تعمل (تسمى 'Processes')، والملفات (Filesystem)." },
+                                { char: 'recruit', text: "ما علاقة هذا بالأمن؟" },
+                                { char: 'ahmed', text: "كل شيء! أهم مبدأ هو 'الصلاحيات' (Permissions). هل لديك صلاحية 'قراءة' هذا الملف فقط؟ أم 'كتابة' (تعديل) أيضاً؟ أم 'تنفيذ' (تشغيل) كبرنامج؟" },
+                                { char: 'rital', text: "المخترق يحاول دائماً الحصول على 'صلاحيات المدير' (Administrator أو Root). إذا نجح، فإنه يمتلك الجهاز بالكامل. مهمتك هي التأكد أن كل مستخدم وكل برنامج يعمل بـ 'أقل الصلاحيات الممكنة' فقط." }
+                            ],
+                            summary: "نظام التشغيل (OS) هو العقل المدبر للجهاز. يتحكم بالبرامج (Processes) والملفات. المبدأ الأمني الأهم هو 'الصلاحيات' (Permissions)، ويجب دائماً تطبيق 'مبدأ أقل الصلاحيات' لمنع المهاجمين من السيطرة.",
+                            quiz: [
+                                { q: "ما هي الوظيفة الأساسية لنظام التشغيل (OS)؟", options: ["تصفح الويب فقط", "إدارة موارد الجهاز (برامج، ملفات، عتاد)", "كتابة الأكواد"], correct: 1 },
+                                { q: "لماذا 'الصلاحيات' (Permissions) مهمة للأمن؟", options: ["لجعل الأيقونات ملونة", "لتحديد من يمكنه قراءة أو تعديل أو تنفيذ الملفات", "لتسريع الجهاز"], correct: 1 }
+                            ]
+                        },
+                        {
+                            title: "10. الأمن الشخصي للمبتدئين",
+                            storyTitle: "تأمين درعك الشخصي",
+                            dialogue: [
+                                { char: 'ahmed', text: "أيها المجند، انتهى التدريب الأساسي. آخر مهمة: حماية نفسك. الحارس الذي لا يحمي نفسه لا يمكنه حماية المملكة." },
+                                { char: 'recruit', text: "ما هي أهم الخطوات؟" },
+                                { char: 'rital', text: "أولاً: 'كلمات مرور قوية'. لا تستخدم '123456' أو اسمك! استخدم مزيجاً طويلاً من الحروف والأرقام والرموز، وكلمة مختلفة لكل حساب." },
+                                { char: 'ahmed', text: "ثانياً: 'المصادقة الثنائية' (2FA). إنها درع إضافي. حتى لو سرقوا كلمة مرورك، يحتاجون لرمز من هاتفك للدخول. فعلها في كل مكان!" },
+                                { char: 'rital', text: "ثالثاً: 'التحديثات'. حدث نظام التشغيل ومتصفحك وبرامجك دائماً. التحديثات تصلح 'الثغرات' التي يكتشفها المهاجمون." },
+                                { char: 'pharaoh', text: "وأخيراً: 'النسخ الاحتياطي' (Backup). إذا أصابتك برمجية فدية، أو تعطل جهازك، النسخة الاحتياطية هي طوق النجاة الوحيد لكنوزك الرقمية. كن مستعداً." }
+                            ],
+                            summary: "لحماية نفسك: 1. استخدم كلمات مرور قوية وفريدة. 2. فعل المصادقة الثنائية (2FA). 3. حدث برامجك ونظامك بانتظام. 4. قم بعمل نسخ احتياطي (Backups) لملفاتك المهمة.",
+                            quiz: [
+                                { q: "ما هي 'المصادقة الثنائية' (2FA)؟", options: ["كلمتي مرور مختلفتين", "استخدام طريقتين للتحقق (مثل كلمة مرور ورمز هاتف)", "تحديث البرامج مرتين"], correct: 1 },
+                                { q: "لماذا 'تحديث' البرامج مهم؟", options: ["للحصول على ألوان جديدة", "لإصلاح 'الثغرات' الأمنية المكتشفة", "لجعل البرنامج أبطأ"], correct: 1 }
+                            ]
+                        },
                     ]
                 },
                 intermediate: {
@@ -727,7 +879,6 @@
             }
         };
 
-        // --- حالة التطبيق (متغيرة) ---
         let state = {
             currentScreen: 'loading',
             currentPathId: 'beginner',
@@ -738,7 +889,6 @@
             isTyping: false,
             currentTypingTimeout: null,
             progress: {
-                // القيم الافتراضية قبل التحميل
                 beginnerUnlockedLesson: 0,
                 intermediateUnlockedLesson: 0,
                 upperIntermediateUnlockedLesson: 0,
@@ -747,38 +897,24 @@
             }
         };
 
-        // --- وظائف التخزين المحلي (بدلاً من Firebase) ---
-
-        // تهيئة التطبيق عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', initApp);
 
         async function initApp() {
             try {
-                // (تم حذف setLogLevel('Debug') لأنه كان خاصاً بـ Firebase)
-                
-                // ببساطة قم بتحميل البيانات وابدأ التطبيق
                 await loadUserData();
-                
-                // (تم حذف مستمع التغييرات Snapshot)
-
-                // بدء التطبيق
-                setTimeout(initSplash, 500); // إعطاء وقت بسيط لرؤية التحميل
-
+                setTimeout(initSplash, 500); 
             } catch (error) {
-                // هذا الخطأ الآن سيلتقط أخطاء تحميل البيانات المحلية فقط
                 console.error("خطأ فادح في تهيئة التطبيق:", error); 
                 document.getElementById('loading-screen').innerHTML = "<p class='text-red-500'>حدث خطأ في تحميل التطبيق. حاول تحديث الصفحة.</p>";
             }
         }
 
-        // تحميل بيانات تقدم المستخدم (من LocalStorage)
         async function loadUserData() {
             try {
                 const savedData = localStorage.getItem('pharaohAiProgress');
                 if (savedData) {
                     console.log("تم العثور على بيانات المستخدم:", savedData);
                     const loadedData = JSON.parse(savedData);
-                    // دمج البيانات المحملة مع الحالة الافتراضية
                     state.progress = { 
                         beginnerUnlockedLesson: loadedData.beginnerUnlockedLesson || 0,
                         intermediateUnlockedLesson: loadedData.intermediateUnlockedLesson || 0,
@@ -787,9 +923,7 @@
                         scores: loadedData.scores || {}
                     };
                 } else {
-                    // لا يوجد بيانات، هذا هو المستخدم الأول مرة
                     console.log("مستخدم جديد. جاري إنشاء سجل التقدم...");
-                    // حفظ الحالة الافتراضية (الدرس الأول (0) مفتوح)
                     state.progress.beginnerUnlockedLesson = 0;
                     state.progress.intermediateUnlockedLesson = 0;
                     state.progress.upperIntermediateUnlockedLesson = 0;
@@ -798,7 +932,6 @@
                 }
             } catch (error) {
                 console.error("خطأ في تحميل بيانات المستخدم:", error);
-                // في حالة الفشل، ابدأ بحالة افتراضية لضمان عمل التطبيق
                 state.progress = {
                     beginnerUnlockedLesson: 0,
                     intermediateUnlockedLesson: 0,
@@ -809,10 +942,8 @@
             }
         }
 
-        // حفظ بيانات تقدم المستخدم (إلى LocalStorage)
         async function saveUserData() {
             try {
-                // حفظ فقط البيانات الضرورية
                 const dataToSave = {
                     beginnerUnlockedLesson: state.progress.beginnerUnlockedLesson,
                     intermediateUnlockedLesson: state.progress.intermediateUnlockedLesson,
@@ -826,10 +957,6 @@
                 console.error("خطأ في حفظ بيانات المستخدم:", error);
             }
         }
-
-        // (تم حذف وظيفة attachSnapshotListener بالكامل)
-
-        // --- وظائف التنقل في التطبيق (كما هي) ---
 
         function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(screen => {
@@ -864,9 +991,6 @@
         document.getElementById('back-to-paths-btn').addEventListener('click', () => {
             showScreen('path-selection-screen');
         });
-
-
-        // --- وظائف الحوار والدروس (كما هي) ---
         
         function typewriter(element, text, onComplete) {
             state.isTyping = true;
@@ -976,7 +1100,7 @@
             }
             
             speakerBar.classList.remove('hidden');
-            speakerBar.className = `flex items-center p-3 px-4 shadow-xl border-b-2 ${info.bgColor} ${info.color} speaker-title-bar`;
+            speakerBar.className = `flex items-center p-3 px-4 shadow-xl border-b-2 ${info.bgColor} ${info.color} speaker-title-bar flex-shrink-0`;
             speakerBar.innerHTML = `
                 ${info.icon}
                 <div class="mr-3">
@@ -1032,7 +1156,6 @@
             grid.innerHTML = '';
             
             const unlockedKey = `${pathId}UnlockedLesson`;
-            // التأكد من أن القيمة موجودة قبل استخدامها
             const unlockedLesson = state.progress[unlockedKey] !== undefined ? state.progress[unlockedKey] : -1; 
             
             pathData.lessons.forEach((lesson, index) => {
@@ -1096,8 +1219,6 @@
         function handleLessonClick() {
             if (state.isTyping) {
                 finishTyping(); 
-                state.currentDialogueIndex++;
-                displayNextLessonMessage();
                 return;
             }
             
@@ -1118,8 +1239,6 @@
             document.getElementById('start-quiz-btn').onclick = () => startQuiz(lesson.quiz);
         }
 
-        // --- وظائف الاختبار (Quiz) ---
-
         let currentQuizData = [];
 
         function startQuiz(quizData) {
@@ -1134,7 +1253,6 @@
 
         function displayNextQuestion() {
             if (state.currentQuizQuestion >= currentQuizData.length) {
-                // انتهى الاختبار
                 const total = currentQuizData.length;
                 const score = state.quizScore;
                 
@@ -1151,10 +1269,9 @@
                     feedbackText = `تهانينا! ${score} من ${total}. نجاح باهر. يمكنك الآن فتح المهمة التالية.`;
                     feedbackColor = 'text-green-400';
                     
-                    // فقط إذا كان الدرس الحالي هو آخر درس مفتوح
                     if (currentLessonIndex === state.progress[unlockedKey]) {
-                         state.progress[unlockedKey] = currentLessonIndex + 1; // فتح الدرس التالي
-                         saveUserData(); // حفظ التقدم في التخزين المحلي
+                         state.progress[unlockedKey] = currentLessonIndex + 1;
+                         saveUserData();
                     }
                 }
                 
@@ -1231,4 +1348,4 @@
     
 </body>
 </html>
-
+```eof
