@@ -14,20 +14,41 @@
             -webkit-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            /* إضافة خلفية داكنة ثانوية للجسم */
+            background-color: #0F172A; /* Darker than the app container */
         }
 
         #app-container {
-            /* تم تعديل لون الخلفية الرئيسي ليصبح أغمق وأكثر زرقة */
-            background-color: #111827; /* Dark Slate Blue */
-            background-image: linear-gradient(rgba(17, 24, 39, 0.97), rgba(0, 0, 0, 0.98)), url('https://www.transparenttextures.com/patterns/papyrus.png');
-            /* تم تعديل لون الخط الرئيسي ليصبح كريمي فاتح وأوضح */
-            color: #F3EAD3; /* Creamy Parchment */
+            /* لون الخلفية الرئيسي: أزرق داكن (Dark Slate Blue) */
+            background-color: #111827;
+            /* إضافة نسيج ورق البردي مع تظليل داكن */
+            background-image: linear-gradient(rgba(17, 24, 39, 0.96), rgba(0, 0, 0, 0.98)), url('https://www.transparenttextures.com/patterns/papyrus.png');
+            color: #F3EAD3; /* لون كريمي فاتح */
+            position: relative;
+        }
+
+        /* تحسين بصري للخلفية: تأثير شبكة رقمية خفيفة */
+        #app-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            /* خطوط شبكة داكنة جداً */
+            background-image: linear-gradient(0deg, transparent 24%, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0.1) 26%, transparent 27%, transparent 74%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0.1) 26%, transparent 27%, transparent 74%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            opacity: 0.15;
+            z-index: 1;
         }
 
         .screen {
             display: none;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
+            z-index: 2; /* فوق تأثير الشبكة */
+            position: relative;
         }
 
         .screen.active {
@@ -35,68 +56,74 @@
             opacity: 1;
         }
 
+        /* تحسين زر المغامرة (Rich Gold to Amber) */
         .btn-adventure {
-            /* تم تعديل ألوان الأزرار لتصبح أكثر دفئاً وغنى */
-            background-image: linear-gradient(to bottom, #FBBF24, #D97706); /* Rich Gold to Amber */
-            color: #1F2937; /* Dark text for contrast */
+            background-image: linear-gradient(to bottom, #FBBF24, #D97706);
+            color: #1F2937;
             font-weight: 700;
             border-radius: 12px;
             padding: 12px 24px;
-            border: 2px solid #B45309; /* Dark Amber Border */
-            box-shadow: 0 5px 15px rgba(251, 191, 36, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+            border: 2px solid #B45309;
+            box-shadow: 0 6px 15px rgba(251, 191, 36, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
             transition: all 0.2s ease-out;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            cursor: pointer;
         }
         .btn-adventure:hover:not(:disabled) {
             background-image: linear-gradient(to bottom, #FCD34D, #FBBF24);
-            box-shadow: 0 7px 25px rgba(251, 191, 36, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
-            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4);
+            transform: translateY(-3px) scale(1.02);
         }
         .btn-adventure:active:not(:disabled) {
-            transform: translateY(1px);
-            box-shadow: 0 2px 8px rgba(251, 191, 36, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateY(1px) scale(0.99);
+            box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .btn-adventure:disabled {
-             background-image: linear-gradient(to bottom, #6B7280, #4B5563);
-             border-color: #374151;
-             color: #D1D5DB;
-             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-             transform: none;
-             opacity: 0.7;
-             cursor: not-allowed;
-             text-shadow: none;
+            background-image: linear-gradient(to bottom, #6B7280, #4B5563);
+            border-color: #374151;
+            color: #D1D5DB;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            transform: none;
+            opacity: 0.6;
+            cursor: not-allowed;
+            text-shadow: none;
         }
 
         .btn-back {
             background-color: #374151; /* Darker Gray-Blue */
             color: #D1D5DB;
             border: 1px solid #4B5563;
-            box-shadow: none;
-            transition: background-color 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
-        .btn-back:hover {
+        .btn-back:hover:not(:disabled) {
             background-color: #4B5563;
-            transform: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            transform: translateY(-1px);
+        }
+        .btn-back:active:not(:disabled) {
+            transform: translateY(0);
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
         }
 
         .btn-lesson {
-            background-color: rgba(255, 255, 255, 0.03);
+            background-color: rgba(255, 255, 255, 0.05);
             border: 2px solid;
-            /* تم تعديل لون حدود الأزرار ليتناسب مع اللوحة الجديدة */
-            border-image: linear-gradient(to right, #D97706, #FBBF24) 1;
-            color: #F3EAD3; /* Creamy Parchment */
+            /* استخدام Border Image لدرجة لون ذهبية متدرجة */
+            border-image: linear-gradient(to right, #B45309, #FBBF24, #B45309) 1;
+            color: #F3EAD3;
             border-radius: 12px;
             padding: 16px;
             transition: all 0.3s ease;
             text-align: right;
-            box-shadow: 0 2px 8px rgba(217, 119, 6, 0.2);
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
+            position: relative; /* لإظهار القفل فوق الكل */
         }
-        .btn-lesson:hover {
+        .btn-lesson:hover:not(.locked) {
             background-color: rgba(217, 119, 6, 0.15);
-            border-image: linear-gradient(to right, #FBBF24, #FCD34D) 1;
+            border-image: linear-gradient(to right, #FBBF24, #FCD34D, #FBBF24) 1;
             transform: scale(1.02);
-            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
+            box-shadow: 0 6px 18px rgba(217, 119, 6, 0.4);
         }
         .btn-lesson.locked {
             border-image: none;
@@ -105,12 +132,18 @@
             background-color: rgba(0, 0, 0, 0.2);
             transform: none;
             box-shadow: none;
+            cursor: not-allowed;
         }
         .btn-lesson.locked .lesson-lock {
             display: block;
         }
         .lesson-lock {
             display: none;
+            position: absolute;
+            top: 50%;
+            right: 50%;
+            transform: translate(50%, -50%);
+            color: #6B7280;
         }
         
         #splash-screen h1 {
@@ -122,84 +155,21 @@
             }
         }
         
-        #path-selection-screen h2 {
-            font-size: 2.25rem;
-        }
-        @media (min-width: 768px) {
-            #path-selection-screen h2 {
-                font-size: 2.5rem;
-            }
-        }
-        .path-btn {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-        }
-        @media (min-width: 768px) {
-            .path-btn {
-                padding-top: 1.5rem;
-                padding-bottom: 1.5rem;
-            }
-        }
-
-        #path-title {
-            font-size: 1.875rem;
-        }
-        @media (min-width: 768px) {
-            #path-title {
-                font-size: 2.25rem;
-            }
-        }
-        .btn-lesson h3 {
-            font-size: 1.25rem;
-        }
-        @media (min-width: 768px) {
-            .btn-lesson h3 {
-                font-size: 1.5rem;
-            }
-        }
-
-        #summary-screen h2, #quiz-screen h2 {
-            font-size: 1.875rem;
-        }
-        @media (min-width: 768px) {
-            #summary-screen h2, #quiz-screen h2 {
-                font-size: 2.25rem;
-            }
-        }
-        #quiz-question {
-            font-size: 1.25rem;
-        }
-        @media (min-width: 768px) {
-            #quiz-question {
-                font-size: 1.5rem;
-            }
-        }
-
-        /* --- تحسينات الخطاب التعريفي --- */
+        /* تحسينات الخطاب التعريفي */
         #intro-chat-screen {
-            /* تم تعديل الارتفاع ليسمح بالتمرير عند الحاجة */
-            max-height: 100vh; /* أو h-screen في Tailwind */
-            overflow-y: auto; /* إضافة التمرير العمودي */
-            padding-bottom: 100px; /* إضافة مساحة سفلية لضمان رؤية الزر */
+            max-height: 100vh;
+            overflow-y: auto;
+            padding-bottom: 100px;
         }
         #intro-chat-messages {
-            /* ضمان أن الرسائل تأخذ المساحة اللازمة فقط */
             flex-grow: 0;
-            min-height: calc(100vh - 120px); /* حساب تقريبي للارتفاع */
+            min-height: calc(100vh - 120px);
         }
         #intro-chat-actions {
-            /* ضمان ثبات الزر في الأسفل بشكل أفضل إذا أردنا، لكن مع التمرير العام هذا أفضل */
-            /* يمكن جعله ثابتاً إذا أردنا:
-            position: sticky;
-            bottom: 0;
-            background: linear-gradient(to top, #111827, transparent);
-            padding-top: 20px;
-            */
-            flex-shrink: 0; /* منع الزر من الانكماش */
+            flex-shrink: 0;
         }
-        /* --- نهاية تحسينات الخطاب التعريفي --- */
 
-
+        /* أنماط الفقاعات والأسماء */
         @keyframes fadeIn {
             to {
                 opacity: 1;
@@ -228,7 +198,7 @@
             transform: translateY(20px);
             animation: fadeIn 0.5s ease forwards;
             position: relative;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
         }
 
         .chat-bubble.pulsing {
@@ -236,20 +206,18 @@
         }
 
         .chat-speaker-name {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            margin-bottom: 2px;
+            margin-bottom: 3px;
             padding: 0 12px;
-            color: #9CA3AF; /* Light Gray */
-            opacity: 0.85;
-            transition: opacity 0.3s ease;
+            opacity: 0.9;
         }
 
         /* تعديل ألوان أسماء الشخصيات */
-        .chat-pharaoh .chat-speaker-name { color: #FBBF24; } /* Rich Gold */
-        .chat-ahmed .chat-speaker-name { color: #60A5FA; } /* Light Blue */
-        .chat-rital .chat-speaker-name { color: #4ADE80; } /* Light Green */
-        .chat-recruit .chat-speaker-name { color: #F3EAD3; } /* Creamy Parchment */
+        .chat-pharaoh .chat-speaker-name { color: #FBBF24; }
+        .chat-ahmed .chat-speaker-name { color: #60A5FA; }
+        .chat-rital .chat-speaker-name { color: #4ADE80; }
+        .chat-recruit .chat-speaker-name { color: #F3EAD3; }
 
         .chat-pharaoh, .chat-ahmed, .chat-rital {
             align-items: flex-start;
@@ -262,22 +230,22 @@
         .chat-pharaoh .chat-bubble {
             background-color: #B45309; /* Dark Amber */
             color: #FFFFFF;
-            border-top-left-radius: 0;
+            border-top-left-radius: 4px;
         }
         .chat-ahmed .chat-bubble {
             background-color: #1D4ED8; /* Dark Blue */
             color: #FFFFFF;
-            border-top-left-radius: 0;
+            border-top-left-radius: 4px;
         }
         .chat-rital .chat-bubble {
             background-color: #047857; /* Dark Green */
             color: #FFFFFF;
-            border-top-left-radius: 0;
+            border-top-left-radius: 4px;
         }
         .chat-recruit .chat-bubble {
             background-color: #4B5563; /* Gray-Blue */
             color: #FFFFFF;
-            border-top-right-radius: 0;
+            border-top-right-radius: 4px;
         }
         
         .typing-effect {
@@ -286,6 +254,7 @@
             white-space: pre-wrap;
         }
 
+        /* شريط المتحدث الحالي */
         #current-speaker-bar {
             background-color: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(5px);
@@ -293,12 +262,13 @@
             transition: all 0.3s ease-out;
             min-height: 80px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 10;
         }
         #current-speaker-bar p {
             text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
         
-        /* تعديل ألوان شاشة التحميل والبداية */
+        /* شاشة التحميل والبداية */
         #loading-screen p, #splash-screen h1, #splash-screen p {
             text-shadow: 0 0 10px rgba(251, 191, 36, 0.7);
         }
@@ -310,7 +280,7 @@
             50% { filter: drop-shadow(0 0 20px rgba(251, 191, 36, 1)); }
         }
         
-        /* تعديل ألوان الاختبار */
+        /* ألوان الاختبار */
         .quiz-correct {
             background-image: none !important;
             background-color: #10B981 !important;
@@ -366,11 +336,11 @@
         </div>
 
         <div id="path-selection-screen" class="screen flex-col items-center justify-center w-full h-full p-8">
-            <h2 class="font-bold mb-8 text-center text-yellow-400">اختر مسار محارب السايبر</h2>
+            <h2 class="font-bold mb-8 text-center text-yellow-400 text-3xl md:text-4xl">اختر مسار محارب السايبر</h2>
             <div id="path-grid" class="w-full max-w-md space-y-4">
                 <button data-path="beginner" class="path-btn btn-adventure w-full text-2xl">
                     <span class="block">1. مسار الحارس المبتدئ</span>
-                    <span class="block text-sm font-normal">(الأساس)</span>
+                    <span class="block text-sm font-normal">(الأساس المتين)</span>
                 </button>
                 <button data-path="intermediate" class="path-btn btn-adventure w-full text-2xl">
                     <span class="block">2. مسار الخبراء المتوسطين</span>
@@ -389,8 +359,8 @@
 
         <div id="lesson-list-screen" class="screen flex-col w-full h-full overflow-hidden">
             <div class="flex-shrink-0 p-4 border-b border-yellow-800 flex justify-between items-center">
-                <h2 id="path-title" class="font-bold text-yellow-400 text-center flex-grow">مسار المبتدئين: الأساس</h2>
-                <button id="back-to-paths-btn" class="btn-adventure btn-back text-base px-3 py-2">
+                <h2 id="path-title" class="font-bold text-yellow-400 text-center flex-grow text-xl md:text-2xl">مسار المبتدئين: الأساس</h2>
+                <button id="back-to-paths-btn" class="btn-adventure btn-back text-sm px-3 py-2">
                     العودة للمسارات
                 </button>
             </div>
@@ -411,7 +381,7 @@
 
         <div id="summary-screen" class="screen flex-col w-full h-full p-6 justify-center overflow-y-auto">
             <h2 class="text-3xl font-bold text-yellow-400 text-center mb-6">ملخص المهمة</h2>
-            <div id="summary-content" class="text-lg bg-black/20 p-6 rounded-lg border border-yellow-700 leading-relaxed">
+            <div id="summary-content" class="text-lg bg-black/20 p-6 rounded-lg border border-yellow-700 leading-relaxed shadow-xl">
             </div>
             <button id="start-quiz-btn" class="btn-adventure text-lg mt-8 w-full max-w-xs mx-auto">
                 بدء الاختبار القصير
@@ -419,9 +389,9 @@
         </div>
 
         <div id="quiz-screen" class="screen flex-col w-full h-full p-6 justify-center overflow-y-auto">
-            <h2 class="font-bold text-yellow-400 text-center mb-6">اختبار المهمة</h2>
+            <h2 class="font-bold text-yellow-400 text-center mb-6 text-3xl">اختبار المهمة</h2>
             <div class="w-full max-w-lg mx-auto">
-                <p id="quiz-question" class="text-center mb-8"></p>
+                <p id="quiz-question" class="text-center mb-8 text-xl"></p>
                 <div id="quiz-options" class="flex flex-col space-y-4">
                 </div>
                 <p id="quiz-feedback" class="text-center text-lg mt-6 font-bold"></p>
@@ -438,10 +408,10 @@
             introChat: [
                 { char: 'pharaoh', text: "تنبيه! تم اختراق بروتوكول الأمن السيبراني. النظام يحتاج إلى حارس رقمي فوراً." },
                 { char: 'pharaoh', text: "مرحباً بك، أيها المجند. لقد تم اختيارك لمبادرة 'فرعون Ai'. مصير البنية التحتية الرقمية للمملكة معلق على كتفيك." },
-                { char: 'ahmed', text: "أنا القائد أحمد. هذا ليس تدباً عادياً، بل استدعاء عاجل. سأكون مسؤول عملياتك، وأوجهك في هذا الميدان الشائك." },
+                { char: 'ahmed', text: "أنا القائد أحمد. هذا ليس تدريباً عادياً، بل استدعاء عاجل. سأكون مسؤول عملياتك، وأوجهك في هذا الميدان الشائك." },
                 { char: 'rital', text: "وأنا المهندسة ريتال. لا تقلق بشأن التعقيدات التقنية، مهمتي هي تبسيط كل شيء لتفهم طبيعة الخطر بسرعة فائقة. نحن فريقك!" },
-                { char: 'recruit', text: "أتلقى الأوامر، سأبذل قصارى جهدي لمواجهة هذا التهديد!" },
-                { char: 'ahmed', text: "جيد. الوقت ينفد. المهمة الأولى على وشك البدء لتقوية أساسياتك. هل أنت مستعد لخطوتك الأولى في عالم الحراسة الرقمية؟" }
+                { char: 'recruit', text: "أتلقى الأوامر. أنا جاهز لمواجهة التهديد وسأبذل قصارى جهدي!" },
+                { char: 'ahmed', text: "جيد. الوقت ينفد. لتبدأ مهمتك الأولى بتقوية الأساسيات. هل أنت مستعد لخطوتك الأولى في عالم الحراسة الرقمية؟" }
             ],
             paths: {
                 beginner: {
@@ -469,7 +439,7 @@
                             title: "2. ثالوث الأمن السيبراني (CIA)",
                             storyTitle: "أعمدة الهرم الثلاثة",
                             dialogue: [
-                                { char: 'ahmed', text: "مهمتك التالية هي فهم 'أعمدة الهرم الثلاثة' (CIA). هذا هو المبدأ الأساسي لأي حماية رقمية ناجحة." },
+                                { char: 'ahmed', text: "مهمتك التالية هي فهم 'أعمدة الهرم الثلاثة' (CIA). هذا هو المبدأ الأساسي لأي حماية رقمية ناجحة. " },
                                 { char: 'recruit', text: "CIA؟ هل هو اختصار لشيء معقد؟" },
                                 { char: 'rital', text: "إنه اختصار لـ: السرية (Confidentiality)، السلامة (Integrity)، والتوافر (Availability). دعني أبسطها لك عبر مثال رسالة سرية:" },
                                 { char: 'rital', text: "1. 🤫 السرية: يعني أن الرسالة مشفرة، فقط المستلم المقصود يمكنه قراءتها. هذا يمنع اللصوص من الاطلاع على أسرارك." },
@@ -491,7 +461,7 @@
                                 { char: 'ahmed', text: "يجب أن تتحدث لغتنا. هناك ثلاثة مفاهيم حيوية: الثغرة (Vulnerability)، والتهديد (Threat)، والخطر (Risk)."},
                                 { char: 'rital', text: "للتوضيح، تخيل أن هرمك به شباك مفتوح لم يتم تأمينه. هذا الشباك هو 'ثغرة' (نقطة ضعف)." },
                                 { char: 'rital', text: "وجود لص نشط في المنطقة يعرف بأمر الشباك هو 'تهديد' (شيء يمكن أن يستغل الثغرة)."},
-                                { char: 'rital', text: "واحتمالية أن يتسلق اللص من الشباك ويسرق كنوزك هي 'خطر' (Risk)."},
+                                { char: 'rital', text: "واحتمالية أن يتسلق اللص من الشباك ويسرق كنوزك هي 'خطر' (Risk). " },
                                 { char: 'recruit', text: "مفهوم! يجب أن أغلق كل الثغرات بأسرع ما يمكن لتقليل الخطر." },
                                 { char: 'ahmed', text: "مهمتنا كحراس هي إغلاق 'الثغرات' لتقليل 'الخطر' الناتج عن 'التهديدات' الموجودة."}
                             ],
@@ -508,7 +478,7 @@
                                 { char: 'recruit', text: "قبعات؟ كيف ذلك؟" },
                                 { char: 'rital', text: "نعم! تخيلهم ثلاثة أنواع: الأول هو 'القبعة السوداء' (Black Hat). هذا هو اللص التقليدي. هدفه التدمير، أو السرقة من أجل المال، أو الفوضى. نواياهم سيئة تماماً." },
                                 { char: 'rital', text: "الثاني هو 'القبعة البيضاء' (White Hat). هؤلاء هم نحن! باحثون أمنيون ومخترقون أخلاقيون. نجد 'الثغرات' (مثل الشباك المفتوح) ونخبر صاحب الهرم ليغلقها قبل أن يجدها اللص." },
-                                { char: 'rital', text: "الثالث هو 'القبعة الرمادية' (Grey Hat). هذا النوع محير. هو يخترق بدون إذن (مثل القبعة السوداء)، ولكنه قد يخبرك بالثغرة (مثل القبعة البيضاء)... ربما مقابل مكافأة مالية أو للشهرة. هم في منطقة رمادية." },
+                                { char: 'rital', text: "الثالث هو 'القبعة الرمادية' (Grey Hat). هذا النوع محير. هو يخترق بدون إذن (مثل القبعة السوداء)، ولكنه قد يخبرك بالثغرة (مثل القبعة البيضاء)... ربما مقابل مكافأة مالية أو للشهرة. هم في منطقة رمادية. [attachment_0](attachment)" },
                                 { char: 'recruit', text: "إذاً، مهمتنا هي أن نكون 'قبعات بيضاء' لنتصدى لـ 'القبعات السوداء'؟" },
                                 { char: 'ahmed', text: "بالضبط. يجب أن تفكر مثلهم لتتغلب عليهم." }
                             ],
@@ -526,7 +496,7 @@
                                 { char: 'recruit', text: "أعرف كلمة 'فيروس'. هل كلها فيروسات؟" },
                                 { char: 'rital', text: "كلمة 'Malware' هي المظلة الكبيرة. 'الفيروس' (Virus) هو نوع واحد. تخيله كطفيلي، يحتاج أن 'يلتصق' بملف نظيف (مثل مستند Word) لينتشر. لا يعمل حتى تفتح أنت ذلك الملف." },
                                 { char: 'rital', text: "لكن الأخطر هي 'الدودة' (Worm). الدودة لا تحتاجك! إنها تنتشر من جهاز لجهاز عبر الشبكة بنفسها. إذا أصيب جهاز واحد، قد تصاب الشبكة كلها خلال دقائق." },
-                                { char: 'rital', text: "وأخيراً، 'حصان طروادة' (Trojan). تذكر قصة حصان طروادة؟ يبدو كهدية رائعة (لعبة مجانية، برنامج مفيد)، لكن بداخله يختبئ جنود العدو (البرنامج الضار). أنت تدخله بنفسك ظناً منك أنه آمن." },
+                                { char: 'rital', text: "وأخيراً، 'حصان طروادة' (Trojan). تذكر قصة حصان طروادة؟ يبدو كهدية رائعة (لعبة مجانية، برنامج مفيد)، لكن بداخله يختبئ جنود العدو (البرنامج الضار). أنت تدخله بنفسك ظناً منك أنه آمن. [attachment_1](attachment)" },
                                 { char: 'ahmed', text: "فيروس، دودة، حصان طروادة. هذه هي الأساسيات. فهم كيف يعمل كل واحد هو خطوتك الأولى لتعلم كيفية إيقافهم." }
                             ],
                             summary: "البرامج الضارة (Malware) هي برامج سيئة. أشهرها: 1. الفيروس (Virus): يحتاج ملفاً مضيفاً وتفاعلاً بشرياً. 2. الدودة (Worm): تنتشر بنفسها عبر الشبكات. 3. حصان طروادة (Trojan): يتنكر كبرنامج مفيد." ,
@@ -540,7 +510,7 @@
                             storyTitle: "الفخاخ وبرامج الفدية",
                             dialogue: [
                                 { char: 'ahmed', text: "نستكمل ترسانة العدو. هناك سلاحين يعتمدان على خداعك مباشرة: التصيد الاحتيالي وبرامج الفدية." },
-                                { char: 'rital', text: "'التصيد الاحتيالي' (Phishing) هو الفخ. رسالة بريد إلكتروني تبدو 'رسمية' من بنكك أو شركتك، تطلب منك 'تحديث كلمة مرورك' عبر رابط. هذا الرابط مزيف! هدفه سرقة بيانات دخولك." },
+                                { char: 'rital', text: "'التصيد الاحتيالي' (Phishing) هو الفخ. رسالة بريد إلكتروني تبدو 'رسمية' من بنكك أو شركتك، تطلب منك 'تحديث كلمة مرورك' عبر رابط. هذا الرابط مزيف! هدفه سرقة بيانات دخولك. " },
                                 { char: 'recruit', text: "كيف أتعرف عليه؟" },
                                 { char: 'rital', text: "دقق دائماً في عنوان المرسل، ولا تضغط على روابط لا تثق بها. البنك الحقيقي لن يطلب كلمة مرورك عبر الإيميل." },
                                 { char: 'ahmed', text: "أما 'برامج الفدية' (Ransomware)، فهي الأخطر على بياناتك. بمجرد أن تصيب جهازك، تقوم بتشفير كل ملفاتك - صورك، مستنداتك - وتجعلها غير قابلة للقراءة." },
@@ -559,7 +529,7 @@
                                 { char: 'rital', text: "أيها المجند، لكي تحمي المملكة، يجب أن تفهم شوارعها. 'الشبكة' (Network) هي مجموعة الأجهزة (كمبيوتر، هاتف) المتصلة ببعضها البعض." },
                                 { char: 'recruit', text: "كيف تعرف الأجهزة بعضها؟" },
                                 { char: 'rital', text: "لكل جهاز على الشبكة عنوانان، تماماً كعنوان منزلك. الأول هو 'عنوان IP'. إنه مثل عنوان الشارع والمنزل (مثال: 192.168.1.10). هذا العنوان يمكن أن يتغير عندما تتصل بشبكة مختلفة." },
-                                { char: 'rital', text: "الثاني هو 'عنوان MAC'. هذا هو الرقم التسلسلي الفريد لبطاقة الشبكة في جهازك. إنه مثل 'الرقم القومي' لجهازك، ثابت ولا يتغير." },
+                                { char: 'rital', text: "الثاني هو 'عنوان MAC'. هذا هو الرقم التسلسلي الفريد لبطاقة الشبكة في جهازك. إنه مثل 'الرقم القومي' لجهازك، ثابت ولا يتغير. [attachment_2](attachment)" },
                                 { char: 'ahmed', text: "المهاجم يحتاج 'عنوان IP' الخاص بك ليصل إليك. معرفة هذه العناوين هي الخطوة الأولى لرصد حركة المرور المشبوهة." }
                             ],
                             summary: "الشبكة تربط الأجهزة. لكل جهاز عنوانان: 1. عنوان IP (مثل 192.168.1.1) وهو عنوان الجهاز على الشبكة ويمكن أن يتغير. 2. عنوان MAC وهو رقم فريد وثابت للجهاز.",
@@ -575,7 +545,7 @@
                                 { char: 'ahmed', text: "عرفنا أن 'عنوان IP' هو عنوان المبنى. لكن كيف تدخل؟ عبر 'المنافذ' (Ports)." },
                                 { char: 'recruit', text: "منافذ؟" },
                                 { char: 'rital', text: "نعم! تخيل أن جهازك (المبنى) به 65,535 باباً (منفذ). كل خدمة تستخدم باباً معيناً. مثلاً، تصفح الويب (HTTP) يستخدم المنفذ 80. التصفح الآمن (HTTPS) يستخدم 443." },
-                                { char: 'ahmed', text: "المخترق يبحث عن 'الأبواب المفتوحة' غير المحمية ليدخل منها. وهنا يأتي دور 'الجدار الناري' (Firewall)." },
+                                { char: 'ahmed', text: "المخترق يبحث عن 'الأبواب المفتوحة' غير المحمية ليدخل منها. وهنا يأتي دور 'الجدار الناري' (Firewall). [attachment_3](attachment)" },
                                 { char: 'pharaoh', text: "الجدار الناري هو حارس البوابة الرئيسي للمملكة. إنه يقرر أي الأبواب (المنافذ) مسموح بالدخول أو الخروج منها. إذا منعت كل المنافذ عدا 80 و 443، فأنت أغلقت 65,533 باباً في وجه المهاجمين." }
                             ],
                             summary: "المنافذ (Ports) هي أبواب رقمية للخدمات (مثل 80 للويب). 'الجدار الناري' (Firewall) هو نظام أمني يتحكم في المنافذ المفتوحة والمغلقة لحماية الشبكة.",
@@ -592,7 +562,7 @@
                                 { char: 'rital', text: "نظام التشغيل يدير كل شيء: الذاكرة، البرامج التي تعمل (تسمى 'Processes')، والملفات (Filesystem)." },
                                 { char: 'recruit', text: "ما علاقة هذا بالأمن؟" },
                                 { char: 'ahmed', text: "كل شيء! أهم مبدأ هو 'الصلاحيات' (Permissions). هل لديك صلاحية 'قراءة' هذا الملف فقط؟ أم 'كتابة' (تعديل) أيضاً؟ أم 'تنفيذ' (تشغيل) كبرنامج؟" },
-                                { char: 'rital', text: "المخترق يحاول دائماً الحصول على 'صلاحيات المدير' (Administrator أو Root). إذا نجح، فإنه يمتلك الجهاز بالكامل. مهمتك هي التأكد أن كل مستخدم وكل برنامج يعمل بـ 'أقل الصلاحيات الممكنة' فقط." }
+                                { char: 'rital', text: "المخترق يحاول دائماً الحصول على 'صلاحيات المدير' (Administrator أو Root). إذا نجح، فإنه يمتلك الجهاز بالكامل. مهمتك هي التأكد أن كل مستخدم وكل برنامج يعمل بـ 'أقل الصلاحيات الممكنة' فقط. [attachment_4](attachment)" }
                             ],
                             summary: "نظام التشغيل (OS) هو العقل المدبر للجهاز. يتحكم بالبرامج (Processes) والملفات. المبدأ الأمني الأهم هو 'الصلاحيات' (Permissions)، ويجب دائماً تطبيق 'مبدأ أقل الصلاحيات' لمنع المهاجمين من السيطرة.",
                             quiz: [
@@ -607,7 +577,7 @@
                                 { char: 'ahmed', text: "أيها المجند، انتهى التدريب الأساسي. آخر مهمة: حماية نفسك. الحارس الذي لا يحمي نفسه لا يمكنه حماية المملكة." },
                                 { char: 'recruit', text: "ما هي أهم الخطوات؟" },
                                 { char: 'rital', text: "أولاً: 'كلمات مرور قوية'. لا تستخدم '123456' أو اسمك! استخدم مزيجاً طويلاً من الحروف والأرقام والرموز، وكلمة مختلفة لكل حساب." },
-                                { char: 'ahmed', text: "ثانياً: 'المصادقة الثنائية' (2FA). إنها درع إضافي. حتى لو سرقوا كلمة مرورك، يحتاجون لرمز من هاتفك للدخول. فعلها في كل مكان!" },
+                                { char: 'ahmed', text: "ثانياً: 'المصادقة الثنائية' (2FA). إنها درع إضافي. حتى لو سرقوا كلمة مرورك، يحتاجون لرمز من هاتفك للدخول. فعلها في كل مكان! [attachment_5](attachment)" },
                                 { char: 'rital', text: "ثالثاً: 'التحديثات'. حدث نظام التشغيل ومتصفحك وبرامجك دائماً. التحديثات تصلح 'الثغرات' التي يكتشفها المهاجمون." },
                                 { char: 'pharaoh', text: "وأخيراً: 'النسخ الاحتياطي' (Backup). إذا أصابتك برمجية فدية، أو تعطل جهازك، النسخة الاحتياطية هي طوق النجاة الوحيد لكنوزك الرقمية. كن مستعداً." }
                             ],
@@ -630,7 +600,7 @@
                                 { char: 'rital', text: "مرحباً بك في المستوى المتوسط! لنبدأ بتحليل حزم الشبكة. تخيل أن البيانات كسيارات تسير على طريق (الشبكة)." },
                                 { char: 'recruit', text: "هل تعني أننا سنستخدم 'Wireshark'؟" },
                                 { char: 'ahmed', text: "بالضبط. برنامج Wireshark هو منظار الحارس الرقمي. إنه يسمح لك بالنظر إلى كل 'سيارة' (حزمة) أثناء مرورها." },
-                                { char: 'rital', text: "كل حزمة تحمل معلومات مهمة: من أين أتت (المصدر)، وإلى أين تذهب (الوجهة)، وماذا تحمل بداخلها (البيانات). هذه تُسمى ترويسة (Header) الحزمة." },
+                                { char: 'rital', text: "كل حزمة تحمل معلومات مهمة: من أين أتت (المصدر)، وإلى أين تذهب (الوجهة)، وماذا تحمل بداخلها (البيانات). هذه تُسمى ترويسة (Header) الحزمة. " },
                                 { char: 'rital', text: "يساعدك تحليل الحزم على تحديد حركة المرور الغريبة، مثل محاولة لص 'إرسال طرد مشبوه' أو محاولة التسلل قبل أن يصل إلى وجهته." },
                                 { char: 'recruit', text: "فهمت. تحليل الحزم هو التفتيش الدقيق لنقاط التفتيش على الطريق الرقمي." },
                                 { char: 'ahmed', text: "هذا هو المفتاح. يجب أن تتعلم قراءة هذه 'اللغة السرية' للشبكة لتعرف ما إذا كان هناك شيء خاطئ يحدث خلف الكواليس." }
@@ -649,7 +619,7 @@
                                 { char: 'rital', text: "التركيز هنا على الصلاحيات. في أنظمة مثل Linux، لا يجب أن يعمل أي برنامج أو مستخدم بصلاحية 'Root' (المدير المطلق) ما لم يكن ذلك ضرورياً تماماً." },
                                 { char: 'rital', text: "مبدأ 'الامتياز الأدنى' (Least Privilege) هو درعنا: امنح كل مستخدم/برنامج الحد الأدنى من الصلاحيات لأداء وظيفته. لا تعطِ مفاتيح الهرم كاملة لحارس بوابات." },
                                 { char: 'recruit', text: "وماذا عن السجلات (Logs)؟" },
-                                { char: 'ahmed', text: "السجلات هي دفتر تسجيل الحارس. كل خطوة تحدث على النظام يجب أن تسجل. إذا حدث اختراق، نعود لدفتر السجلات لتعقب بصمات اللص الرقمية." },
+                                { char: 'ahmed', text: "السجلات هي دفتر تسجيل الحارس. كل خطوة تحدث على النظام يجب أن تسجل. إذا حدث اختراق، نعود لدفتر السجلات لتعقب بصمات اللص الرقمية. " },
                                 { char: 'ahmed', text: "تأكد من تعطيل الخدمات غير الضرورية وتقوية كلمات المرور. كل خدمة مفتوحة هي نافذة محتملة للمهاجم." }
                             ],
                             summary: "لتأمين نظام التشغيل، يجب تطبيق مبدأ الامتياز الأدنى (Least Privilege) لتقليل الصلاحيات. كما يجب التأكد من تسجيل كل الأنشطة في السجلات (Logs) وإغلاق أي خدمات غير مستخدمة.",
@@ -666,7 +636,7 @@
                                 { char: 'rital', text: "أكثر الهجمات شيوعاً هي حقن SQL (SQL Injection). تخيل أنك تسأل قاعدة بيانات عن اسمه، لكنك بدلاً من ذلك تطلب منها 'سرقة جميع الأسرار'." },
                                 { char: 'recruit', text: "كيف يمكن تجنبها؟" },
                                 { char: 'rital', text: "يجب 'تعقيم' (Sanitize) كل مدخلات المستخدم. أي شيء يكتبه المستخدم في نموذج بحث أو تسجيل دخول يجب التعامل معه كبيانات لا كأوامر برمجية." },
-                                { char: 'ahmed', text: "خطر آخر هو 'التحكم المكسور في المصادقة' (Broken Authentication). يعني هذا أن نظام تسجيل الدخول ضعيف، وقد يسمح للمهاجم بالدخول دون كلمة مرور سليمة." },
+                                { char: 'ahmed', text: "خطر آخر هو 'التحكم المكسور في المصادقة' (Broken Authentication). يعني هذا أن نظام تسجيل الدخول ضعيف، وقد يسمح للمهاجم بالدخول دون كلمة مرور سليمة. " },
                                 { char: 'ahmed', text: "أمن تطبيقات الويب هو فن التأكد من أن جميع المدخلات آمنة، وأن قواعد بياناتك لا تنفذ سوى الأوامر المشروعة." }
                             ],
                             summary: "OWASP Top 10 هي قائمة بأكثر 10 مخاطر شائعة لأمن تطبيقات الويب. أشهرها هجمات حقن SQL (SQLi) التي يتم تجنبها عبر تعقيم مدخلات المستخدم.",
@@ -683,7 +653,7 @@
                                 { char: 'recruit', text: "ما الفرق بين التشفير المتماثل وغير المتماثل؟" },
                                 { char: 'rital', text: "1. المتماثل (Symmetric): نستخدم مفتاحاً واحداً فقط. نفس المفتاح يقوم بالتشفير وفك التشفير. إنه مثل قفل صندوق سري بمفتاح واحد يمتلكه المرسل والمستقبل فقط." },
                                 { char: 'rital', text: "2. غير المتماثل (Asymmetric): نستخدم مفتاحين مرتبطين رياضياً: مفتاح عام (Public) للتشفير، ومفتاح خاص (Private) لفك التشفير. هذا هو الأساس لأمن رسائل البريد الإلكتروني والمواقع (HTTPS)." },
-                                { char: 'ahmed', text: "هناك أيضاً 'التجزئة' (Hashing). وهي عملية تحويل البيانات إلى بصمة رقمية فريدة. البصمة لا يمكن عكسها! نستخدمها لتخزين كلمات المرور بأمان." },
+                                { char: 'ahmed', text: "هناك أيضاً 'التجزئة' (Hashing). وهي عملية تحويل البيانات إلى بصمة رقمية فريدة. البصمة لا يمكن عكسها! نستخدمها لتخزين كلمات المرور بأمان. [attachment_6](attachment)" },
                                 { char: 'ahmed', text: "التشفير هو العمود الفقري لـ 'السرية' (Confidentiality) و'السلامة' (Integrity) في ثالوث الأمن." }
                             ],
                             summary: "التشفير المتماثل يستخدم مفتاحاً واحداً للتشفير والفك. التشفير غير المتماثل يستخدم مفتاحين (عام وخاص). التجزئة (Hashing) تُنشئ بصمة فريدة لكلمات المرور لا يمكن عكسها.",
@@ -700,7 +670,7 @@
                                 { char: 'recruit', text: "هل هي فقط كلمات مرور؟" },
                                 { char: 'ahmed', text: "أكثر من ذلك بكثير. IAM تتحقق من هويتك (Authentication) ثم تقرر ماذا يمكنك أن تفعل (Authorization). هويتك هي بطاقة الدخول، وصلاحيتك هي ما تتيحه لك البطاقة في الداخل." },
                                 { char: 'rital', text: "أفضل مثال هو المصادقة الثنائية (2FA). إنها ليست كلمة مرورك فقط، بل شيء آخر تعرفه (الرمز السري) أو تمتلكه (هاتفك). هذا يضاعف قوة الأمن." },
-                                { char: 'rital', text: "أهم مبدأ هنا هو 'الفصل بين الواجبات' (Separation of Duties). لا يمكن لشخص واحد أن يوافق على أمر وينفذه أيضاً. هذا يمنع الغش وسوء الاستخدام." },
+                                { char: 'rital', text: "أهم مبدأ هنا هو 'الفصل بين الواجبات' (Separation of Duties). لا يمكن لشخص واحد أن يوافق على أمر وينفذه أيضاً. هذا يمنع الغش وسوء الاستخدام. " },
                                 { char: 'pharaoh', text: "IAM هي أساس الحفاظ على 'السرية'. تأمين من يصل إلى بياناتنا هو نصف المعركة." }
                             ],
                             summary: "IAM هو التحقق من الهوية (Authentication) ثم تحديد الصلاحيات (Authorization). المصادقة الثنائية (2FA) هي طبقة حماية إضافية. ومبدأ الفصل بين الواجبات (Separation of Duties) يمنع أي شخص من التحكم الكامل بالنظام.",
@@ -715,7 +685,7 @@
                             dialogue: [
                                 { char: 'ahmed', text: "الأهرامات الرقمية تنتقل الآن إلى 'السحابة' (Cloud). تخيل أن السحابة هي استئجار غرفة في فندق فاخر بدلاً من بناء منزلك الخاص. الأمان مختلف هنا." },
                                 { char: 'rital', text: "المبدأ الأساسي هو 'نموذج المسؤولية المشتركة'. الموفر (مثل أمازون أو جوجل) مسؤول عن حماية الفندق نفسه (البنية التحتية، الجدران، الكهرباء)." },
-                                { char: 'rital', text: "أما أنت، أيها الحارس، فمسؤول عن تأمين محتويات غرفتك (بياناتك، كلمات المرور، إعدادات التطبيقات). لا يهم مدى قوة الجدار، إذا تركت الباب مفتوحاً!" },
+                                { char: 'rital', text: "أما أنت، أيها الحارس، فمسؤول عن تأمين محتويات غرفتك (بياناتك، كلمات المرور، إعدادات التطبيقات). لا يهم مدى قوة الجدار، إذا تركت الباب مفتوحاً! " },
                                 { char: 'recruit', text: "إذًا، إذا حدث اختراق بسبب ضعف كلمة مروري، فالمسؤولية تقع عليّ؟" },
                                 { char: 'ahmed', text: "بالضبط! هم يؤمنون 'السحابة' (Security *of* the Cloud)، وأنت تؤمن ما 'في داخل السحابة' (Security *in* the Cloud). هذا هو مفتاح النجاح في هذا الميدان الجديد." },
                                 { char: 'pharaoh', text: "تذكر: لا تثق أبداً بموفر السحابة ثقة عمياء. راجع إعدادات الأمان الخاصة بك دائماً." }
@@ -731,7 +701,7 @@
                             storyTitle: "تعقب البصمات الإلكترونية",
                             dialogue: [
                                 { char: 'ahmed', text: "عندما يقع الاختراق، لا ينتهي دورنا. بل يبدأ 'التحليل الجنائي الرقمي'. مهمتنا: تتبع خطوات المهاجم لمعرفة كيف دخل، وماذا فعل، وإعادة بناء المشهد." },
-                                { char: 'rital', text: "الأمر يشبه العمل كمحقق في موقع جريمة، لكن الأدلة هنا رقمية. أهم شيء هو 'سلسلة الحضانة' (Chain of Custody). لا يجب أن يتغير الدليل أو يتلوث." },
+                                { char: 'rital', text: "الأمر يشبه العمل كمحقق في موقع جريمة، لكن الأدلة هنا رقمية. أهم شيء هو 'سلسلة الحضانة' (Chain of Custody). لا يجب أن يتغير الدليل أو يتلوث. [attachment_7](attachment)" },
                                 { char: 'recruit', text: "ما هي أنواع الأدلة الرقمية التي نجمعها؟" },
                                 { char: 'rital', text: "أدلة 'متطايرة' (Volatile) مثل ذاكرة الوصول العشوائي (RAM) - تختفي عند إطفاء الجهاز. وأدلة 'غير متطايرة' (Non-Volatile) مثل الملفات الموجودة على القرص الصلب. يجب جمع الأدلة المتطايرة أولاً!" },
                                 { char: 'ahmed', text: "التحليل الجنائي يضمن أن الأدلة التي نجمعها مقبولة قانونياً ويمكن استخدامها لمعاقبة المعتدي. إنه فن استخراج الحقيقة من صمت الآلات." }
@@ -748,11 +718,11 @@
                             dialogue: [
                                 { char: 'rital', text: "حان الوقت لاستعراض أدواتك القوية. 'Nmap' هي خريطة المملكة الرقمية، تسمح لك بفحص ورسم خرائط للشبكة من الخارج." },
                                 { char: 'recruit', text: "ماذا يفعل Nmap بالضبط؟" },
-                                { char: 'rital', text: "إنه يرسل نبضات للتعرف على الأجهزة النشطة والخدمات المفتوحة (المنافذ/Ports). إنها مثل إرسال جاسوس لاستطلاع الأبواب المفتوحة في حصن العدو. إذا كان المنفذ 80 مفتوحاً، فهناك خادم ويب يعمل!" },
+                                { char: 'rital', text: "إنه يرسل نبضات للتعرف على الأجهزة النشطة والخدمات المفتوحة (المنافذ/Ports). إنها مثل إرسال جاسوس لاستطلاع الأبواب المفتوحة في حصن العدو. إذا كان المنفذ 80 مفتوحاً، فهناك خادم ويب يعمل! " },
                                 { char: 'ahmed', text: "أما 'Wireshark' فهو المجهر. ليس فقط يرى الحزم (كما في الدرس الأول)، بل يفككها إلى أدق تفاصيلها، ليعرض محادثة 'TCP/IP' كاملة بين جهازين." },
                                 { char: 'ahmed', text: "تخيل أنك تستمع إلى المكالمة الهاتفية بين المهاجم والضحية. هذه الأدوات لا غنى عنها في كل من الهجوم (الاختراق الأخلاقي) والدفاع (رصد التهديدات)." }
                             ],
-                            summary: "Nmap: أداة رسم الخرائط والاستطلاع. تُستخدم لفحص الشبكات وتحديد الأجهزة والمنافذ المفتوحة. Wireshark: أداة التحليل العميق. تُستخدم لالتقاط وتحليل حزم الشبكة المعقدة (Deep Packet Inspection).",
+                            summary: "Nmap: أداة رسم الخرائط والاستطلاع. تُستخدم لفحص الشبكات ورسم خريطتها وتحديد المنافذ المفتوحة. Wireshark: أداة التحليل العميق. تُستخدم لالتقاط وتحليل حزم الشبكة المعقدة (Deep Packet Inspection).",
                             quiz: [
                                 { q: "ما هي الوظيفة الأساسية لأداة Nmap؟", options: ["تحرير الصور", "مسح الشبكات ورسم خريطتها وتحديد المنافذ المفتوحة", "كتابة الأكواد البرمجية"], correct: 1 },
                                 { q: "كيف يساعد Wireshark الحارس الرقمي؟", options: ["يجمع الأدلة المتطايرة من القرص الصلب", "يقوم بتحليل عميق لمحتوى حزم البيانات المتبادلة في الشبكة", "يعرض أسعار الأسهم"], correct: 1 }
@@ -764,7 +734,7 @@
                             dialogue: [
                                 { char: 'pharaoh', text: "التصيد الاحتيالي (Phishing) هو سلاح المهاجم الأول. لكن عليك أن تتعرف على أنواعه المتقدمة." },
                                 { char: 'rital', text: "'الرمح' (Spear Phishing): هذه ليست شبكة تُلقى عشوائياً. بل هي رمح مصقول موجه نحوك أنت تحديداً. يستخدم المهاجم اسمك، شركتك، أو حتى اسم زميلك لخداعك. الرسالة تبدو شخصية وموثوقة جداً." },
-                                { char: 'rital', text: "والأخطر هو 'صيد الحيتان' (Whaling): هو رمح موجه إلى 'الحيتان'، أي كبار المسؤولين (الرئيس التنفيذي، المدير المالي) لسرقة معلومات ذات قيمة هائلة." },
+                                { char: 'rital', text: "والأخطر هو 'صيد الحيتان' (Whaling): هو رمح موجه إلى 'الحيتان'، أي كبار المسؤولين (الرئيس التنفيذي، المدير المالي) لسرقة معلومات ذات قيمة هائلة. " },
                                 { char: 'recruit', text: "ما هي الدفاعات التقنية ضده؟" },
                                 { char: 'ahmed', text: "بالإضافة إلى التدريب البشري، نستخدم بروتوكولات مثل 'DMARC' و 'SPF'. هذه آليات تحقق من أن المرسل الحقيقي للبريد هو نفسه من يدعي ذلك. إنها مثل ختم التحقق الرسمي لرسائل القصر." }
                             ],
@@ -782,7 +752,7 @@
                                 { char: 'recruit', text: "كيف نحسب المخاطر؟" },
                                 { char: 'rital', text: "ببساطة: الخطر = التهديد $\\times$ الثغرة. كم هي محتملة وقوع هذا التهديد؟ وكم هي خطيرة الثغرة؟ يجب أن نفهم هذه المعادلة." },
                                 { char: 'rital', text: "العملية تتكون من ثلاثة مراحل: 1. تحديد الأصول (الكنوز التي لدينا). 2. تقييم المخاطر (التهديدات والثغرات). 3. معالجة المخاطر (كيفية الرد)." },
-                                { char: 'ahmed', text: "هناك أربع استجابات للمخاطر: *تجنب* الخطر (لا تقم بالنشاط)، *تقليل* الخطر (مثل التشفير)، *نقل* الخطر (مثل التأمين)، أو *قبول* الخطر (إذا كان تأثيره صغيراً جداً)." },
+                                { char: 'ahmed', text: "هناك أربع استجابات للمخاطر: *تجنب* الخطر (لا تقم بالنشاط)، *تقليل* الخطر (مثل التشفير)، *نقل* الخطر (مثل التأمين)، أو *قبول* الخطر (إذا كان تأثيره صغيراً جداً). [attachment_8](attachment)" },
                                 { char: 'pharaoh', text: "الخطر الذي لا يُقاس، لا يمكن السيطرة عليه. هذه هي المهمة الأخيرة التي ستمنحك رؤية شاملة للمملكة." }
                             ],
                             summary: "إدارة المخاطر هي عملية تحديد وتحليل ومعالجة المخاطر الأمنية. المخاطر = التهديد $\\times$ الثغرة. واستراتيجيات المعالجة هي: التجنب، التقليل، النقل، أو القبول.",
@@ -801,13 +771,13 @@
                             title: "1. هندسة الأمن البشري (Social Engineering) المتقدمة",
                             storyTitle: "فن الخداع الصوتي",
                             dialogue: [
-                                { char: 'ahmed', text: "أهلاً بك في المستوى المتقدم أيها المجند. لقد أثبتَّ جدارتك في الأساسيات. لكن العدو الآن أكثر دهاءً. سلاحه ليس البرمجيات فقط، بل... الكلمات." },
+                                { char: 'ahmed', text: "أهلاً بك في المستوى المتقدم أيها المجند. لقد أثبتَّ جدارتك في الأساسيات. لكن العدو الآن أكثر دهاءً. سلاحه ليس البرمجيات فقط، بل... الكلمات." },
                                 { char: 'recruit', text: "الهندسة الاجتماعية؟ أعرفها... التصيد الاحتيالي (Phishing) صحيح؟" },
                                 { char: 'rital', text: "صحيح، لكننا نتحدث عن مستوى أعلى. ليس مجرد بريد إلكتروني. ماذا عن 'التصيد الصوتي' (Vishing)؟ تخيل أني أتصل بك الآن... *[صوت ريتال يتغير ليصبح رسمياً]* 'مرحباً، معك قسم الدعم التقني للمملكة. رصدنا نشاطاً غريباً على حسابك. نحتاج لتأكيد هويتك فوراً بإعطائنا كلمة المرور الخاصة بك'." },
                                 { char: 'recruit', text: "م... مستحيل! لن أعطي كلمة المرور أبداً!" },
                                 { char: 'rital', text: "*[تعود لصوتها الطبيعي]* جيد. لكن ماذا لو طلبت منك 'تأكيد اسم المستخدم' فقط؟ أو 'آخر 4 أرقام من هويتك'؟ المهاجم يجمع هذه الأجزاء الصغيرة (Pretexting) ليبني هجوماً كاملاً." },
                                 { char: 'ahmed', text: "الهندسة الاجتماعية المتقدمة هي فن بناء 'ذريعة' (Pretext) مقنعة. المهاجم يجعلك *ترغب* في مساعدته. قد يتظاهر بأنه زميل جديد يحتاج مساعدة، أو مدير مستعجل. الضغط النفسي هو سلاحه." },
-                                { char: 'pharaoh', text: "تذكر أيها الحارس: الجدار الناري الأقوى في مملكتنا هو... أنت. إذا تم خداعك، تسقط كل الدفاعات التقنية. الشك هو درعك الأول." }
+                                { char: 'pharaoh', text: "تذكر أيها الحارس: الجدار الناري الأقوى في مملكتنا هو... أنت. إذا تم خداعك، تسقط كل الدفاعات التقنية. الشك هو درعك الأول. " }
                             ],
                             summary: "الهندسة الاجتماعية المتقدمة تستخدم تقنيات مثل 'التصيد الصوتي' (Vishing) و 'الذرائع' (Pretexting) لخداعك. المهاجم يستغل الثقة والضغط النفسي لجمع معلومات حساسة قطعة بقطعة. الدفاع الأول هو الشك والتحقق الدائم.",
                             quiz: [
@@ -824,7 +794,7 @@
                                 { char: 'ahmed', text: "أنظمة التحكم الصناعي (ICS) وأنظمة SCADA. هذه هي العقول الرقمية التي تدير البنية التحتية الحيوية: الكهرباء، المياه، المصانع." },
                                 { char: 'rital', text: "المشكلة يا مجند، أن هذه الأنظمة صُممت منذ عقود. كان تركيزها على 'السلامة' (Safety) و'التوافر' (Availability)... وليس 'الأمن' (Security). كانوا يفترضون أنها معزولة تماماً (Air-gapped)." },
                                 { char: 'recruit', text: "وهل هي كذلك؟" },
-                                { char: 'rital', text: "لم تعد كذلك! الصيانة تتم عن بعد، والأنظمة أصبحت متصلة بالإنترنت. هجوم 'Stuxnet' الشهير أثبت أنه يمكن تدمير معدات مادية (مثل أجهزة الطرد المركزي) عبر هجوم رقمي." },
+                                { char: 'rital', text: "لم تعد كذلك! الصيانة تتم عن بعد، والأنظمة أصبحت متصلة بالإنترنت. هجوم 'Stuxnet' الشهير أثبت أنه يمكن تدمير معدات مادية (مثل أجهزة الطرد المركزي) عبر هجوم رقمي. [attachment_9](attachment)" },
                                 { char: 'ahmed', text: "مهمتنا هنا ليست حماية بيانات فقط، بل حماية الجسور والمصانع. يجب أن نفهم بروتوكولاتهم الغريبة (مثل Modbus) ونطبق 'تقسيم الشبكة' (Segmentation) لعزلهم حتى لو تم اختراق الشبكة الرئيسية." }
                             ],
                             summary: "أنظمة التحكم الصناعي (ICS/SCADA) تدير البنية التحتية الحيوية (كهرباء، ماء). تاريخياً، كانت هذه الأنظمة معزولة (Air-gapped) وركزت على السلامة لا الأمن، مما يجعلها ضعيفة. الدفاع عنها يتطلب تقنيات عزل متقدمة مثل تقسيم الشبكة.",
@@ -840,7 +810,7 @@
                                 { char: 'recruit', text: "قائد أحمد، ذكرت سابقاً التشفير غير المتماثل (المفتاح العام والخاص). لكن كيف أثق أن 'المفتاح العام' الذي أرسلته لي هو لك فعلاً؟ قد يكون المهاجم في المنتصف!" },
                                 { char: 'ahmed', text: "سؤال ممتاز. هذا هو جوهر الثقة الرقمية. الجواب هو 'البنية التحتية للمفتاح العام' (PKI). تخيلها كـ 'مكتب السجلات الملكية'." },
                                 { char: 'rital', text: "بالضبط! في هذا المكتب، توجد جهة موثوقة جداً نسميها 'سلطة التصديق' (CA - Certificate Authority). مثل جوجل، أمازون، أو حكومتنا." },
-                                { char: 'rital', text: "عندما أطلب 'شهادة رقمية' (Digital Certificate)، أقدم مفتاحي العام وهويتي للـ CA. يتحققون مني، ثم 'يختمون' مفتاحي العام بهويتهم الموثوقة. هذا الختم هو 'التوقيع الرقمي' للـ CA." },
+                                { char: 'rital', text: "عندما أطلب 'شهادة رقمية' (Digital Certificate)، أقدم مفتاحي العام وهويتي للـ CA. يتحققون مني، ثم 'يختمون' مفتاحي العام بهويتهم الموثوقة. هذا الختم هو 'التوقيع الرقمي' للـ CA. " },
                                 { char: 'recruit', text: "إذاً، عندما أتصل بموقع البنك، هو يرسل لي شهادته. متصفحي يرى الختم، ويثق به لأن المتصفح 'يعرف' الـ CA مسبقاً؟" },
                                 { char: 'ahmed', text: "أحسنت. والتوقيع الرقمي لا يثبت الهوية (Authentication) فقط، بل يضمن 'السلامة' (Integrity) و'عدم الإنكار' (Non-repudiation). لا أستطيع أن أنكر أني أرسلت الرسالة، لأن مفتاحي الخاص 'فقط' هو من يملك الختم." }
                             ],
@@ -861,7 +831,7 @@
                                 { char: 'ahmed', text: "بالضبط. اعزل الخادم المصاب عن الشبكة *فوراً*! افصل الكابل! لا نريد للنار أن تنتشر. هذا أهم من استعادة الخدمة الآن." },
                                 { char: 'rital', text: "بعد الاحتواء، نبدأ 'الاستئصال' (Eradication). العثور على 'الثغرة' التي دخل منها وإصلاحها. ثم 'الاسترداد' (Recovery)، أي إعادة بناء الخادم من نسخة احتياطية نظيفة." },
                                 { char: 'recruit', text: "وانتهى الأمر؟" },
-                                { char: 'ahmed', text: "لا. أهم خطوة هي الأخيرة: 'الدروس المستفادة' (Lessons Learned). لماذا حدث هذا؟ كيف نمنعه المرة القادمة؟ الحارس الذي لا يتعلم من أخطائه، سيكررها." }
+                                { char: 'ahmed', text: "لا. أهم خطوة هي الأخيرة: 'الدروس المستفادة' (Lessons Learned). لماذا حدث هذا؟ كيف نمنعه المرة القادمة؟ الحارس الذي لا يتعلم من أخطائه، سيكررها. " }
                             ],
                             summary: "خطة الاستجابة للحوادث (IR) لها مراحل: 1. الإعداد، 2. التحديد (هل هو حقيقي؟)، 3. الاحتواء (عزل الضرر)، 4. الاستئصال (إصلاح السبب)، 5. الاسترداد (إعادة الخدمة)، 6. الدروس المستفادة (التحسين المستمر).",
                             quiz: [
@@ -878,7 +848,7 @@
                                 { char: 'rital', text: "مطلقاً! ليس على نظامنا. سنبدأ بـ 'التحليل الساكن' (Static Analysis). هذا يعني أننا نفحصه وهو 'ميت'. ننظر إلى الكود، والنصوص المخفية بداخله (Strings)، دون تشغيله." },
                                 { char: 'rital', text: "أرى هنا... نصوص تشير إلى 'Encrypt' واتصال بموقع إنترنت غريب. هذا مثير للريبة، لكنه غير كافٍ." },
                                 { char: 'ahmed', text: "الآن للخطوة الأخطر. 'التحليل الديناميكي' (Dynamic Analysis). ريتال، جهزي 'الصندوق الرملي' (Sandbox)." },
-                                { char: 'rital', text: "الصندوق الرملي هو جهاز كمبيوتر افتراضي معزول تماماً. مثل غرفة تجارب محكمة الإغلاق. سنشغل الملف بداخلها ونراقب سلوكه." },
+                                { char: 'rital', text: "الصندوق الرملي هو جهاز كمبيوتر افتراضي معزول تماماً. مثل غرفة تجارب محكمة الإغلاق. سنشغل الملف بداخلها ونراقب سلوكه. " },
                                 { char: 'rital', text: "*[صوت نقر]*... بدأ التشغيل... إنه يحاول الاتصال بذلك الموقع الغريب! ويقوم ب... نعم! بدأ في تشفير الملفات! إنها 'برمجية فدية' (Ransomware)!" },
                                 { char: 'ahmed', text: "ممتاز. الآن عرفنا سلوكه (Behavior) وبصمته الشبكية (Network Signature). يمكننا حظر ذلك الموقع على مستوى المملكة كلها. دمروا الصندوق الرملي وابدأوا كتابة التقرير." }
                             ],
@@ -925,55 +895,91 @@
             currentTypingTimeout: null,
             progress: {
                 beginnerUnlockedLesson: 0,
-                intermediateUnlockedLesson: 0,
-                upperIntermediateUnlockedLesson: 0,
-                advancedUnlockedLesson: 0, 
+                intermediateUnlockedLesson: -1, /* قفلتها مبدئياً لتبدو كصفحة قادمة */
+                upperIntermediateUnlockedLesson: -1,
+                advancedUnlockedLesson: -1, 
                 scores: {}
             }
         };
+
+        // استخدام localStorage بسيط لحفظ التقدم (يجب استبداله بـ Firestore في تطبيق حقيقي)
+        const LOCAL_STORAGE_KEY = 'pharaohAiProgress';
 
         document.addEventListener('DOMContentLoaded', initApp);
 
         async function initApp() {
             try {
+                // إعدادات المسارات المغلقة مبدئياً
+                if (state.progress.intermediateUnlockedLesson === -1) {
+                    document.querySelector('[data-path="intermediate"]').disabled = true;
+                }
+                if (state.progress.upperIntermediateUnlockedLesson === -1) {
+                    document.querySelector('[data-path="upperIntermediate"]').disabled = true;
+                }
+                
                 await loadUserData();
                 setTimeout(initSplash, 500); 
             } catch (error) {
-                console.error("خطأ فادح في تهيئة التطبيق:", error); 
+                console.error("خطأ فادح في تهيئة التطبيق:", error);
                 document.getElementById('loading-screen').innerHTML = "<p class='text-red-500'>حدث خطأ في تحميل التطبيق. حاول تحديث الصفحة.</p>";
             }
         }
 
         async function loadUserData() {
             try {
-                const savedData = localStorage.getItem('pharaohAiProgress');
+                const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
                 if (savedData) {
-                    console.log("تم العثور على بيانات المستخدم:", savedData);
                     const loadedData = JSON.parse(savedData);
                     state.progress = { 
                         beginnerUnlockedLesson: loadedData.beginnerUnlockedLesson || 0,
-                        intermediateUnlockedLesson: loadedData.intermediateUnlockedLesson || 0,
-                        upperIntermediateUnlockedLesson: loadedData.upperIntermediateUnlockedLesson || 0,
-                        advancedUnlockedLesson: loadedData.advancedUnlockedLesson || 0,
+                        intermediateUnlockedLesson: loadedData.intermediateUnlockedLesson !== undefined ? loadedData.intermediateUnlockedLesson : -1,
+                        upperIntermediateUnlockedLesson: loadedData.upperIntermediateUnlockedLesson !== undefined ? loadedData.upperIntermediateUnlockedLesson : -1,
+                        advancedUnlockedLesson: loadedData.advancedUnlockedLesson !== undefined ? loadedData.advancedUnlockedLesson : -1,
                         scores: loadedData.scores || {}
                     };
                 } else {
-                    console.log("مستخدم جديد. جاري إنشاء سجل التقدم...");
-                    state.progress.beginnerUnlockedLesson = 0;
-                    state.progress.intermediateUnlockedLesson = 0;
-                    state.progress.upperIntermediateUnlockedLesson = 0;
-                    state.progress.advancedUnlockedLesson = 0;
-                    await saveUserData(); 
+                    state.progress = {
+                        beginnerUnlockedLesson: 0,
+                        intermediateUnlockedLesson: -1,
+                        upperIntermediateUnlockedLesson: -1,
+                        advancedUnlockedLesson: -1,
+                        scores: {}
+                    };
+                    await saveUserData();
                 }
+
+                // تحديث حالة الأزرار بناءً على التقدم المحمل
+                updatePathButtonsState();
             } catch (error) {
                 console.error("خطأ في تحميل بيانات المستخدم:", error);
+                // إعادة تعيين التقدم في حالة الخطأ
                 state.progress = {
                     beginnerUnlockedLesson: 0,
-                    intermediateUnlockedLesson: 0,
-                    upperIntermediateUnlockedLesson: 0,
-                    advancedUnlockedLesson: 0,
+                    intermediateUnlockedLesson: -1,
+                    upperIntermediateUnlockedLesson: -1,
+                    advancedUnlockedLesson: -1,
                     scores: {}
                 };
+            }
+        }
+
+        function updatePathButtonsState() {
+            // تفعيل المسارات إذا تم فتحها
+            if (state.progress.intermediateUnlockedLesson >= 0) {
+                const btn = document.querySelector('[data-path="intermediate"]');
+                if (btn) {
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    btn.querySelector('.text-sm').textContent = '(تحليل وتكتيكات)';
+                }
+            }
+            if (state.progress.upperIntermediateUnlockedLesson >= 0) {
+                const btn = document.querySelector('[data-path="upperIntermediate"]');
+                if (btn) {
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    btn.querySelector('.text-sm').textContent = '(دفاع وهجوم متقدم)';
+                }
             }
         }
 
@@ -986,7 +992,7 @@
                     advancedUnlockedLesson: state.progress.advancedUnlockedLesson,
                     scores: state.progress.scores
                 };
-                localStorage.setItem('pharaohAiProgress', JSON.stringify(dataToSave));
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToSave));
                 console.log("تم حفظ التقدم:", dataToSave);
             } catch (error) {
                 console.error("خطأ في حفظ بيانات المستخدم:", error);
@@ -999,7 +1005,6 @@
             });
             document.getElementById(screenId).classList.add('active');
             state.currentScreen = screenId.replace('-screen', '');
-            console.log("الانتقال إلى شاشة:", state.currentScreen);
         }
 
         function initSplash() {
@@ -1031,7 +1036,7 @@
             state.isTyping = true;
             element.innerHTML = '';
             let charIndex = 0;
-            const speed = 50; 
+            const speed = 40; // أسرع قليلاً
 
             function type() {
                 if (charIndex < text.length) {
@@ -1053,7 +1058,7 @@
                 clearTimeout(state.currentTypingTimeout);
             }
             const currentBubble = document.getElementById('lesson-dialogue-area').lastElementChild?.querySelector('.dialogue-text') || 
-                                  document.getElementById('intro-chat-messages').lastElementChild?.querySelector('.dialogue-text');
+                                 document.getElementById('intro-chat-messages').lastElementChild?.querySelector('.dialogue-text');
             
             if (currentBubble) {
                 const currentText = currentBubble.dataset.fullText;
@@ -1066,10 +1071,11 @@
 
         function startIntro() {
             showScreen('intro-chat-screen');
+            document.getElementById('intro-chat-messages').innerHTML = ''; // تنظيف المحادثة عند البداية
+            document.getElementById('intro-chat-actions').classList.add('hidden');
             state.currentDialogueIndex = 0;
-            // ضمان أن الحاوية قابلة للتمرير
             const introScreen = document.getElementById('intro-chat-screen');
-            introScreen.scrollTop = 0; // البدء من الأعلى
+            introScreen.scrollTop = 0; 
             startIntroSequence(0); 
         }
 
@@ -1081,51 +1087,49 @@
                 });
             } else {
                 document.getElementById('intro-chat-actions').classList.remove('hidden');
-                // التمرير للأسفل تلقائياً لرؤية الزر
                 const introScreen = document.getElementById('intro-chat-screen');
                 introScreen.scrollTo({ top: introScreen.scrollHeight, behavior: 'smooth' });
             }
         }
         
         function getCharacterInfo(char) {
-            // تم تعديل الألوان لتناسب اللوحة الجديدة
-            const iconClass = "w-8 h-8 p-1 rounded-full";
+            const iconClass = "w-10 h-10 p-1 rounded-full border-2";
             switch(char) {
                 case 'pharaoh':
                     return {
                         name: "فرعون Ai",
                         role: "المُشرف الرقمي",
-                        icon: `<svg class="${iconClass} bg-yellow-500 text-black/90 shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.37-3.371A8.25 8.25 0 0 0 15.362 5.214Z" /></svg>`,
+                        icon: `<svg class="${iconClass} bg-yellow-500 border-yellow-300 text-black/90 shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.37-3.371A8.25 8.25 0 0 0 15.362 5.214Z" /></svg>`,
                         color: 'text-yellow-400',
                         bgColor: 'bg-yellow-900/50',
-                        bubbleColor: '#B45309' // Dark Amber
+                        bubbleColor: '#B45309'
                     };
                 case 'ahmed':
                     return {
                         name: "القائد أحمد",
                         role: "مسؤول العمليات",
-                        icon: `<svg class="${iconClass} bg-blue-600 text-white shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.83-5.83M11.42 15.17l-4.24-4.24m4.24 4.24L21 21M15.83 3.83l-4.24-4.24m4.24 4.24L21 21" /></svg>`,
+                        icon: `<svg class="${iconClass} bg-blue-600 border-blue-400 text-white shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.83-5.83M11.42 15.17l-4.24-4.24m4.24 4.24L21 21M15.83 3.83l-4.24-4.24m4.24 4.24L21 21" /></svg>`,
                         color: 'text-blue-400',
                         bgColor: 'bg-blue-900/50',
-                        bubbleColor: '#1D4ED8' // Dark Blue
+                        bubbleColor: '#1D4ED8'
                     };
                 case 'rital':
                     return {
                         name: "المهندسة ريتال",
                         role: "متخصصة التبسيط التقني",
-                        icon: `<svg class="${iconClass} bg-green-600 text-white shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m4.5-10.5H5.25A2.25 2.25 0 0 0 3 9v7.5a2.25 2.25 0 0 0 2.25 2.25h13.5A2.25 2.25 0 0 0 21 16.5V9a2.25 2.25 0 0 0-2.25-2.25ZM6.75 12h.008v.008H6.75V12Zm.008 3h.008v.008H6.75V15h.008Z" /></svg>`,
+                        icon: `<svg class="${iconClass} bg-green-600 border-green-400 text-white shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m4.5-10.5H5.25A2.25 2.25 0 0 0 3 9v7.5a2.25 2.25 0 0 0 2.25 2.25h13.5A2.25 2.25 0 0 0 21 16.5V9a2.25 2.25 0 0 0-2.25-2.25ZM6.75 12h.008v.008H6.75V12Zm.008 3h.008v.008H6.75V15h.008Z" /></svg>`,
                         color: 'text-green-400',
                         bgColor: 'bg-green-900/50',
-                        bubbleColor: '#047857' // Dark Green
+                        bubbleColor: '#047857'
                     };
                 case 'recruit':
                     return {
                         name: "المجند",
                         role: "الحارس المستجد",
-                        icon: `<svg class="${iconClass} bg-gray-500 text-white shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0 .75.75 0 0 1-.416.712A8.914 8.914 0 0 1 12 22a8.914 8.914 0 0 1-7.082-1.17.75.75 0 0 1-.416-.712Z" /></svg>`,
+                        icon: `<svg class="${iconClass} bg-gray-500 border-gray-400 text-white shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0 .75.75 0 0 1-.416.712A8.914 8.914 0 0 1 12 22a8.914 8.914 0 0 1-7.082-1.17.75.75 0 0 1-.416-.712Z" /></svg>`,
                         color: 'text-gray-300',
                         bgColor: 'bg-gray-800/50',
-                        bubbleColor: '#4B5563' // Gray-Blue
+                        bubbleColor: '#4B5563'
                     };
                 default:
                     return { name: "غير معروف", role: "", icon: "", color: 'text-gray-500', bgColor: 'bg-gray-700/50', bubbleColor: '#555' };
@@ -1142,7 +1146,6 @@
             }
             
             speakerBar.classList.remove('hidden');
-            // تعديل لون الحدود ليتناسب
             speakerBar.className = `flex items-center p-3 px-4 shadow-xl border-b-2 border-yellow-800 ${info.bgColor} ${info.color} speaker-title-bar flex-shrink-0`;
             speakerBar.innerHTML = `
                 ${info.icon}
@@ -1163,7 +1166,7 @@
             const isRecruit = (char === 'recruit');
 
             const wrapper = document.createElement('div');
-            wrapper.className = `chat-bubble-wrapper chat-${char}`; 
+            wrapper.className = `chat-bubble-wrapper chat-${char}`;
 
             const speakerNameDiv = document.createElement('div');
             speakerNameDiv.className = `chat-speaker-name ${isRecruit ? 'text-left' : 'text-right'}`; 
@@ -1183,12 +1186,11 @@
             wrapper.appendChild(bubble);
             container.appendChild(wrapper);
             
-            // التمرير للرسالة الجديدة
             if (containerId === 'intro-chat-messages') {
                 const introScreen = document.getElementById('intro-chat-screen');
                 introScreen.scrollTo({ top: introScreen.scrollHeight, behavior: 'smooth' });
             } else {
-                 container.scrollTop = container.scrollHeight; 
+                container.scrollTop = container.scrollHeight; 
             }
 
             typewriter(textElement, text, onComplete);
@@ -1224,12 +1226,12 @@
 
                 button.innerHTML = `
                     <div class="flex justify-between w-full items-center mb-2">
-                        <span class="text-xs font-light text-yellow-300 opacity-80">الدرس ${index + 1}</span>
-                        <svg class="w-6 h-6 text-red-400 lesson-lock" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V1.5m-3.75 9H7.5m10.5 0H7.5m10.5 0c1.5 0 2.25 0 2.25-2.25S19.5 6 18 6H7.5C6 6 5.25 6 5.25 8.25s.75 2.25 2.25 2.25h10.5Z" />
+                        <span class="text-xs font-light text-yellow-300 opacity-80">${index + 1}. مهمة</span>
+                        <svg class="w-8 h-8 text-yellow-400 lesson-lock" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V7.5a4.5 4.5 0 1 0-9 0v3h3m7.5 0h-15m5.25-9.75h4.5a2.25 2.25 0 0 1 2.25 2.25v10.5a2.25 2.25 0 0 1-2.25 2.25h-4.5a2.25 2.25 0 0 1-2.25-2.25v-10.5a2.25 2.25 0 0 1 2.25-2.25Z" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-1 text-right">${lesson.title}</h3>
+                    <h3 class="text-xl md:text-2xl font-bold mb-1 text-right">${lesson.title}</h3>
                     <p class="text-sm text-gray-400 text-right">${storyText}</p>
                 `;
                 
@@ -1292,6 +1294,12 @@
         let currentQuizData = [];
 
         function startQuiz(quizData) {
+            if (!quizData || quizData.length === 0) {
+                // If no quiz, auto-unlock next lesson and go back
+                unlockNextLesson();
+                showLessonList(state.currentPathId);
+                return;
+            }
             currentQuizData = quizData;
             state.currentQuizQuestion = 0;
             state.quizScore = 0;
@@ -1299,6 +1307,16 @@
             document.getElementById('quiz-feedback').innerHTML = '';
             showScreen('quiz-screen');
             displayNextQuestion();
+        }
+
+        function unlockNextLesson() {
+            const unlockedKey = `${state.currentPathId}UnlockedLesson`;
+            const currentLessonIndex = state.currentLessonIndex;
+            
+            if (currentLessonIndex === state.progress[unlockedKey]) {
+                state.progress[unlockedKey] = currentLessonIndex + 1;
+                saveUserData();
+            }
         }
 
         function displayNextQuestion() {
@@ -1309,9 +1327,6 @@
                 let feedbackText = `أحسنت! أكملت مهمة التدريب.`;
                 let feedbackColor = 'text-green-400';
                 
-                const unlockedKey = `${state.currentPathId}UnlockedLesson`;
-                const currentLessonIndex = state.currentLessonIndex;
-                
                 if (score < total) {
                     feedbackText = `لقد حصلت على ${score} من ${total}. عليك مراجعة بعض النقاط.`;
                     feedbackColor = 'text-yellow-400';
@@ -1319,13 +1334,10 @@
                     feedbackText = `تهانينا! ${score} من ${total}. نجاح باهر. يمكنك الآن فتح المهمة التالية.`;
                     feedbackColor = 'text-green-400';
                     
-                    if (currentLessonIndex === state.progress[unlockedKey]) {
-                         state.progress[unlockedKey] = currentLessonIndex + 1;
-                         saveUserData();
-                    }
+                    unlockNextLesson();
                 }
                 
-                document.getElementById('quiz-question').innerHTML = `نتائجك: ${feedbackText}`;
+                document.getElementById('quiz-question').innerHTML = `نتائجك النهائية: ${feedbackText}`;
                 document.getElementById('quiz-question').className = `text-2xl text-center mb-8 ${feedbackColor} font-bold`;
 
                 document.getElementById('quiz-options').innerHTML = '';
@@ -1382,10 +1394,10 @@
             if (selectedIndex === correctIndex) {
                 state.quizScore++;
                 feedback.textContent = 'ممتاز! إجابتك صحيحة.';
-                feedback.className = 'text-center text-lg mt-6 font-bold text-green-400';
+                feedback.className = 'text-center text-xl mt-6 font-bold text-green-400';
             } else {
                 feedback.textContent = 'خطأ. راجع المبدأ الذي تم شرحه.';
-                feedback.className = 'text-center text-lg mt-6 font-bold text-red-400';
+                feedback.className = 'text-center text-xl mt-6 font-bold text-red-400';
             }
 
             document.getElementById('next-question-btn').onclick = () => {
