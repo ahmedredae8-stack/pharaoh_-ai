@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -27,6 +27,7 @@
                         'pulse-glow': 'pulseGlow 2s infinite',
                         'grid-move': 'gridMove 20s linear infinite',
                         'scanline': 'scanline 8s linear infinite',
+                        'spin-slow': 'spin 3s linear infinite',
                     },
                     keyframes: {
                         float: {
@@ -58,6 +59,7 @@
             color: #e2e8f0;
             font-family: 'IBM Plex Sans Arabic', sans-serif;
             overflow: hidden;
+            user-select: none;
         }
 
         /* Background Effects */
@@ -84,7 +86,7 @@
 
         /* Glassmorphism Panels */
         .glass-panel {
-            background: rgba(13, 18, 30, 0.75);
+            background: rgba(13, 18, 30, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 215, 0, 0.1);
@@ -108,6 +110,7 @@
             border: 1px solid rgba(255, 215, 0, 0.3);
             color: #FFD700;
             transition: all 0.3s ease;
+            cursor: pointer;
             clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
         }
 
@@ -161,6 +164,7 @@
         .text-glow { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
         .text-glow-blue { text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
         .text-glow-red { text-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+        .text-glow-green { text-shadow: 0 0 10px rgba(74, 222, 128, 0.5); }
 
         /* Typing cursor */
         .typing-effect::after {
@@ -174,6 +178,20 @@
         .quiz-option { transition: all 0.2s; border-width: 1px; }
         .quiz-correct { background: rgba(16, 185, 129, 0.2) !important; border-color: #10B981 !important; color: #10B981 !important; box-shadow: 0 0 15px rgba(16,185,129,0.4); }
         .quiz-incorrect { background: rgba(239, 68, 68, 0.2) !important; border-color: #EF4444 !important; color: #EF4444 !important; box-shadow: 0 0 15px rgba(239,68,68,0.4); }
+
+        /* Lab Animations */
+        .lab-packet {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #EF4444;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #EF4444;
+        }
+        .shield-active {
+            border-color: #00F0FF;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4), inset 0 0 20px rgba(0, 240, 255, 0.2);
+        }
 
     </style>
 </head>
@@ -224,7 +242,6 @@
 
         <!-- 3. Intro Chat Screen -->
         <div id="intro-chat-screen" class="screen flex-col w-full h-full max-w-4xl mx-auto glass-panel border-x border-y-0 rounded-none md:rounded-xl md:my-4 md:h-[95vh] overflow-hidden">
-            <!-- Header -->
             <div class="bg-black/40 p-4 border-b border-white/10 backdrop-blur flex items-center justify-between sticky top-0 z-20">
                 <div class="flex items-center gap-3">
                     <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
@@ -233,12 +250,10 @@
                 <span class="text-xs font-mono text-cyber-blue opacity-70">SECURE_CHANNEL_V.1.0</span>
             </div>
 
-            <!-- Messages Area -->
             <div id="intro-chat-messages" class="flex-grow flex flex-col space-y-6 p-4 md:p-6 overflow-y-auto scroll-smooth pb-32">
-                <!-- Dynamic messages injected here -->
+                <!-- Messages -->
             </div>
 
-            <!-- Actions Area -->
             <div id="intro-chat-actions" class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/90 to-transparent z-30 hidden text-center">
                 <button id="start-learning-btn" class="btn-cyber w-full md:w-auto px-12 py-4 text-xl font-bold rounded-lg">
                     <span class="relative z-10 flex items-center justify-center gap-2">
@@ -256,7 +271,6 @@
                 <p class="text-center text-gray-400 mb-10">اختر مستوى التصريح الأمني للبدء</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-                    <!-- Beginner -->
                     <button data-path="beginner" class="path-btn group glass-panel p-6 hover:bg-white/5 transition-all duration-300 border-l-4 border-l-cyber-gold text-right relative overflow-hidden">
                         <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-l from-cyber-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="relative z-10">
@@ -270,7 +284,6 @@
                         </div>
                     </button>
 
-                    <!-- Intermediate -->
                     <button data-path="intermediate" class="path-btn group glass-panel p-6 hover:bg-white/5 transition-all duration-300 border-l-4 border-l-cyber-blue text-right relative overflow-hidden disabled:opacity-40 disabled:grayscale">
                         <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-l from-cyber-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="relative z-10">
@@ -283,7 +296,6 @@
                         </div>
                     </button>
 
-                    <!-- Advanced -->
                     <button data-path="upperIntermediate" class="path-btn group glass-panel p-6 hover:bg-white/5 transition-all duration-300 border-l-4 border-l-red-500 text-right relative overflow-hidden disabled:opacity-40 disabled:grayscale">
                         <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-l from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="relative z-10">
@@ -296,20 +308,12 @@
                         </div>
                     </button>
                 </div>
-                
-                <!-- Coming Soon (Visual only) -->
-                <div class="mt-6 text-center">
-                     <button class="glass-panel px-8 py-3 text-gray-500 text-sm cursor-not-allowed border-dashed border-gray-700" disabled>
-                        + مسارات مستقبلية (قيد التطوير)
-                     </button>
-                </div>
             </div>
         </div>
 
         <!-- 5. Lesson List Screen -->
         <div id="lesson-list-screen" class="screen flex-col w-full h-full max-w-6xl mx-auto md:p-6">
             <div class="flex-col w-full h-full glass-panel overflow-hidden flex rounded-none md:rounded-2xl">
-                <!-- Header -->
                 <div class="flex-shrink-0 p-5 border-b border-white/10 bg-black/40 flex justify-between items-center backdrop-blur-xl z-20">
                     <div>
                         <h2 id="path-title" class="font-bold text-2xl text-cyber-gold text-glow"></h2>
@@ -320,8 +324,6 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </button>
                 </div>
-                
-                <!-- Grid -->
                 <div id="lesson-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 md:p-6 overflow-y-auto flex-grow custom-scrollbar">
                     <!-- Lessons injected here -->
                 </div>
@@ -343,14 +345,67 @@
                 </div>
 
                 <!-- Tap Indicator -->
-                <div class="p-3 text-center bg-black/60 border-t border-white/5 backdrop-blur text-gray-400 text-xs md:text-sm cursor-pointer hover:text-white transition-colors flex items-center justify-center gap-2 animate-pulse">
+                <div id="tap-indicator" class="p-3 text-center bg-black/60 border-t border-white/5 backdrop-blur text-gray-400 text-xs md:text-sm cursor-pointer hover:text-white transition-colors flex items-center justify-center gap-2 animate-pulse">
                     <span class="w-2 h-2 bg-cyber-gold rounded-full"></span>
                     اضغط في أي مكان للمتابعة
+                </div>
+
+                <!-- Practical Button (Hidden Initially) -->
+                <div id="practical-action-area" class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/95 to-transparent z-30 hidden text-center">
+                    <button id="start-practical-btn" class="btn-cyber w-full md:w-auto px-12 py-4 text-xl font-bold rounded-lg animate-pulse-glow">
+                        <span class="relative z-10 flex items-center justify-center gap-2">
+                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                             بدء التدريب العملي (Simulation)
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- 7. Summary Screen -->
+        <!-- 7. Practical Lab Screen (NEW) -->
+        <div id="practical-screen" class="screen flex-col items-center justify-center w-full h-full p-4 md:p-6 bg-[#020408]">
+            <div class="glass-panel w-full max-w-5xl h-[90vh] flex flex-col relative overflow-hidden border-cyber-blue/30 shadow-[0_0_50px_rgba(0,240,255,0.1)]">
+                <!-- Lab Header -->
+                <div class="p-4 border-b border-white/10 bg-black/60 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 bg-cyber-blue rounded-full animate-pulse shadow-[0_0_10px_#00F0FF]"></div>
+                        <h2 class="font-mono text-cyber-blue text-lg tracking-widest">LAB_ENVIRONMENT_V.2.0</h2>
+                    </div>
+                    <div class="text-xs text-gray-500 font-mono" id="lab-id-display">SESSION: #001</div>
+                </div>
+
+                <!-- Lab Content Container -->
+                <div class="flex-grow relative flex flex-col md:flex-row overflow-hidden">
+                    <!-- Instructions Sidebar -->
+                    <div class="w-full md:w-1/3 bg-black/40 border-l border-white/5 p-6 overflow-y-auto">
+                        <h3 id="lab-title" class="text-2xl font-bold text-white mb-2 text-glow-blue"></h3>
+                        <p id="lab-desc" class="text-gray-400 text-sm leading-relaxed mb-6"></p>
+                        
+                        <div class="bg-cyber-blue/5 border border-cyber-blue/20 p-4 rounded mb-4">
+                            <h4 class="text-cyber-blue text-xs font-bold mb-2 uppercase">Mission Objective</h4>
+                            <ul id="lab-steps" class="text-gray-300 text-sm space-y-2 list-disc list-inside"></ul>
+                        </div>
+
+                        <div id="lab-feedback" class="hidden p-4 rounded border text-sm font-bold text-center animate-pulse"></div>
+                    </div>
+
+                    <!-- Workspace (Visual Simulation) -->
+                    <div id="lab-workspace" class="w-full md:w-2/3 bg-[#050810] relative flex items-center justify-center overflow-hidden">
+                         <!-- Dynamic Content Injected Here -->
+                         <div class="absolute inset-0 cyber-grid opacity-20"></div>
+                    </div>
+                </div>
+
+                <!-- Footer Actions -->
+                <div class="p-4 border-t border-white/10 bg-black/60 flex justify-end">
+                    <button id="complete-lab-btn" class="btn-cyber px-8 py-2 opacity-50 cursor-not-allowed" disabled>
+                        اكتمال المهمة والمتابعة
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Summary Screen -->
         <div id="summary-screen" class="screen flex-col items-center justify-center w-full h-full p-6">
             <div class="glass-panel max-w-2xl w-full p-8 md:p-12 border-cyber-gold/30 relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyber-gold to-transparent"></div>
@@ -374,7 +429,7 @@
             </div>
         </div>
 
-        <!-- 8. Quiz Screen -->
+        <!-- 9. Quiz Screen -->
         <div id="quiz-screen" class="screen flex-col items-center justify-center w-full h-full p-4">
             <div class="glass-panel max-w-3xl w-full p-6 md:p-10 relative">
                  <h2 class="font-bold text-cyber-gold text-center mb-8 text-3xl text-glow">اختبار المصادقة</h2>
@@ -397,7 +452,7 @@
 
     </div>
 
-    <!-- Game Logic (Preserved) -->
+    <!-- Game Logic -->
     <script type="module">
         const database = {
             introChat: [
@@ -421,8 +476,14 @@
                                 { char: 'recruit', text: "ما هو إذاً؟" },
                                 { char: 'rital', text: "تخيل أن بياناتك (صورك، أموالك، رسائلك) هي جواهر داخل هرم زجاجي. الإنترنت هو العالم الخارجي المليء باللصوص." },
                                 { char: 'rital', text: "الأمن السيبراني هو الجدران، الكاميرات، والحراس الذين نضعهم لحماية هذا الهرم من السرقة أو التخريب." },
-                                { char: 'ahmed', text: "هدفنا هو حماية: السرية (لا أحد يرى)، السلامة (لا أحد يعدل)، والتوافر (البيانات موجودة عند الحاجة)." }
+                                { char: 'ahmed', text: "هدفنا هو حماية: السرية، السلامة، والتوافر. الآن، دعنا نرى كيف يعمل الدرع الرقمي عملياً." }
                             ],
+                            practical: {
+                                id: "lab-01",
+                                title: "تفعيل الجدار الناري",
+                                description: "البيانات تتعرض لهجوم من حزم ضارة. قم بتفعيل طبقات الحماية لمنع الاختراق.",
+                                type: "shield-defense"
+                            },
                             summary: "الأمن السيبراني هو حماية الأنظمة والشبكات والبيانات من الهجمات الرقمية. يهدف لحماية الأصول الرقمية من الوصول غير المصرح به أو الاستخدام الإجرامي.",
                             quiz: [
                                 { q: "ما هو الهدف الرئيسي للأمن السيبراني؟", options: ["تصميم مواقع جميلة", "حماية البيانات والأنظمة من الهجمات", "زيادة سرعة الإنترنت"], correct: 1 },
@@ -433,15 +494,18 @@
                             title: "2. ثالوث الأمن السيبراني (CIA)",
                             storyTitle: "أعمدة الهرم الثلاثة",
                             dialogue: [
-                                { char: 'ahmed', text: "مهمتك التالية هي فهم 'أعمدة الهرم الثلاثة' (CIA). هذا هو المبدأ الأساسي لأي حماية رقمية ناجحة. " },
-                                { char: 'recruit', text: "CIA؟ هل هو اختصار لشيء معقد؟" },
-                                { char: 'rital', text: "إنه اختصار لـ: السرية (Confidentiality)، السلامة (Integrity)، والتوافر (Availability). دعني أبسطها لك عبر مثال رسالة سرية:" },
-                                { char: 'rital', text: "1. 🤫 السرية: يعني أن الرسالة مشفرة، فقط المستلم المقصود يمكنه قراءتها. هذا يمنع اللصوص من الاطلاع على أسرارك." },
-                                { char: 'rital', text: "2. 📜 السلامة: يعني أن الرسالة لم تتغير أثناء الإرسال. اللص لم يتمكن من تعديل محتوى رسالتك." },
-                                { char: 'rital', text: "3. 💡 التوافر: يعني أن الرسالة تصل لصديقك في الوقت المناسب ويمكنه الوصول إليها متى أراد. البيانات متاحة دائماً للاستخدام الشرعي." },
-                                { char: 'recruit', text: "إذًا يجب تحقيقها جميعًا في كل معاملة رقمية للحصول على أمن متكامل؟" },
-                                { char: 'ahmed', text: "بالضبط. إذا سقط عمود واحد، انهار الهرم. يجب أن نحافظ على هذه الأعمدة الثلاثة قوية لحماية بياناتنا." }
+                                { char: 'ahmed', text: "مهمتك التالية هي فهم 'أعمدة الهرم الثلاثة' (CIA)." },
+                                { char: 'rital', text: "إنه اختصار لـ: السرية (Confidentiality)، السلامة (Integrity)، والتوافر (Availability)." },
+                                { char: 'rital', text: "1. السرية: البيانات مشفرة ولا يراها إلا المصرح لهم.\n2. السلامة: البيانات لم يتم العبث بها.\n3. التوافر: النظام يعمل عند الحاجة." },
+                                { char: 'recruit', text: "إذًا يجب تحقيقها جميعًا؟" },
+                                { char: 'ahmed', text: "نعم. توجه إلى غرفة التحكم وتأكد من أن جميع الأنظمة الثلاثة تعمل." }
                             ],
+                            practical: {
+                                id: "lab-02",
+                                title: "موازنة النظام (CIA)",
+                                description: "الخوادم غير مستقرة. قم بتشغيل بروتوكولات السرية والسلامة والتوافر لاستعادة النظام.",
+                                type: "cia-balance"
+                            },
                             summary: "الأعمدة الثلاثة هي: 1. السرية (لا أحد يرى أسرارك)، 2. السلامة (لا أحد يغير بياناتك)، 3. التوافر (يمكنك الوصول لبياناتك وقتما تشاء).",
                             quiz: [
                                 { q: "أي عمود يعني 'الحفاظ على سرية المعلومات'؟", options: ["السلامة", "السرية", "التوافر"], correct: 1 },
@@ -453,12 +517,16 @@
                             storyTitle: "لغة الحراس",
                             dialogue: [
                                 { char: 'ahmed', text: "يجب أن تتحدث لغتنا. هناك ثلاثة مفاهيم حيوية: الثغرة (Vulnerability)، والتهديد (Threat)، والخطر (Risk)."},
-                                { char: 'rital', text: "للتوضيح، تخيل أن هرمك به شباك مفتوح لم يتم تأمينه. هذا الشباك هو 'ثغرة' (نقطة ضعف)." },
-                                { char: 'rital', text: "وجود لص نشط في المنطقة يعرف بأمر الشباك هو 'تهديد' (شيء يمكن أن يستغل الثغرة)."},
-                                { char: 'rital', text: "واحتمالية أن يتسلق اللص من الشباك ويسرق كنوزك هي 'خطر' (Risk). " },
-                                { char: 'recruit', text: "مفهوم! يجب أن أغلق كل الثغرات بأسرع ما يمكن لتقليل الخطر." },
-                                { char: 'ahmed', text: "مهمتنا كحراس هي إغلاق 'الثغرات' لتقليل 'الخطر' الناتج عن 'التهديدات' الموجودة."}
+                                { char: 'rital', text: "الثغرة: نقطة ضعف (شباك مفتوح). التهديد: لص يحاول الدخول. الخطر: احتمالية السرقة." },
+                                { char: 'recruit', text: "يجب إغلاق الثغرات لتقليل الخطر." },
+                                { char: 'ahmed', text: "صحيح. لدينا ماسح أمني كشف عن ثغرة، تعامل معها."}
                             ],
+                            practical: {
+                                id: "lab-03",
+                                title: "إدارة المخاطر",
+                                description: "تم اكتشاف منفذ مفتوح (ثغرة) ويوجد تهديد خارجي. قم بإغلاق الثغرة لتقليل الخطر.",
+                                type: "vuln-scanner"
+                            },
                             summary: "الثغرة (نقطة ضعف)، التهديد (قوة يمكن أن تستغل الضعف)، الخطر (احتمالية تحقق الضرر).",
                             quiz: [
                                 { q: "الشباك المفتوح في الهرم هو مثال على...؟", options: ["تهديد", "ثغرة", "خطر"], correct: 1 }
@@ -468,14 +536,17 @@
                             title: "4. أنواع المهاجمين",
                             storyTitle: "القبعات المختلفة",
                             dialogue: [
-                                { char: 'ahmed', text: "لفهم العدو، يجب أن تعرف من هم. في عالمنا، لا يرتدي الأعداء زياً موحداً، بل 'قبعات' مختلفة." },
-                                { char: 'recruit', text: "قبعات؟ كيف ذلك؟" },
-                                { char: 'rital', text: "نعم! تخيلهم ثلاثة أنواع: الأول هو 'القبعة السوداء' (Black Hat). هذا هو اللص التقليدي. هدفه التدمير، أو السرقة من أجل المال، أو الفوضى. نواياهم سيئة تماماً." },
-                                { char: 'rital', text: "الثاني هو 'القبعة البيضاء' (White Hat). هؤلاء هم نحن! باحثون أمنيون ومخترقون أخلاقيون. نجد 'الثغرات' (مثل الشباك المفتوح) ونخبر صاحب الهرم ليغلقها قبل أن يجدها اللص." },
-                                { char: 'rital', text: "الثالث هو 'القبعة الرمادية' (Grey Hat). هذا النوع محير. هو يخترق بدون إذن (مثل القبعة السوداء)، ولكنه قد يخبرك بالثغرة (مثل القبعة البيضاء)... ربما مقابل مكافأة مالية أو للشهرة. هم في منطقة رمادية." },
-                                { char: 'recruit', text: "إذاً، مهمتنا هي أن نكون 'قبعات بيضاء' لنتصدى لـ 'القبعات السوداء'؟" },
-                                { char: 'ahmed', text: "بالضبط. يجب أن تفكر مثلهم لتتغلب عليهم." }
+                                { char: 'ahmed', text: "في عالمنا، الأعداء والحلفاء يرتدون 'قبعات' مختلفة." },
+                                { char: 'rital', text: "القبعة السوداء: مجرم (تدمير/سرقة). القبعة البيضاء: نحن (هاكر أخلاقي). القبعة الرمادية: منطقة وسطى." },
+                                { char: 'recruit', text: "كيف أميز بينهم؟" },
+                                { char: 'ahmed', text: "سأعطيك ملفات تعريف لثلاثة أشخاص، حدد هويتهم." }
                             ],
+                            practical: {
+                                id: "lab-04",
+                                title: "تحليل الهوية (Profiling)",
+                                description: "أمامك ثلاثة ملفات تعريف. قم بتحليل سلوك كل منهم لتحديد لون القبعة.",
+                                type: "hacker-hats"
+                            },
                             summary: "المهاجمون ثلاثة أنواع: 1. القبعة السوداء (المجرم/المخرب)، 2. القبعة البيضاء (الباحث الأمني/الأخلاقي)، 3. القبعة الرمادية (يعمل في منطقة رمادية بين الاثنين).",
                             quiz: [
                                 { q: "من هو 'القبعة السوداء'؟", options: ["باحث أمني يساعدك", "مخترق أخلاقي", "لص رقمي يهدف للسرقة أو التدمير"], correct: 2 },
@@ -486,10 +557,16 @@
                             title: "5. البرامج الضارة (Malware)",
                             storyTitle: "العدوى الرقمية",
                             dialogue: [
-                                { char: 'pharaoh', text: "تنبيه! تم رصد برمجيات خبيثة تحاول الدخول." },
-                                { char: 'rital', text: "البرامج الضارة تأتي بأشكال عديدة. 'الفيروس' يحتاج لملف ليلتصق به وينتشر عند فتحه. 'الدودة' (Worm) أخطر، فهي تنتشر بنفسها عبر الشبكة دون تدخل منك!" },
-                                { char: 'ahmed', text: "وهناك 'حصان طروادة' (Trojan). يبدو كبرنامج مفيد (لعبة أو أداة) لكنه يفتح باباً خلفياً للمهاجمين بمجرد تثبيته." },
+                                { char: 'pharaoh', text: "تنبيه! تم رصد ملف مشبوه." },
+                                { char: 'rital', text: "البرامج الضارة (Malware) مثل الفيروسات والديدان وأحصنة طروادة. حصان طروادة يتنكر كبرنامج مفيد." },
+                                { char: 'ahmed', text: "لا تفتح أي شيء قبل فحصه. قم بتشغيل الساندبوكس (بيئة العزل) وافحص الملف المشبوه." },
                             ],
+                            practical: {
+                                id: "lab-05",
+                                title: "فحص الملفات (Sandboxing)",
+                                description: "وصل ملف مرفق مشبوه. قم بفحصه داخل البيئة المعزولة واكتشف نوع البرمجية الخبيثة.",
+                                type: "malware-scan"
+                            },
                             summary: "البرامج الضارة (Malware) هي برامج سيئة. أشهرها: الفيروس (يحتاج ملفاً مضيفاً)، الدودة (تنتشر بنفسها)، وحصان طروادة (يتنكر كبرنامج مفيد).",
                             quiz: [
                                 { q: "ما هو البرنامج الضار الذي ينتشر عبر الشبكة بنفسه دون تدخل بشري؟", options: ["الفيروس", "الدودة (Worm)", "حصان طروادة"], correct: 1 }
@@ -526,7 +603,7 @@
             }
         };
 
-        const LOCAL_STORAGE_KEY = 'pharaohAiCyberProgress_v2';
+        const LOCAL_STORAGE_KEY = 'pharaohAiCyberProgress_v3';
 
         document.addEventListener('DOMContentLoaded', initApp);
 
@@ -592,7 +669,7 @@
             state.isTyping = true;
             element.innerHTML = '';
             let charIndex = 0;
-            const speed = 25; 
+            const speed = 20; 
 
             function type() {
                 if (charIndex < text.length) {
@@ -667,14 +744,12 @@
             wrapper.className = `flex flex-col ${isRecruit ? 'items-start' : 'items-end'} w-full mb-4`;
 
             const bubble = document.createElement('div');
-            // Styles for different bubbles
             let bubbleStyle = isRecruit 
                 ? 'bg-white/5 border-l-2 border-gray-500 rounded-tr-xl rounded-br-xl rounded-bl-xl' 
                 : `bg-gradient-to-br from-[#0f1623] to-[#0a0e17] border-r-2 ${info.borderColor} rounded-tl-xl rounded-bl-xl rounded-br-xl`;
             
             bubble.className = `chat-bubble max-w-[85%] p-4 ${bubbleStyle} animate-float`;
             
-            // Speaker Name inside bubble for intro
             if(containerId === 'intro-chat-messages') {
                  bubble.innerHTML = `<p class="text-xs font-bold mb-1 ${info.color} opacity-80">${info.name}</p>`;
             }
@@ -732,6 +807,8 @@
             state.currentDialogueIndex = 0;
             showScreen('lesson-view-screen');
             document.getElementById('lesson-dialogue-area').innerHTML = '';
+            document.getElementById('practical-action-area').classList.add('hidden');
+            document.getElementById('tap-indicator').classList.remove('hidden');
             displayNextLessonMessage();
         }
 
@@ -741,17 +818,336 @@
                 const msg = lesson.dialogue[state.currentDialogueIndex];
                 addChatMessage(msg.char, msg.text, 'lesson-dialogue-area');
             } else {
-                showSummaryScreen(lesson);
+                // End of dialogue
+                document.getElementById('tap-indicator').classList.add('hidden');
+                // Check if lesson has practical section
+                if (lesson.practical) {
+                    const pracBtnArea = document.getElementById('practical-action-area');
+                    pracBtnArea.classList.remove('hidden');
+                    document.getElementById('start-practical-btn').onclick = () => initPracticalLab(lesson);
+                } else {
+                    showSummaryScreen(lesson);
+                }
             }
         }
 
         document.getElementById('lesson-dialogue-area').addEventListener('click', () => {
             if (state.isTyping) finishTyping();
             else {
-                state.currentDialogueIndex++;
-                displayNextLessonMessage();
+                // Only advance if not at the end
+                const lesson = database.paths[state.currentPathId].lessons[state.currentLessonIndex];
+                if (state.currentDialogueIndex < lesson.dialogue.length) {
+                    state.currentDialogueIndex++;
+                    displayNextLessonMessage();
+                }
             }
         });
+
+        /* ---------------- PRACTICAL LAB LOGIC ---------------- */
+        function initPracticalLab(lesson) {
+            showScreen('practical-screen');
+            const lab = lesson.practical;
+            
+            // Set Header Info
+            document.getElementById('lab-id-display').textContent = `SESSION: #${lab.id.toUpperCase()}`;
+            document.getElementById('lab-title').textContent = lab.title;
+            document.getElementById('lab-desc').textContent = lab.description;
+            
+            const workspace = document.getElementById('lab-workspace');
+            const completeBtn = document.getElementById('complete-lab-btn');
+            const feedback = document.getElementById('lab-feedback');
+            const stepsList = document.getElementById('lab-steps');
+            
+            // Reset UI
+            workspace.innerHTML = '<div class="absolute inset-0 cyber-grid opacity-20"></div>';
+            completeBtn.disabled = true;
+            completeBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            completeBtn.onclick = () => showSummaryScreen(lesson);
+            feedback.classList.add('hidden');
+            stepsList.innerHTML = '';
+
+            // Render Lab based on type
+            if (lab.type === 'shield-defense') {
+                renderShieldLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'cia-balance') {
+                renderCIALab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'vuln-scanner') {
+                renderVulnLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'hacker-hats') {
+                renderHatsLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'malware-scan') {
+                renderMalwareLab(workspace, stepsList, completeBtn, feedback);
+            }
+        }
+
+        function labSuccess(completeBtn, feedback, msg) {
+            feedback.innerHTML = msg;
+            feedback.classList.remove('hidden', 'border-red-500', 'text-red-400');
+            feedback.classList.add('border-green-500', 'text-green-400', 'bg-green-500/10');
+            completeBtn.disabled = false;
+            completeBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            completeBtn.classList.add('animate-pulse');
+        }
+
+        // --- LAB 1: Shield Defense ---
+        function renderShieldLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>الشبكة تتعرض لهجوم (حزم حمراء).</li><li>اضغط على زر "تفعيل الجدار الناري".</li><li>شاهد كيف يتم صد الهجوم.</li>';
+            
+            // Create Elements
+            const shield = document.createElement('div');
+            shield.className = 'w-32 h-32 border-4 border-gray-600 rounded-full flex items-center justify-center transition-all duration-500 relative z-10 bg-black/50';
+            shield.innerHTML = '<svg class="w-16 h-16 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>';
+            
+            const activateBtn = document.createElement('button');
+            activateBtn.textContent = "تفعيل الجدار الناري";
+            activateBtn.className = 'btn-cyber px-6 py-2 mt-8 absolute bottom-10 z-20';
+            
+            container.appendChild(shield);
+            container.appendChild(activateBtn);
+
+            // Animation Logic (Particles)
+            let isActive = false;
+            const interval = setInterval(() => {
+                const packet = document.createElement('div');
+                packet.className = 'lab-packet';
+                packet.style.right = '0px';
+                packet.style.top = Math.random() * 80 + 10 + '%';
+                container.appendChild(packet);
+                
+                // Move packet
+                let pos = 0;
+                const move = setInterval(() => {
+                    pos += 5;
+                    packet.style.right = pos + 'px';
+                    // Collision or end
+                    if (pos > container.clientWidth / 2 - 40 && isActive) {
+                        packet.style.backgroundColor = '#00F0FF'; // Blocked
+                        packet.style.boxShadow = '0 0 10px #00F0FF';
+                        packet.style.transform = 'scale(0)';
+                        setTimeout(() => packet.remove(), 200);
+                        clearInterval(move);
+                    } else if (pos > container.clientWidth) {
+                        packet.remove();
+                        clearInterval(move);
+                    }
+                }, 20);
+            }, 500);
+
+            activateBtn.onclick = () => {
+                isActive = true;
+                shield.classList.add('shield-active');
+                shield.style.borderColor = '#00F0FF';
+                shield.querySelector('svg').classList.remove('text-gray-600');
+                shield.querySelector('svg').classList.add('text-cyber-blue');
+                activateBtn.textContent = "النظام محمي";
+                activateBtn.disabled = true;
+                labSuccess(btn, feedback, "تم تأمين الشبكة بنجاح! الجدار الناري يعمل.");
+            };
+            
+            // Cleanup on exit
+            btn.addEventListener('click', () => clearInterval(interval));
+        }
+
+        // --- LAB 2: CIA Triad ---
+        function renderCIALab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>السيرفرات الثلاثة في حالة حرجة (Offline).</li><li>قم بتشغيل كل سيرفر لتحقيق التوازن.</li>';
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'flex flex-col md:flex-row gap-6 z-10';
+            
+            const servers = ['Confidentiality', 'Integrity', 'Availability'];
+            let status = [false, false, false];
+
+            servers.forEach((name, idx) => {
+                const serverCard = document.createElement('div');
+                serverCard.className = 'glass-panel p-6 w-40 flex flex-col items-center border-red-500/50';
+                serverCard.innerHTML = `
+                    <div class="w-16 h-16 rounded border-2 border-red-500 bg-red-900/20 flex items-center justify-center mb-4 server-icon">
+                        <span class="text-2xl">⚠️</span>
+                    </div>
+                    <h4 class="text-white font-bold mb-2 text-sm">${name}</h4>
+                    <button class="btn-cyber px-4 py-1 text-xs w-full toggle-btn" data-idx="${idx}">OFFLINE</button>
+                `;
+                wrapper.appendChild(serverCard);
+            });
+
+            container.appendChild(wrapper);
+
+            const toggleBtns = wrapper.querySelectorAll('.toggle-btn');
+            toggleBtns.forEach(b => {
+                b.onclick = (e) => {
+                    const idx = e.target.dataset.idx;
+                    const card = e.target.parentElement;
+                    const icon = card.querySelector('.server-icon');
+                    
+                    status[idx] = true;
+                    e.target.textContent = "ONLINE";
+                    e.target.classList.add('text-green-400', 'border-green-400');
+                    e.target.disabled = true;
+                    card.classList.remove('border-red-500/50');
+                    card.classList.add('border-green-500/50');
+                    icon.classList.remove('border-red-500', 'bg-red-900/20');
+                    icon.classList.add('border-green-500', 'bg-green-900/20', 'shadow-[0_0_15px_rgba(74,222,128,0.3)]');
+                    icon.innerHTML = '<span class="text-2xl">🛡️</span>';
+
+                    if (status.every(Boolean)) {
+                        labSuccess(btn, feedback, "تمت موازنة النظام! الثالوث الأمني نشط.");
+                    }
+                };
+            });
+        }
+
+        // --- LAB 3: Vuln/Risk ---
+        function renderVulnLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>الماسح الأمني (Scanner) وجد منفذاً مفتوحاً.</li><li>هناك تهديد (فيروس) يقترب.</li><li>اضغط "Patch Vulnerability" لإغلاق الثغرة.</li>';
+            
+            const scene = document.createElement('div');
+            scene.className = 'relative w-full max-w-md h-64 bg-black/30 border border-gray-700 rounded flex items-center justify-between px-8 overflow-hidden';
+            
+            // Elements
+            const threat = document.createElement('div');
+            threat.className = 'w-12 h-12 text-red-500 animate-bounce absolute left-4';
+            threat.innerHTML = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>';
+            
+            const wall = document.createElement('div');
+            wall.className = 'h-full w-4 bg-gray-700 absolute left-1/2 transform -translate-x-1/2 transition-all duration-500';
+            // Hole in wall
+            const hole = document.createElement('div');
+            hole.className = 'w-4 h-16 bg-black absolute top-1/2 left-0 transform -translate-y-1/2 border-y border-red-500 animate-pulse';
+            wall.appendChild(hole);
+
+            const asset = document.createElement('div');
+            asset.className = 'w-16 h-16 text-yellow-500 absolute right-8';
+            asset.innerHTML = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>';
+
+            const patchBtn = document.createElement('button');
+            patchBtn.textContent = "PATCH VULNERABILITY";
+            patchBtn.className = 'btn-cyber absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xs px-4 py-2';
+
+            scene.appendChild(threat);
+            scene.appendChild(wall);
+            scene.appendChild(asset);
+            scene.appendChild(patchBtn);
+            container.appendChild(scene);
+
+            patchBtn.onclick = () => {
+                hole.style.backgroundColor = '#10B981';
+                hole.style.borderColor = '#10B981';
+                hole.classList.remove('animate-pulse');
+                threat.classList.remove('animate-bounce');
+                threat.style.opacity = '0.2';
+                patchBtn.textContent = "PATCH APPLIED";
+                patchBtn.disabled = true;
+                labSuccess(btn, feedback, "تم إغلاق الثغرة! الخطر انخفض إلى الصفر.");
+            };
+        }
+
+        // --- LAB 4: Hacker Hats ---
+        function renderHatsLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>حرك الفأرة فوق البطاقات للكشف عن النوايا.</li><li>حدد "القبعة السوداء" للقبض عليه.</li>';
+            
+            const grid = document.createElement('div');
+            grid.className = 'grid grid-cols-3 gap-4 z-10';
+            
+            const hackers = [
+                { type: 'White Hat', desc: 'يستأذنه المدير لفحص النظام.', color: 'text-white', safe: true },
+                { type: 'Black Hat', desc: 'يسرق البيانات ويطلب فدية.', color: 'text-red-500', safe: false },
+                { type: 'Grey Hat', desc: 'اخترق بدون إذن ليثبت مهارته.', color: 'text-gray-400', safe: true } // Treat safe for this logic just to find bad guy
+            ];
+
+            // Shuffle visual order logic omitted for simplicity, render direct
+            hackers.forEach((h) => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-4 w-32 h-48 cursor-pointer group hover:bg-white/10 transition-all flex flex-col items-center justify-center text-center';
+                card.innerHTML = `
+                    <div class="text-4xl mb-2">🕵️</div>
+                    <div class="text-xs text-gray-500 group-hover:hidden">???</div>
+                    <div class="hidden group-hover:block text-xs text-white animate-fade-in">${h.desc}</div>
+                `;
+                
+                card.onclick = () => {
+                    if (!h.safe) {
+                        card.classList.add('border-red-500', 'bg-red-900/20');
+                        card.innerHTML = `<div class="text-4xl">🚨</div><div class="text-red-500 font-bold mt-2">تم القبض عليه!</div>`;
+                        labSuccess(btn, feedback, "أحسنت! لقد حددت المهاجم الخبيث (القبعة السوداء).");
+                        // Disable others
+                        Array.from(grid.children).forEach(c => c.style.pointerEvents = 'none');
+                    } else {
+                        card.classList.add('border-green-500');
+                        card.innerHTML = `<div class="text-green-500 font-bold mt-2">ليس هذا!</div><div class="text-[10px]">${h.type}</div>`;
+                        feedback.textContent = "هذا ليس المجرم. ابحث عن صاحب النوايا الخبيثة.";
+                        feedback.classList.remove('hidden');
+                        feedback.classList.add('text-yellow-400');
+                    }
+                };
+                grid.appendChild(card);
+            });
+            
+            container.appendChild(grid);
+        }
+
+        // --- LAB 5: Malware Scan ---
+        function renderMalwareLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>اضغط "Start Scan" لفحص الملف.</li><li>انتظر التحليل.</li><li>اذا كان "Malicious" (ضار)، اضغط "Delete".</li>';
+            
+            const scanner = document.createElement('div');
+            scanner.className = 'w-64 glass-panel p-6 flex flex-col items-center relative';
+            
+            const fileIcon = document.createElement('div');
+            fileIcon.className = 'w-16 h-16 bg-gray-700 rounded mb-4 flex items-center justify-center text-2xl';
+            fileIcon.textContent = '📄';
+            
+            const progressBar = document.createElement('div');
+            progressBar.className = 'w-full h-2 bg-gray-700 rounded overflow-hidden mb-4';
+            const progressFill = document.createElement('div');
+            progressFill.className = 'h-full bg-cyber-blue w-0 transition-all duration-[2000ms] ease-linear';
+            progressBar.appendChild(progressFill);
+
+            const statusText = document.createElement('div');
+            statusText.className = 'text-xs font-mono text-cyber-blue mb-4 h-4';
+            statusText.textContent = 'READY TO SCAN';
+
+            const actionBtn = document.createElement('button');
+            actionBtn.className = 'btn-cyber px-4 py-1 text-xs';
+            actionBtn.textContent = 'START SCAN';
+
+            scanner.appendChild(fileIcon);
+            scanner.appendChild(progressBar);
+            scanner.appendChild(statusText);
+            scanner.appendChild(actionBtn);
+            container.appendChild(scanner);
+
+            actionBtn.onclick = () => {
+                if (actionBtn.textContent === 'START SCAN') {
+                    statusText.textContent = 'SCANNING...';
+                    progressFill.style.width = '100%';
+                    actionBtn.disabled = true;
+                    
+                    setTimeout(() => {
+                        statusText.textContent = '⚠️ THREAT DETECTED: TROJAN';
+                        statusText.classList.replace('text-cyber-blue', 'text-red-500');
+                        statusText.classList.add('animate-pulse');
+                        fileIcon.innerHTML = '👾';
+                        fileIcon.classList.add('text-red-500', 'border', 'border-red-500');
+                        
+                        actionBtn.textContent = 'DELETE FILE';
+                        actionBtn.classList.replace('btn-cyber', 'bg-red-600');
+                        actionBtn.classList.add('border-red-500', 'text-red-100', 'hover:bg-red-700');
+                        actionBtn.disabled = false;
+                    }, 2000);
+                } else {
+                    fileIcon.innerHTML = '🗑️';
+                    fileIcon.classList.remove('text-red-500', 'border-red-500');
+                    statusText.textContent = 'THREAT REMOVED';
+                    statusText.classList.replace('text-red-500', 'text-green-500');
+                    statusText.classList.remove('animate-pulse');
+                    actionBtn.disabled = true;
+                    labSuccess(btn, feedback, "تم عزل الملف وحذفه بنجاح! الجهاز آمن الآن.");
+                }
+            };
+        }
+
+        /* ---------------- END PRACTICAL LOGIC ---------------- */
 
         function showSummaryScreen(lesson) {
             showScreen('summary-screen');
