@@ -1,417 +1,412 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فرعون Ai - مغامرة الأمن السيبراني</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>فرعون Ai - بروتوكول الدفاع السيبراني</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
-    <script type="module" src="https://unpkg.com/heroicons@2.1.1/24/outline/dist/index.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cyber-gold': '#FFD700',
+                        'cyber-gold-dim': '#C5A000',
+                        'cyber-dark': '#050b14',
+                        'cyber-blue': '#00F0FF',
+                        'glass-bg': 'rgba(16, 24, 39, 0.7)',
+                        'glass-border': 'rgba(255, 215, 0, 0.15)',
+                    },
+                    fontFamily: {
+                        sans: ['IBM Plex Sans Arabic', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2s infinite',
+                        'grid-move': 'gridMove 20s linear infinite',
+                        'scanline': 'scanline 8s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: 1, filter: 'drop-shadow(0 0 5px rgba(255,215,0,0.5))' },
+                            '50%': { opacity: 0.7, filter: 'drop-shadow(0 0 15px rgba(255,215,0,0.8))' },
+                        },
+                        gridMove: {
+                            '0%': { backgroundPosition: '0 0' },
+                            '100%': { backgroundPosition: '0 100px' },
+                        },
+                        scanline: {
+                            '0%': { top: '-10%' },
+                            '100%': { top: '110%' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
+        /* Global Styles */
         body {
+            background-color: #020408;
+            color: #e2e8f0;
             font-family: 'IBM Plex Sans Arabic', sans-serif;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            /* إضافة خلفية داكنة ثانوية للجسم */
-            background-color: #0F172A; /* Darker than the app container */
+            overflow: hidden;
         }
 
-        #app-container {
-            /* لون الخلفية الرئيسي: أزرق داكن (Dark Slate Blue) */
-            background-color: #111827;
-            /* إضافة نسيج ورق البردي مع تظليل داكن */
-            background-image: linear-gradient(rgba(17, 24, 39, 0.96), rgba(0, 0, 0, 0.98)), url('https://www.transparenttextures.com/patterns/papyrus.png');
-            color: #F3EAD3; /* لون كريمي فاتح */
+        /* Background Effects */
+        .cyber-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            pointer-events: none;
+        }
+        
+        .vignette {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, #020408 90%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Glassmorphism Panels */
+        .glass-panel {
+            background: rgba(13, 18, 30, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 16px;
             position: relative;
+            z-index: 10;
         }
 
-        /* تحسين بصري للخلفية: تأثير شبكة رقمية خفيفة */
-        #app-container::before {
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050b14; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FFD700; }
+
+        /* Buttons & Interactive Elements */
+        .btn-cyber {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #FFD700;
+            transition: all 0.3s ease;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .btn-cyber::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            /* خطوط شبكة داكنة جداً */
-            background-image: linear-gradient(0deg, transparent 24%, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0.1) 26%, transparent 27%, transparent 74%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0.1) 26%, transparent 27%, transparent 74%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1) 76%, transparent 77%, transparent);
-            background-size: 50px 50px;
-            opacity: 0.15;
-            z-index: 1;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: 0.5s;
         }
 
+        .btn-cyber:hover::before { left: 100%; }
+        .btn-cyber:hover:not(:disabled) {
+            border-color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+        }
+        
+        .btn-cyber:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(100%);
+        }
+
+        /* Screen Logic */
         .screen {
             display: none;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            z-index: 2; /* فوق تأثير الشبكة */
-            position: relative;
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10;
+            transform: scale(0.98);
         }
-
         .screen.active {
             display: flex;
             opacity: 1;
+            transform: scale(1);
         }
 
-        /* تحسين زر المغامرة (Rich Gold to Amber) */
-        .btn-adventure {
-            background-image: linear-gradient(to bottom, #FBBF24, #D97706);
-            color: #1F2937;
-            font-weight: 700;
-            border-radius: 12px;
-            padding: 12px 24px;
-            border: 2px solid #B45309;
-            box-shadow: 0 6px 15px rgba(251, 191, 36, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
-            transition: all 0.2s ease-out;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-            cursor: pointer;
-        }
-        .btn-adventure:hover:not(:disabled) {
-            background-image: linear-gradient(to bottom, #FCD34D, #FBBF24);
-            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4);
-            transform: translateY(-3px) scale(1.02);
-        }
-        .btn-adventure:active:not(:disabled) {
-            transform: translateY(1px) scale(0.99);
-            box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn-adventure:disabled {
-            background-image: linear-gradient(to bottom, #6B7280, #4B5563);
-            border-color: #374151;
-            color: #D1D5DB;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-            transform: none;
-            opacity: 0.6;
-            cursor: not-allowed;
-            text-shadow: none;
-        }
-
-        .btn-back {
-            background-color: #374151; /* Darker Gray-Blue */
-            color: #D1D5DB;
-            border: 1px solid #4B5563;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-        .btn-back:hover:not(:disabled) {
-            background-color: #4B5563;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-            transform: translateY(-1px);
-        }
-        .btn-back:active:not(:disabled) {
-            transform: translateY(0);
-            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-        }
-
-        .btn-lesson {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 2px solid;
-            /* استخدام Border Image لدرجة لون ذهبية متدرجة */
-            border-image: linear-gradient(to right, #B45309, #FBBF24, #B45309) 1;
-            color: #F3EAD3;
-            border-radius: 12px;
-            padding: 16px;
-            transition: all 0.3s ease;
-            text-align: right;
-            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
-            position: relative; /* لإظهار القفل فوق الكل */
-        }
-        .btn-lesson:hover:not(.locked) {
-            background-color: rgba(217, 119, 6, 0.15);
-            border-image: linear-gradient(to right, #FBBF24, #FCD34D, #FBBF24) 1;
-            transform: scale(1.02);
-            box-shadow: 0 6px 18px rgba(217, 119, 6, 0.4);
-        }
-        .btn-lesson.locked {
-            border-image: none;
-            border-color: #4B5563;
-            color: #6B7280;
-            background-color: rgba(0, 0, 0, 0.2);
-            transform: none;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-        .btn-lesson.locked .lesson-lock {
-            display: block;
-        }
-        .lesson-lock {
-            display: none;
-            position: absolute;
-            top: 50%;
-            right: 50%;
-            transform: translate(50%, -50%);
-            color: #6B7280;
-        }
-        
-        #splash-screen h1 {
-            font-size: 3.75rem;
-        }
-        @media (min-width: 768px) {
-            #splash-screen h1 {
-                font-size: 4.5rem;
-            }
-        }
-        
-        /* تحسينات الخطاب التعريفي */
-        #intro-chat-screen {
-            max-height: 100vh;
-            overflow-y: auto;
-            padding-bottom: 100px;
-        }
-        #intro-chat-messages {
-            flex-grow: 0;
-            min-height: calc(100vh - 120px);
-        }
-        #intro-chat-actions {
-            flex-shrink: 0;
-        }
-
-        /* أنماط الفقاعات والأسماء */
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes message-pulse {
-            0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.3); }
-            70% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
-        }
-        
-        .chat-bubble-wrapper {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 16px;
-            position: relative;
-        }
-
+        /* Chat Bubbles */
         .chat-bubble {
-            max-width: 85%;
-            padding: 12px 16px;
-            border-radius: 16px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 0.5s ease forwards;
             position: relative;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-        }
-
-        .chat-bubble.pulsing {
-            animation: message-pulse 0.6s ease-out 1;
-        }
-
-        .chat-speaker-name {
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 3px;
-            padding: 0 12px;
-            opacity: 0.9;
-        }
-
-        /* تعديل ألوان أسماء الشخصيات */
-        .chat-pharaoh .chat-speaker-name { color: #FBBF24; }
-        .chat-ahmed .chat-speaker-name { color: #60A5FA; }
-        .chat-rital .chat-speaker-name { color: #4ADE80; }
-        .chat-recruit .chat-speaker-name { color: #F3EAD3; }
-
-        .chat-pharaoh, .chat-ahmed, .chat-rital {
-            align-items: flex-start;
-        }
-        .chat-recruit {
-            align-items: flex-end;
-        }
-
-        /* تعديل ألوان فقاعات الدردشة */
-        .chat-pharaoh .chat-bubble {
-            background-color: #B45309; /* Dark Amber */
-            color: #FFFFFF;
-            border-top-left-radius: 4px;
-        }
-        .chat-ahmed .chat-bubble {
-            background-color: #1D4ED8; /* Dark Blue */
-            color: #FFFFFF;
-            border-top-left-radius: 4px;
-        }
-        .chat-rital .chat-bubble {
-            background-color: #047857; /* Dark Green */
-            color: #FFFFFF;
-            border-top-left-radius: 4px;
-        }
-        .chat-recruit .chat-bubble {
-            background-color: #4B5563; /* Gray-Blue */
-            color: #FFFFFF;
-            border-top-right-radius: 4px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.05);
         }
         
-        .typing-effect {
-            display: inline-block;
-            overflow: hidden;
-            white-space: pre-wrap;
-        }
+        /* Custom Text Glow */
+        .text-glow { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .text-glow-blue { text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
+        .text-glow-red { text-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
 
-        /* شريط المتحدث الحالي */
-        #current-speaker-bar {
-            background-color: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(5px);
-            border-bottom: 2px solid;
-            transition: all 0.3s ease-out;
-            min-height: 80px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            z-index: 10;
+        /* Typing cursor */
+        .typing-effect::after {
+            content: '|';
+            animation: blink 1s infinite;
+            color: #FFD700;
         }
-        #current-speaker-bar p {
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-        }
-        
-        /* شاشة التحميل والبداية */
-        #loading-screen p, #splash-screen h1, #splash-screen p {
-            text-shadow: 0 0 10px rgba(251, 191, 36, 0.7);
-        }
-        #loading-screen .animate-pulse {
-            animation: pulse-gold 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
-        }
-        @keyframes pulse-gold {
-            0%, 100% { filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.5)); }
-            50% { filter: drop-shadow(0 0 20px rgba(251, 191, 36, 1)); }
-        }
-        
-        /* ألوان الاختبار */
-        .quiz-correct {
-            background-image: none !important;
-            background-color: #10B981 !important;
-            border-color: #059669 !important;
-            color: white !important;
-            opacity: 1 !important;
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.6) !important;
-            transform: none !important;
-        }
+        @keyframes blink { 50% { opacity: 0; } }
 
-        .quiz-incorrect {
-            background-image: none !important;
-            background-color: #EF4444 !important;
-            border-color: #DC2626 !important;
-            color: white !important;
-            opacity: 1 !important;
-            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.6) !important;
-            transform: none !important;
-        }
+        /* Quiz Specifics */
+        .quiz-option { transition: all 0.2s; border-width: 1px; }
+        .quiz-correct { background: rgba(16, 185, 129, 0.2) !important; border-color: #10B981 !important; color: #10B981 !important; box-shadow: 0 0 15px rgba(16,185,129,0.4); }
+        .quiz-incorrect { background: rgba(239, 68, 68, 0.2) !important; border-color: #EF4444 !important; color: #EF4444 !important; box-shadow: 0 0 15px rgba(239,68,68,0.4); }
+
     </style>
 </head>
-<body class="bg-black overflow-hidden">
+<body class="antialiased selection:bg-cyber-gold selection:text-black">
 
-    <div id="app-container" class="relative w-screen h-screen overflow-hidden">
+    <!-- Background Elements -->
+    <div class="cyber-grid animate-grid-move"></div>
+    <div class="vignette"></div>
+    <div class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyber-gold to-transparent opacity-30 z-50"></div>
 
-        <div id="loading-screen" class="screen active flex-col items-center justify-center w-full h-full">
-            <svg class="w-24 h-24 text-yellow-400 animate-pulse" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c.4756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242a3 3 0 0 1-4.242-4.243" />
-            </svg>
-            <p class="text-xl font-bold mt-4 text-yellow-400">جاري تفعيل بروتوكول الاتصال... الخطر وشيك.</p>
+    <!-- Main App Container -->
+    <div id="app-container" class="relative w-full h-screen overflow-hidden flex justify-center items-center">
+
+        <!-- 1. Loading Screen -->
+        <div id="loading-screen" class="screen active flex-col items-center justify-center w-full h-full z-50 bg-[#020408]">
+            <div class="relative w-32 h-32 mb-8">
+                <div class="absolute inset-0 border-4 border-cyber-gold rounded-full animate-ping opacity-20"></div>
+                <div class="absolute inset-0 border-4 border-t-transparent border-cyber-gold rounded-full animate-spin"></div>
+                <div class="absolute inset-4 bg-cyber-gold rounded-full opacity-10 animate-pulse"></div>
+                <svg class="absolute inset-0 w-full h-full text-cyber-gold p-6 drop-shadow-[0_0_10px_rgba(255,215,0,0.8)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c.4756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242a3 3 0 0 1-4.242-4.243" />
+                </svg>
+            </div>
+            <p class="text-cyber-blue font-mono text-sm tracking-widest animate-pulse">INITIALIZING SYSTEM...</p>
+            <p class="text-cyber-gold font-bold mt-2 text-lg text-glow">جاري تفعيل بروتوكول فرعون</p>
         </div>
 
-        <div id="splash-screen" class="screen flex-col items-center justify-center w-full h-full text-center p-4">
-            <svg class="w-32 h-32 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.37-3.371A8.25 8.25 0 0 0 15.362 5.214ZM14.25 10.5a8.983 8.983 0 0 0-3.37-3.371M14.25 10.5a8.983 8.983 0 0 1 3.37-3.371m0 0a8.25 8.25 0 0 0-3.37-3.372m3.37 3.372a8.25 8.25 0 0 1 3.372 3.37M9 12.601a8.983 8.983 0 0 1-3.37 3.371M9 12.601a8.983 8.983 0 0 0-3.37 3.372m0 0a8.25 8.25 0 0 0 3.37 3.37m-3.37-3.37a8.25 8.25 0 0 1-3.372-3.37m3.372 3.37a8.25 8.25 0 0 0 3.37-3.37M9 12.601A8.25 8.25 0 0 0 6.038 7.047" />
-            </svg>
-            
-            <h1 class="font-black text-yellow-400 mt-4" style="text-shadow: 0 0 15px rgba(251, 191, 36, 0.7);">فرعون Ai</h1>
-            <p class="text-2xl text-red-400 mt-2 font-bold tracking-widest">مغامرة الأمن السيبراني</p>
-            <p class="text-lg text-gray-300 mt-4">نظام الدفاع الأخير عن المملكة الرقمية.</p>
-        </div>
-
-        <!-- تم التعديل: إضافة overflow-y-auto للشاشة -->
-        <div id="intro-chat-screen" class="screen flex-col w-full overflow-hidden">
-            <div id="intro-chat-messages" class="flex-grow flex flex-col space-y-4 p-4 pt-10">
-                <!-- الرسائل ستضاف هنا -->
-            </div>
-            <div id="intro-chat-actions" class="p-4 text-center hidden flex-shrink-0">
-                <button id="start-learning-btn" class="btn-adventure text-lg">
-                    أنا مستعد! لِتبدأ المهمة
-                </button>
-            </div>
-        </div>
-
-        <div id="path-selection-screen" class="screen flex-col items-center justify-center w-full h-full p-8">
-            <h2 class="font-bold mb-8 text-center text-yellow-400 text-3xl md:text-4xl">اختر مسار محارب السايبر</h2>
-            <div id="path-grid" class="w-full max-w-md space-y-4">
-                <button data-path="beginner" class="path-btn btn-adventure w-full text-2xl">
-                    <span class="block">1. مسار الحارس المبتدئ</span>
-                    <span class="block text-sm font-normal">(الأساس المتين)</span>
-                </button>
-                <button data-path="intermediate" class="path-btn btn-adventure w-full text-2xl">
-                    <span class="block">2. مسار الخبراء المتوسطين</span>
-                    <span class="block text-sm font-normal">(تحليل وتكتيكات)</span>
-                </button>
-                <button data-path="upperIntermediate" class="path-btn btn-adventure w-full text-2xl">
-                    <span class="block">3. مسار فوق المتوسط</span>
-                    <span class="block text-sm font-normal">(دفاع وهجوم متقدم)</span>
-                </button>
-                <button data-path="advanced" class="path-btn btn-adventure w-full text-2xl opacity-50 cursor-not-allowed" disabled>
-                    <span class="block">4. مسار المحارب المتقدم</span>
-                    <span class="block text-sm font-normal">(قريباً...)</span>
-                </button>
-            </div>
-        </div>
-
-        <div id="lesson-list-screen" class="screen flex-col w-full h-full overflow-hidden">
-            <div class="flex-shrink-0 p-4 border-b border-yellow-800 flex justify-between items-center">
-                <h2 id="path-title" class="font-bold text-yellow-400 text-center flex-grow text-xl md:text-2xl">مسار المبتدئين: الأساس</h2>
-                <button id="back-to-paths-btn" class="btn-adventure btn-back text-sm px-3 py-2">
-                    العودة للمسارات
-                </button>
-            </div>
-            <div id="lesson-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-y-auto flex-grow">
-            </div>
-        </div>
-        
-        <div id="lesson-view-screen" class="screen flex-col w-full h-full overflow-hidden">
-            <div id="current-speaker-bar" class="flex items-center p-3 px-4 shadow-xl border-yellow-800 flex-shrink-0">
-            </div>
-
-            <div id="lesson-dialogue-area" class="flex-grow flex flex-col space-y-2 p-4 overflow-y-auto">
-            </div>
-            <div class="p-2 text-center text-gray-400 text-sm border-t border-yellow-800 flex-shrink-0">
-                <p>اضغط في أي مكان للمتابعة</p>
-            </div>
-        </div>
-
-        <div id="summary-screen" class="screen flex-col w-full h-full p-6 justify-center overflow-y-auto">
-            <h2 class="text-3xl font-bold text-yellow-400 text-center mb-6">ملخص المهمة</h2>
-            <div id="summary-content" class="text-lg bg-black/20 p-6 rounded-lg border border-yellow-700 leading-relaxed shadow-xl">
-            </div>
-            <button id="start-quiz-btn" class="btn-adventure text-lg mt-8 w-full max-w-xs mx-auto">
-                بدء الاختبار القصير
-            </button>
-        </div>
-
-        <div id="quiz-screen" class="screen flex-col w-full h-full p-6 justify-center overflow-y-auto">
-            <h2 class="font-bold text-yellow-400 text-center mb-6 text-3xl">اختبار المهمة</h2>
-            <div class="w-full max-w-lg mx-auto">
-                <p id="quiz-question" class="text-center mb-8 text-xl"></p>
-                <div id="quiz-options" class="flex flex-col space-y-4">
+        <!-- 2. Splash Screen -->
+        <div id="splash-screen" class="screen flex-col items-center justify-center w-full h-full text-center p-6 z-40">
+            <div class="glass-panel p-10 md:p-16 flex flex-col items-center max-w-2xl w-full animate-float border-t border-cyber-gold/30">
+                <div class="w-40 h-40 text-cyber-gold mb-6 relative">
+                    <div class="absolute inset-0 bg-cyber-gold blur-2xl opacity-20 rounded-full"></div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="relative z-10 w-full h-full drop-shadow-lg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.37-3.371A8.25 8.25 0 0 0 15.362 5.214ZM14.25 10.5a8.983 8.983 0 0 0-3.37-3.371M14.25 10.5a8.983 8.983 0 0 1 3.37-3.371m0 0a8.25 8.25 0 0 0-3.37-3.372m3.37 3.372a8.25 8.25 0 0 1 3.372 3.37M9 12.601a8.983 8.983 0 0 1-3.37 3.371M9 12.601a8.983 8.983 0 0 0-3.37 3.372m0 0a8.25 8.25 0 0 0 3.37 3.37m-3.37-3.37a8.25 8.25 0 0 1-3.372-3.37m3.372 3.37a8.25 8.25 0 0 0 3.37-3.37M9 12.601A8.25 8.25 0 0 0 6.038 7.047" />
+                    </svg>
                 </div>
-                <p id="quiz-feedback" class="text-center text-lg mt-6 font-bold"></p>
-                <button id="next-question-btn" class="btn-adventure text-lg mt-8 w-full max-w-xs mx-auto hidden">
-                    السؤال التالي
+                
+                <h1 class="font-black text-5xl md:text-7xl text-white mb-2 tracking-tighter">
+                    <span class="text-cyber-gold text-glow">Pharaoh</span> Ai
+                </h1>
+                <div class="h-0.5 w-24 bg-gradient-to-r from-transparent via-cyber-blue to-transparent mb-4"></div>
+                <p class="text-xl md:text-2xl text-red-500 font-bold tracking-wide text-glow-red uppercase">Cybersecurity Adventure</p>
+                <p class="text-gray-400 mt-6 text-sm md:text-base max-w-md leading-relaxed">
+                    نظام الدفاع الأخير عن المملكة الرقمية. هل تملك الشجاعة لحماية البيانات المقدسة؟
+                </p>
+            </div>
+        </div>
+
+        <!-- 3. Intro Chat Screen -->
+        <div id="intro-chat-screen" class="screen flex-col w-full h-full max-w-4xl mx-auto glass-panel border-x border-y-0 rounded-none md:rounded-xl md:my-4 md:h-[95vh] overflow-hidden">
+            <!-- Header -->
+            <div class="bg-black/40 p-4 border-b border-white/10 backdrop-blur flex items-center justify-between sticky top-0 z-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                    <h2 class="text-cyber-gold font-bold text-lg tracking-wide">قناة اتصال مشفرة</h2>
+                </div>
+                <span class="text-xs font-mono text-cyber-blue opacity-70">SECURE_CHANNEL_V.1.0</span>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="intro-chat-messages" class="flex-grow flex flex-col space-y-6 p-4 md:p-6 overflow-y-auto scroll-smooth pb-32">
+                <!-- Dynamic messages injected here -->
+            </div>
+
+            <!-- Actions Area -->
+            <div id="intro-chat-actions" class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/90 to-transparent z-30 hidden text-center">
+                <button id="start-learning-btn" class="btn-cyber w-full md:w-auto px-12 py-4 text-xl font-bold rounded-lg">
+                    <span class="relative z-10 flex items-center justify-center gap-2">
+                        أنا مستعد للمهمة
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>
+                    </span>
                 </button>
+            </div>
+        </div>
+
+        <!-- 4. Path Selection Screen -->
+        <div id="path-selection-screen" class="screen flex-col items-center justify-center w-full h-full p-4 md:p-8 overflow-y-auto">
+            <div class="max-w-5xl w-full">
+                <h2 class="text-4xl md:text-5xl font-black text-center text-white mb-2 text-glow">مسار المحارب</h2>
+                <p class="text-center text-gray-400 mb-10">اختر مستوى التصريح الأمني للبدء</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+                    <!-- Beginner -->
+                    <button data-path="beginner" class="path-btn group glass-panel p-6 hover:bg-white/5 transition-all duration-300 border-l-4 border-l-cyber-gold text-right relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-l from-cyber-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <span class="text-xs font-mono text-cyber-gold mb-2 block">LEVEL 01</span>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-cyber-gold transition-colors mb-2">الحارس المبتدئ</h3>
+                            <p class="text-sm text-gray-400 leading-relaxed">تأسيس القواعد الأساسية. فهم العدو وبناء الجدران الأولى.</p>
+                            <div class="mt-4 flex items-center text-cyber-gold text-sm font-bold">
+                                ابدأ البروتوكول
+                                <svg class="w-4 h-4 mr-2 transform group-hover:-translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            </div>
+                        </div>
+                    </button>
+
+                    <!-- Intermediate -->
+                    <button data-path="intermediate" class="path-btn group glass-panel p-6 hover:bg-white/5 transition-all duration-300 border-l-4 border-l-cyber-blue text-right relative overflow-hidden disabled:opacity-40 disabled:grayscale">
+                        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-l from-cyber-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <span class="text-xs font-mono text-cyber-blue mb-2 block">LEVEL 02</span>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-cyber-blue transition-colors mb-2">الخبير التكتيكي</h3>
+                            <p class="text-sm text-gray-400 leading-relaxed">تحليل الشبكات، التشفير، والتعمق في البنية التحتية.</p>
+                             <div class="mt-4 flex items-center text-cyber-blue text-sm font-bold">
+                                <span class="lock-icon">🔒 مغلق حالياً</span>
+                             </div>
+                        </div>
+                    </button>
+
+                    <!-- Advanced -->
+                    <button data-path="upperIntermediate" class="path-btn group glass-panel p-6 hover:bg-white/5 transition-all duration-300 border-l-4 border-l-red-500 text-right relative overflow-hidden disabled:opacity-40 disabled:grayscale">
+                        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-l from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <span class="text-xs font-mono text-red-500 mb-2 block">LEVEL 03</span>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-red-500 transition-colors mb-2">نخبة الظل</h3>
+                            <p class="text-sm text-gray-400 leading-relaxed">الهجوم المضاد، الهندسة الاجتماعية، وإدارة الكوارث.</p>
+                             <div class="mt-4 flex items-center text-red-500 text-sm font-bold">
+                                <span class="lock-icon">🔒 مغلق حالياً</span>
+                             </div>
+                        </div>
+                    </button>
+                </div>
+                
+                <!-- Coming Soon (Visual only) -->
+                <div class="mt-6 text-center">
+                     <button class="glass-panel px-8 py-3 text-gray-500 text-sm cursor-not-allowed border-dashed border-gray-700" disabled>
+                        + مسارات مستقبلية (قيد التطوير)
+                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Lesson List Screen -->
+        <div id="lesson-list-screen" class="screen flex-col w-full h-full max-w-6xl mx-auto md:p-6">
+            <div class="flex-col w-full h-full glass-panel overflow-hidden flex rounded-none md:rounded-2xl">
+                <!-- Header -->
+                <div class="flex-shrink-0 p-5 border-b border-white/10 bg-black/40 flex justify-between items-center backdrop-blur-xl z-20">
+                    <div>
+                        <h2 id="path-title" class="font-bold text-2xl text-cyber-gold text-glow"></h2>
+                        <p class="text-xs text-gray-400 font-mono mt-1">اختر المهمة للمتابعة</p>
+                    </div>
+                    <button id="back-to-paths-btn" class="btn-cyber px-4 py-2 text-sm rounded flex items-center gap-2">
+                        <span>العودة</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </div>
+                
+                <!-- Grid -->
+                <div id="lesson-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 md:p-6 overflow-y-auto flex-grow custom-scrollbar">
+                    <!-- Lessons injected here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Lesson View Screen (Dialogue) -->
+        <div id="lesson-view-screen" class="screen flex-col w-full h-full max-w-4xl mx-auto md:p-4">
+            <div class="flex-col w-full h-full glass-panel overflow-hidden flex rounded-none md:rounded-2xl relative">
+                
+                <!-- Speaker Bar -->
+                <div id="current-speaker-bar" class="flex items-center p-4 border-b border-white/10 bg-gradient-to-r from-black/80 to-transparent backdrop-blur-md z-20 transition-all duration-300 min-h-[90px]">
+                    <!-- Dynamic Speaker Info -->
+                </div>
+
+                <!-- Dialogue Area -->
+                <div id="lesson-dialogue-area" class="flex-grow flex flex-col space-y-6 p-4 md:p-8 overflow-y-auto custom-scrollbar relative">
+                   <!-- Bubbles go here -->
+                </div>
+
+                <!-- Tap Indicator -->
+                <div class="p-3 text-center bg-black/60 border-t border-white/5 backdrop-blur text-gray-400 text-xs md:text-sm cursor-pointer hover:text-white transition-colors flex items-center justify-center gap-2 animate-pulse">
+                    <span class="w-2 h-2 bg-cyber-gold rounded-full"></span>
+                    اضغط في أي مكان للمتابعة
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Summary Screen -->
+        <div id="summary-screen" class="screen flex-col items-center justify-center w-full h-full p-6">
+            <div class="glass-panel max-w-2xl w-full p-8 md:p-12 border-cyber-gold/30 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyber-gold to-transparent"></div>
+                
+                <div class="mb-8 text-center">
+                    <div class="w-20 h-20 bg-cyber-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-cyber-gold/30">
+                        <svg class="w-10 h-10 text-cyber-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">تم إنجاز المهمة</h2>
+                    <p class="text-cyber-gold font-mono text-sm">MISSION DEBRIEFING</p>
+                </div>
+
+                <div id="summary-content" class="bg-black/40 p-6 rounded-lg border-r-2 border-cyber-gold text-gray-300 leading-loose text-lg mb-8 shadow-inner">
+                    <!-- Content -->
+                </div>
+
+                <button id="start-quiz-btn" class="btn-cyber w-full py-4 text-lg font-bold rounded flex items-center justify-center gap-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                    بدء اختبار التحقق
+                </button>
+            </div>
+        </div>
+
+        <!-- 8. Quiz Screen -->
+        <div id="quiz-screen" class="screen flex-col items-center justify-center w-full h-full p-4">
+            <div class="glass-panel max-w-3xl w-full p-6 md:p-10 relative">
+                 <h2 class="font-bold text-cyber-gold text-center mb-8 text-3xl text-glow">اختبار المصادقة</h2>
+                 
+                 <div class="w-full">
+                    <p id="quiz-question" class="text-center mb-10 text-xl md:text-2xl font-medium text-white leading-relaxed"></p>
+                    
+                    <div id="quiz-options" class="grid grid-cols-1 gap-4">
+                        <!-- Options -->
+                    </div>
+                    
+                    <div id="quiz-feedback" class="text-center text-lg mt-6 min-h-[2rem]"></div>
+                    
+                    <button id="next-question-btn" class="btn-cyber mt-8 w-full max-w-xs mx-auto hidden py-3 px-6 rounded">
+                        المتابعة
+                    </button>
+                 </div>
             </div>
         </div>
 
     </div>
 
+    <!-- Game Logic (Preserved) -->
     <script type="module">
         const database = {
             introChat: [
-                { char: 'pharaoh', text: "تنبيه! تم اختراق بروتوكول الأمن السيبراني. النظام يحتاج إلى حارس رقمي فوراً." },
-                { char: 'pharaoh', text: "مرحباً بك، أيها المجند. لقد تم اختيارك لمبادرة 'فرعون Ai'. مصير البنية التحتية الرقمية للمملكة معلق على كتفيك." },
-                { char: 'ahmed', text: "أنا القائد أحمد. هذا ليس تدريباً عادياً، بل استدعاء عاجل. سأكون مسؤول عملياتك، وأوجهك في هذا الميدان الشائك." },
-                { char: 'rital', text: "وأنا المهندسة ريتال. لا تقلق بشأن التعقيدات التقنية، مهمتي هي تبسيط كل شيء لتفهم طبيعة الخطر بسرعة فائقة. نحن فريقك!" },
-                { char: 'recruit', text: "أتلقى الأوامر. أنا جاهز لمواجهة التهديد وسأبذل قصارى جهدي!" },
-                { char: 'ahmed', text: "جيد. الوقت ينفد. لتبدأ مهمتك الأولى بتقوية الأساسيات. هل أنت مستعد لخطوتك الأولى في عالم الحراسة الرقمية؟" }
+                { char: 'pharaoh', text: "تنبيه أمني! تم رصد اختراق في الجدار الناري للمملكة. النظام يحتاج إلى مشغل بشري فوراً." },
+                { char: 'pharaoh', text: "تم تفعيل بروتوكول التجنيد... مرحباً بك. أنت الآن خط الدفاع الأخير." },
+                { char: 'ahmed', text: "أنا القائد أحمد، مسؤول العمليات الميدانية. الوضع حرج، الهجمات تأتي من كل مكان. سنحتاج لسرعة بديهتك." },
+                { char: 'rital', text: "وأنا المهندسة ريتال. سأكون عينك التقنية. سأقوم بترجمة لغة الآلات المعقدة إلى شيء يمكنك فهمه بسرعة." },
+                { char: 'recruit', text: "فهمت الموقف. أنا جاهز لاستلام القيادة." },
+                { char: 'ahmed', text: "ممتاز. لن نضيع الوقت. التهديدات السيبرانية لا تنتظر. لنبدأ التدريب الأساسي." }
             ],
             paths: {
                 beginner: {
@@ -419,23 +414,22 @@
                     description: "الأساس المتين لمواجهة التهديدات الأولية.",
                     lessons: [
                         {
-                            title: "1. مقدمة في عالم الأمن السيبراني",
-                            storyTitle: "لماذا نحتاج حراساً؟",
+                            title: "1. مفهوم الأمن السيبراني",
+                            storyTitle: "الدرع الرقمي",
                             dialogue: [
-                                { char: 'ahmed', text: "المهمة الأولى: فهم ميدان المعركة. يجب أن تعرف ما الذي تحميه وما هي أسلحة العدو. ما هو الأمن السيبراني؟" },
-                                { char: 'recruit', text: "أفترض أنه حماية أجهزة الكمبيوتر؟" },
-                                { char: 'rital', text: "لتبسيط الأمر، تخيل أن الإنترنت هو هرمك الخاص المليء بالكنوز، مثل صورك، رسائلك، وبياناتك المصرفية. كل هذه كنوز رقمية ثمينة." },
-                                { char: 'rital', text: "الأمن السيبراني هو بناء جدران قوية، ووضع حراس (مثلنا!) لحماية هذا الهرم من اللصوص (نسميهم 'المخترقين') الذين يحاولون سرقة كنوزك أو تدمير الجدران." },
-                                { char: 'recruit', text: "إذاً، هو درع رقمي شامل لحماية البيانات والموارد؟" },
-                                { char: 'ahmed', text: "بالضبط! إنه الدرع الذي يحمي أسرار مملكتنا الرقمية. بدون هذا الدرع، يمكن لأي اختراق أن يسبب كارثة." }
+                                { char: 'ahmed', text: "المهمة الأولى: التعريف بالميدان. الأمن السيبراني ليس مجرد برامج مضادة للفيروسات." },
+                                { char: 'recruit', text: "ما هو إذاً؟" },
+                                { char: 'rital', text: "تخيل أن بياناتك (صورك، أموالك، رسائلك) هي جواهر داخل هرم زجاجي. الإنترنت هو العالم الخارجي المليء باللصوص." },
+                                { char: 'rital', text: "الأمن السيبراني هو الجدران، الكاميرات، والحراس الذين نضعهم لحماية هذا الهرم من السرقة أو التخريب." },
+                                { char: 'ahmed', text: "هدفنا هو حماية: السرية (لا أحد يرى)، السلامة (لا أحد يعدل)، والتوافر (البيانات موجودة عند الحاجة)." }
                             ],
-                            summary: "الأمن السيبراني هو ببساطة: حماية أجهزتنا (مثل الكمبيوتر والموبايل) ومعلوماتنا (الكنوز الرقمية) من الأشخاص السيئين على الإنترنت. وهو درع المملكة الرقمية.",
+                            summary: "الأمن السيبراني هو حماية الأنظمة والشبكات والبيانات من الهجمات الرقمية. يهدف لحماية الأصول الرقمية من الوصول غير المصرح به أو الاستخدام الإجرامي.",
                             quiz: [
-                                { q: "ما هو 'الأمن السيبراني'؟", options: ["لعبة فيديو جديدة", "حماية كنوزنا الرقمية من اللصوص", "بناء أهرامات حقيقية"], correct: 1 },
-                                { q: "من هم 'المخترقون' في سياق الأمن السيبراني؟", options: ["أشخاص طيبون يساعدوننا", "أشخاص سيئون يحاولون سرقة معلوماتنا أو إتلافها", "بناة الأهرام"], correct: 1 }
+                                { q: "ما هو الهدف الرئيسي للأمن السيبراني؟", options: ["تصميم مواقع جميلة", "حماية البيانات والأنظمة من الهجمات", "زيادة سرعة الإنترنت"], correct: 1 },
+                                { q: "شبهنا البيانات في القصة بـ...؟", options: ["جواهر داخل هرم", "رمال الصحراء", "مياه النيل"], correct: 0 }
                             ]
                         },
-                        {
+                         {
                             title: "2. ثالوث الأمن السيبراني (CIA)",
                             storyTitle: "أعمدة الهرم الثلاثة",
                             dialogue: [
@@ -478,7 +472,7 @@
                                 { char: 'recruit', text: "قبعات؟ كيف ذلك؟" },
                                 { char: 'rital', text: "نعم! تخيلهم ثلاثة أنواع: الأول هو 'القبعة السوداء' (Black Hat). هذا هو اللص التقليدي. هدفه التدمير، أو السرقة من أجل المال، أو الفوضى. نواياهم سيئة تماماً." },
                                 { char: 'rital', text: "الثاني هو 'القبعة البيضاء' (White Hat). هؤلاء هم نحن! باحثون أمنيون ومخترقون أخلاقيون. نجد 'الثغرات' (مثل الشباك المفتوح) ونخبر صاحب الهرم ليغلقها قبل أن يجدها اللص." },
-                                { char: 'rital', text: "الثالث هو 'القبعة الرمادية' (Grey Hat). هذا النوع محير. هو يخترق بدون إذن (مثل القبعة السوداء)، ولكنه قد يخبرك بالثغرة (مثل القبعة البيضاء)... ربما مقابل مكافأة مالية أو للشهرة. هم في منطقة رمادية. [attachment_0](attachment)" },
+                                { char: 'rital', text: "الثالث هو 'القبعة الرمادية' (Grey Hat). هذا النوع محير. هو يخترق بدون إذن (مثل القبعة السوداء)، ولكنه قد يخبرك بالثغرة (مثل القبعة البيضاء)... ربما مقابل مكافأة مالية أو للشهرة. هم في منطقة رمادية." },
                                 { char: 'recruit', text: "إذاً، مهمتنا هي أن نكون 'قبعات بيضاء' لنتصدى لـ 'القبعات السوداء'؟" },
                                 { char: 'ahmed', text: "بالضبط. يجب أن تفكر مثلهم لتتغلب عليهم." }
                             ],
@@ -489,398 +483,28 @@
                             ]
                         },
                         {
-                            title: "5. أشهر أنواع الهجمات (الجزء الأول)",
-                            storyTitle: "البرامج الضارة",
+                            title: "5. البرامج الضارة (Malware)",
+                            storyTitle: "العدوى الرقمية",
                             dialogue: [
-                                { char: 'pharaoh', text: "تنبيه! العدو يمتلك ترسانة من الأسلحة الرقمية. أخطرها هو 'البرامج الضارة' (Malware). إنها برامج صغيرة مصممة لإحداث ضرر." },
-                                { char: 'recruit', text: "أعرف كلمة 'فيروس'. هل كلها فيروسات؟" },
-                                { char: 'rital', text: "كلمة 'Malware' هي المظلة الكبيرة. 'الفيروس' (Virus) هو نوع واحد. تخيله كطفيلي، يحتاج أن 'يلتصق' بملف نظيف (مثل مستند Word) لينتشر. لا يعمل حتى تفتح أنت ذلك الملف." },
-                                { char: 'rital', text: "لكن الأخطر هي 'الدودة' (Worm). الدودة لا تحتاجك! إنها تنتشر من جهاز لجهاز عبر الشبكة بنفسها. إذا أصيب جهاز واحد، قد تصاب الشبكة كلها خلال دقائق." },
-                                { char: 'rital', text: "وأخيراً، 'حصان طروادة' (Trojan). تذكر قصة حصان طروادة؟ يبدو كهدية رائعة (لعبة مجانية، برنامج مفيد)، لكن بداخله يختبئ جنود العدو (البرنامج الضار). أنت تدخله بنفسك ظناً منك أنه آمن. [attachment_1](attachment)" },
-                                { char: 'ahmed', text: "فيروس، دودة، حصان طروادة. هذه هي الأساسيات. فهم كيف يعمل كل واحد هو خطوتك الأولى لتعلم كيفية إيقافهم." }
+                                { char: 'pharaoh', text: "تنبيه! تم رصد برمجيات خبيثة تحاول الدخول." },
+                                { char: 'rital', text: "البرامج الضارة تأتي بأشكال عديدة. 'الفيروس' يحتاج لملف ليلتصق به وينتشر عند فتحه. 'الدودة' (Worm) أخطر، فهي تنتشر بنفسها عبر الشبكة دون تدخل منك!" },
+                                { char: 'ahmed', text: "وهناك 'حصان طروادة' (Trojan). يبدو كبرنامج مفيد (لعبة أو أداة) لكنه يفتح باباً خلفياً للمهاجمين بمجرد تثبيته." },
                             ],
-                            summary: "البرامج الضارة (Malware) هي برامج سيئة. أشهرها: 1. الفيروس (Virus): يحتاج ملفاً مضيفاً وتفاعلاً بشرياً. 2. الدودة (Worm): تنتشر بنفسها عبر الشبكات. 3. حصان طروادة (Trojan): يتنكر كبرنامج مفيد." ,
+                            summary: "البرامج الضارة (Malware) هي برامج سيئة. أشهرها: الفيروس (يحتاج ملفاً مضيفاً)، الدودة (تنتشر بنفسها)، وحصان طروادة (يتنكر كبرنامج مفيد).",
                             quiz: [
-                                { q: "ما هو البرنامج الضار الذي ينتشر عبر الشبكة بنفسه دون تدخل بشري؟", options: ["الفيروس (Virus)", "الدودة (Worm)", "حصان طروادة (Trojan)"], correct: 1 },
-                                { q: "ما هو 'حصان طروادة' (Trojan)؟", options: ["برنامج يتنكر في شكل شيء مفيد ليخدعك", "برنامج يصلح الأخطاء", "برنامج يبطئ الإنترنت"], correct: 0 }
+                                { q: "ما هو البرنامج الضار الذي ينتشر عبر الشبكة بنفسه دون تدخل بشري؟", options: ["الفيروس", "الدودة (Worm)", "حصان طروادة"], correct: 1 }
                             ]
                         },
-                        {
-                            title: "6. أشهر أنواع الهجمات (الجزء الثاني)",
-                            storyTitle: "الفخاخ وبرامج الفدية",
-                            dialogue: [
-                                { char: 'ahmed', text: "نستكمل ترسانة العدو. هناك سلاحين يعتمدان على خداعك مباشرة: التصيد الاحتيالي وبرامج الفدية." },
-                                { char: 'rital', text: "'التصيد الاحتيالي' (Phishing) هو الفخ. رسالة بريد إلكتروني تبدو 'رسمية' من بنكك أو شركتك، تطلب منك 'تحديث كلمة مرورك' عبر رابط. هذا الرابط مزيف! هدفه سرقة بيانات دخولك. " },
-                                { char: 'recruit', text: "كيف أتعرف عليه؟" },
-                                { char: 'rital', text: "دقق دائماً في عنوان المرسل، ولا تضغط على روابط لا تثق بها. البنك الحقيقي لن يطلب كلمة مرورك عبر الإيميل." },
-                                { char: 'ahmed', text: "أما 'برامج الفدية' (Ransomware)، فهي الأخطر على بياناتك. بمجرد أن تصيب جهازك، تقوم بتشفير كل ملفاتك - صورك، مستنداتك - وتجعلها غير قابلة للقراءة." },
-                                { char: 'pharaoh', text: "ثم يطالبك المهاجم بـ 'فدية' مالية (عادة بالعملات الرقمية) مقابل مفتاح فك التشفير. إنه اختطاف رقمي لكنوزك." }
-                            ],
-                            summary: "1. التصيد الاحتيالي (Phishing): خداعك عبر رسائل مزيفة لسرقة كلمات المرور. 2. برامج الفدية (Ransomware): تشفير ملفاتك وطلب فدية مالية لاستعادتها.",
-                            quiz: [
-                                { q: "ما هو هجوم 'التصيد الاحتيالي' (Phishing)؟", options: ["هجوم يبطئ الإنترنت", "رسالة مزيفة تطلب بياناتك السرية", "فيروس يحذف الملفات"], correct: 1 },
-                                { q: "ماذا تفعل 'برامج الفدية' (Ransomware)؟", options: ["تسرق صورك فقط", "تصلح ثغرات النظام", "تقفل (تشفر) ملفاتك وتطلب مالاً"], correct: 2 }
-                            ]
-                        },
-                        {
-                            title: "7. أساسيات الشبكات (الجزء الأول)",
-                            storyTitle: "لغة الاتصال: العنوان الرقمي",
-                            dialogue: [
-                                { char: 'rital', text: "أيها المجند، لكي تحمي المملكة، يجب أن تفهم شوارعها. 'الشبكة' (Network) هي مجموعة الأجهزة (كمبيوتر، هاتف) المتصلة ببعضها البعض." },
-                                { char: 'recruit', text: "كيف تعرف الأجهزة بعضها؟" },
-                                { char: 'rital', text: "لكل جهاز على الشبكة عنوانان، تماماً كعنوان منزلك. الأول هو 'عنوان IP'. إنه مثل عنوان الشارع والمنزل (مثال: 192.168.1.10). هذا العنوان يمكن أن يتغير عندما تتصل بشبكة مختلفة." },
-                                { char: 'rital', text: "الثاني هو 'عنوان MAC'. هذا هو الرقم التسلسلي الفريد لبطاقة الشبكة في جهازك. إنه مثل 'الرقم القومي' لجهازك، ثابت ولا يتغير. [attachment_2](attachment)" },
-                                { char: 'ahmed', text: "المهاجم يحتاج 'عنوان IP' الخاص بك ليصل إليك. معرفة هذه العناوين هي الخطوة الأولى لرصد حركة المرور المشبوهة." }
-                            ],
-                            summary: "الشبكة تربط الأجهزة. لكل جهاز عنوانان: 1. عنوان IP (مثل 192.168.1.1) وهو عنوان الجهاز على الشبكة ويمكن أن يتغير. 2. عنوان MAC وهو رقم فريد وثابت للجهاز.",
-                            quiz: [
-                                { q: "ما هو 'عنوان IP'؟", options: ["اسم الكمبيوتر", "العنوان الرقمي للجهاز على الشبكة", "نوع نظام التشغيل"], correct: 1 },
-                                { q: "ما هو العنوان الذي يعتبر ثابتاً ولا يتغير؟", options: ["عنوان IP", "عنوان MAC", "عنوان البريد الإلكتروني"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "8. أساسيات الشبكات (الجزء الثاني)",
-                            storyTitle: "الأبواب والجدار الناري",
-                            dialogue: [
-                                { char: 'ahmed', text: "عرفنا أن 'عنوان IP' هو عنوان المبنى. لكن كيف تدخل؟ عبر 'المنافذ' (Ports)." },
-                                { char: 'recruit', text: "منافذ؟" },
-                                { char: 'rital', text: "نعم! تخيل أن جهازك (المبنى) به 65,535 باباً (منفذ). كل خدمة تستخدم باباً معيناً. مثلاً، تصفح الويب (HTTP) يستخدم المنفذ 80. التصفح الآمن (HTTPS) يستخدم 443." },
-                                { char: 'ahmed', text: "المخترق يبحث عن 'الأبواب المفتوحة' غير المحمية ليدخل منها. وهنا يأتي دور 'الجدار الناري' (Firewall). [attachment_3](attachment)" },
-                                { char: 'pharaoh', text: "الجدار الناري هو حارس البوابة الرئيسي للمملكة. إنه يقرر أي الأبواب (المنافذ) مسموح بالدخول أو الخروج منها. إذا منعت كل المنافذ عدا 80 و 443، فأنت أغلقت 65,533 باباً في وجه المهاجمين." }
-                            ],
-                            summary: "المنافذ (Ports) هي أبواب رقمية للخدمات (مثل 80 للويب). 'الجدار الناري' (Firewall) هو نظام أمني يتحكم في المنافذ المفتوحة والمغلقة لحماية الشبكة.",
-                            quiz: [
-                                { q: "ما هي وظيفة 'الجدار الناري' (Firewall)؟", options: ["تسريع الإنترنت", "حماية الشبكة عبر التحكم بالمنافذ وحركة المرور", "إدارة الملفات"], correct: 1 },
-                                { q: "ما هو المنفذ (Port) الشائع لتصفح الويب الآمن (HTTPS)؟", options: ["22", "80", "443"], correct: 2 }
-                            ]
-                        },
-                        {
-                            title: "9. أساسيات أنظمة التشغيل",
-                            storyTitle: "قلب الجهاز: نظام التشغيل",
-                            dialogue: [
-                                { char: 'ahmed', text: "جهازك لا يعمل من تلقاء نفسه. 'نظام التشغيل' (OS) - مثل Windows, Linux, أو Android - هو العقل المدبر." },
-                                { char: 'rital', text: "نظام التشغيل يدير كل شيء: الذاكرة، البرامج التي تعمل (تسمى 'Processes')، والملفات (Filesystem)." },
-                                { char: 'recruit', text: "ما علاقة هذا بالأمن؟" },
-                                { char: 'ahmed', text: "كل شيء! أهم مبدأ هو 'الصلاحيات' (Permissions). هل لديك صلاحية 'قراءة' هذا الملف فقط؟ أم 'كتابة' (تعديل) أيضاً؟ أم 'تنفيذ' (تشغيل) كبرنامج؟" },
-                                { char: 'rital', text: "المخترق يحاول دائماً الحصول على 'صلاحيات المدير' (Administrator أو Root). إذا نجح، فإنه يمتلك الجهاز بالكامل. مهمتك هي التأكد أن كل مستخدم وكل برنامج يعمل بـ 'أقل الصلاحيات الممكنة' فقط. [attachment_4](attachment)" }
-                            ],
-                            summary: "نظام التشغيل (OS) هو العقل المدبر للجهاز. يتحكم بالبرامج (Processes) والملفات. المبدأ الأمني الأهم هو 'الصلاحيات' (Permissions)، ويجب دائماً تطبيق 'مبدأ أقل الصلاحيات' لمنع المهاجمين من السيطرة.",
-                            quiz: [
-                                { q: "ما هي الوظيفة الأساسية لنظام التشغيل (OS)؟", options: ["تصفح الويب فقط", "إدارة موارد الجهاز (برامج، ملفات، عتاد)", "كتابة الأكواد"], correct: 1 },
-                                { q: "لماذا 'الصلاحيات' (Permissions) مهمة للأمن؟", options: ["لجعل الأيقونات ملونة", "لتحديد من يمكنه قراءة أو تعديل أو تنفيذ الملفات", "لتسريع الجهاز"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "10. الأمن الشخصي للمبتدئين",
-                            storyTitle: "تأمين درعك الشخصي",
-                            dialogue: [
-                                { char: 'ahmed', text: "أيها المجند، انتهى التدريب الأساسي. آخر مهمة: حماية نفسك. الحارس الذي لا يحمي نفسه لا يمكنه حماية المملكة." },
-                                { char: 'recruit', text: "ما هي أهم الخطوات؟" },
-                                { char: 'rital', text: "أولاً: 'كلمات مرور قوية'. لا تستخدم '123456' أو اسمك! استخدم مزيجاً طويلاً من الحروف والأرقام والرموز، وكلمة مختلفة لكل حساب." },
-                                { char: 'ahmed', text: "ثانياً: 'المصادقة الثنائية' (2FA). إنها درع إضافي. حتى لو سرقوا كلمة مرورك، يحتاجون لرمز من هاتفك للدخول. فعلها في كل مكان! [attachment_5](attachment)" },
-                                { char: 'rital', text: "ثالثاً: 'التحديثات'. حدث نظام التشغيل ومتصفحك وبرامجك دائماً. التحديثات تصلح 'الثغرات' التي يكتشفها المهاجمون." },
-                                { char: 'pharaoh', text: "وأخيراً: 'النسخ الاحتياطي' (Backup). إذا أصابتك برمجية فدية، أو تعطل جهازك، النسخة الاحتياطية هي طوق النجاة الوحيد لكنوزك الرقمية. كن مستعداً." }
-                            ],
-                            summary: "لحماية نفسك: 1. استخدم كلمات مرور قوية وفريدة. 2. فعل المصادقة الثنائية (2FA). 3. حدث برامجك ونظامك بانتظام. 4. قم بعمل نسخ احتياطي (Backups) لملفاتك المهمة.",
-                            quiz: [
-                                { q: "ما هي 'المصادقة الثنائية' (2FA)؟", options: ["كلمتي مرور مختلفتين", "استخدام طريقتين للتحقق (مثل كلمة مرور ورمز هاتف)", "تحديث البرامج مرتين"], correct: 1 },
-                                { q: "لماذا 'تحديث' البرامج مهم؟", options: ["للحصول على ألوان جديدة", "لإصلاح 'الثغرات' الأمنية المكتشفة", "لجعل البرنامج أبطأ"], correct: 1 }
-                            ]
-                        },
+                        { title: "6. التصيد والفدية", storyTitle: "(محاكاة قيد التحميل...)" },
+                        { title: "7. أساسيات الشبكات (IP/MAC)", storyTitle: "(محاكاة قيد التحميل...)" },
+                        { title: "8. الجدار الناري والمنافذ", storyTitle: "(محاكاة قيد التحميل...)" },
+                        { title: "9. أنظمة التشغيل والصلاحيات", storyTitle: "(محاكاة قيد التحميل...)" },
+                        { title: "10. الأمن الشخصي (كلمات المرور)", storyTitle: "(محاكاة قيد التحميل...)" },
                     ]
                 },
-                intermediate: {
-                    title: "مسار الخبراء المتوسطين",
-                    description: "تكتيكات الحماية العميقة والتحليل الميداني.",
-                    lessons: [
-                        {
-                            title: "1. تحليل حزم الشبكة الأساسي",
-                            storyTitle: "لغة الأسلاك السرية",
-                            dialogue: [
-                                { char: 'rital', text: "مرحباً بك في المستوى المتوسط! لنبدأ بتحليل حزم الشبكة. تخيل أن البيانات كسيارات تسير على طريق (الشبكة)." },
-                                { char: 'recruit', text: "هل تعني أننا سنستخدم 'Wireshark'؟" },
-                                { char: 'ahmed', text: "بالضبط. برنامج Wireshark هو منظار الحارس الرقمي. إنه يسمح لك بالنظر إلى كل 'سيارة' (حزمة) أثناء مرورها." },
-                                { char: 'rital', text: "كل حزمة تحمل معلومات مهمة: من أين أتت (المصدر)، وإلى أين تذهب (الوجهة)، وماذا تحمل بداخلها (البيانات). هذه تُسمى ترويسة (Header) الحزمة. " },
-                                { char: 'rital', text: "يساعدك تحليل الحزم على تحديد حركة المرور الغريبة، مثل محاولة لص 'إرسال طرد مشبوه' أو محاولة التسلل قبل أن يصل إلى وجهته." },
-                                { char: 'recruit', text: "فهمت. تحليل الحزم هو التفتيش الدقيق لنقاط التفتيش على الطريق الرقمي." },
-                                { char: 'ahmed', text: "هذا هو المفتاح. يجب أن تتعلم قراءة هذه 'اللغة السرية' للشبكة لتعرف ما إذا كان هناك شيء خاطئ يحدث خلف الكواليس." }
-                            ],
-                            summary: "تحليل الحزم هو فحص البيانات التي تمر عبر الشبكة. كل حزمة (بيانات صغيرة) تحتوي على ترويسة (Source, Destination, Data). قراءتها تساعد في اكتشاف النشاطات المشبوهة والهجمات.",
-                            quiz: [
-                                { q: "ما هي الأداة الشائعة المستخدمة لتحليل حزم الشبكة؟", options: ["Photoshop", "Wireshark", "Microsoft Word"], correct: 1 },
-                                { q: "ماذا يسمى الجزء من حزمة البيانات الذي يحتوي على معلومات المصدر والوجهة؟", options: ["الحمولة", "الترويسة (Header)", "الرمز"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "2. أساسيات أنظمة التشغيل الآمنة",
-                            storyTitle: "تأمين غرفة التحكم",
-                            dialogue: [
-                                { char: 'ahmed', text: "غرفة التحكم الرئيسية هي نظام التشغيل (Windows, Linux). إذا تم اختراقها، انتهت المهمة. يجب أن تكون هذه الغرفة محصنة." },
-                                { char: 'rital', text: "التركيز هنا على الصلاحيات. في أنظمة مثل Linux، لا يجب أن يعمل أي برنامج أو مستخدم بصلاحية 'Root' (المدير المطلق) ما لم يكن ذلك ضرورياً تماماً." },
-                                { char: 'rital', text: "مبدأ 'الامتياز الأدنى' (Least Privilege) هو درعنا: امنح كل مستخدم/برنامج الحد الأدنى من الصلاحيات لأداء وظيفته. لا تعطِ مفاتيح الهرم كاملة لحارس بوابات." },
-                                { char: 'recruit', text: "وماذا عن السجلات (Logs)؟" },
-                                { char: 'ahmed', text: "السجلات هي دفتر تسجيل الحارس. كل خطوة تحدث على النظام يجب أن تسجل. إذا حدث اختراق، نعود لدفتر السجلات لتعقب بصمات اللص الرقمية. " },
-                                { char: 'ahmed', text: "تأكد من تعطيل الخدمات غير الضرورية وتقوية كلمات المرور. كل خدمة مفتوحة هي نافذة محتملة للمهاجم." }
-                            ],
-                            summary: "لتأمين نظام التشغيل، يجب تطبيق مبدأ الامتياز الأدنى (Least Privilege) لتقليل الصلاحيات. كما يجب التأكد من تسجيل كل الأنشطة في السجلات (Logs) وإغلاق أي خدمات غير مستخدمة.",
-                            quiz: [
-                                { q: "ما هو 'مبدأ الامتياز الأدنى'؟", options: ["إعطاء الجميع أقصى الصلاحيات", "منح كل مستخدم أقل الصلاحيات اللازمة لعمله", "عدم إعطاء أي صلاحيات لأي شخص"], correct: 1 },
-                                { q: "ما هو الدور الرئيسي للسجلات (Logs) في الأمن السيبراني؟", options: ["توفير الترفيه", "تتبع بصمات المهاجمين وتحليل الحوادث", "تسريع النظام"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "3. أمن المواقع والتطبيقات (OWASP Top 10)",
-                            storyTitle: "جدار حماية تطبيقات الويب",
-                            dialogue: [
-                                { char: 'pharaoh', text: "انتباه أيها الحارس! تطبيقات الويب هي أكثر نقاط الضعف عرضة للاختراق في عصرنا. منظمة OWASP تحدد أهم 10 مخاطر." },
-                                { char: 'rital', text: "أكثر الهجمات شيوعاً هي حقن SQL (SQL Injection). تخيل أنك تسأل قاعدة بيانات عن اسمه، لكنك بدلاً من ذلك تطلب منها 'سرقة جميع الأسرار'." },
-                                { char: 'recruit', text: "كيف يمكن تجنبها؟" },
-                                { char: 'rital', text: "يجب 'تعقيم' (Sanitize) كل مدخلات المستخدم. أي شيء يكتبه المستخدم في نموذج بحث أو تسجيل دخول يجب التعامل معه كبيانات لا كأوامر برمجية." },
-                                { char: 'ahmed', text: "خطر آخر هو 'التحكم المكسور في المصادقة' (Broken Authentication). يعني هذا أن نظام تسجيل الدخول ضعيف، وقد يسمح للمهاجم بالدخول دون كلمة مرور سليمة. " },
-                                { char: 'ahmed', text: "أمن تطبيقات الويب هو فن التأكد من أن جميع المدخلات آمنة، وأن قواعد بياناتك لا تنفذ سوى الأوامر المشروعة." }
-                            ],
-                            summary: "OWASP Top 10 هي قائمة بأكثر 10 مخاطر شائعة لأمن تطبيقات الويب. أشهرها هجمات حقن SQL (SQLi) التي يتم تجنبها عبر تعقيم مدخلات المستخدم.",
-                            quiz: [
-                                { q: "ما هي هجمات حقن SQL (SQLi)؟", options: ["إضافة محتوى نصي غير ضار", "تنفيذ أوامر ضارة في قاعدة البيانات عبر حقول الإدخال", "إيقاف خادم الويب مؤقتاً"], correct: 1 },
-                                { q: "ما هو أفضل إجراء وقائي ضد هجمات SQLi؟", options: ["تغيير لون خلفية الموقع", "تعقيم جميع مدخلات المستخدم", "استخدام خطوط كبيرة"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "4. التعرف على التشفير وفك التشفير",
-                            storyTitle: "لغة الأسرار المشفرة",
-                            dialogue: [
-                                { char: 'rital', text: "مهمة التشفير بسيطة في مفهومها: تحويل المعلومات المقروءة (Plaintext) إلى معلومات غير مقروءة (Ciphertext)، والعكس صحيح." },
-                                { char: 'recruit', text: "ما الفرق بين التشفير المتماثل وغير المتماثل؟" },
-                                { char: 'rital', text: "1. المتماثل (Symmetric): نستخدم مفتاحاً واحداً فقط. نفس المفتاح يقوم بالتشفير وفك التشفير. إنه مثل قفل صندوق سري بمفتاح واحد يمتلكه المرسل والمستقبل فقط." },
-                                { char: 'rital', text: "2. غير المتماثل (Asymmetric): نستخدم مفتاحين مرتبطين رياضياً: مفتاح عام (Public) للتشفير، ومفتاح خاص (Private) لفك التشفير. هذا هو الأساس لأمن رسائل البريد الإلكتروني والمواقع (HTTPS)." },
-                                { char: 'ahmed', text: "هناك أيضاً 'التجزئة' (Hashing). وهي عملية تحويل البيانات إلى بصمة رقمية فريدة. البصمة لا يمكن عكسها! نستخدمها لتخزين كلمات المرور بأمان. [attachment_6](attachment)" },
-                                { char: 'ahmed', text: "التشفير هو العمود الفقري لـ 'السرية' (Confidentiality) و'السلامة' (Integrity) في ثالوث الأمن." }
-                            ],
-                            summary: "التشفير المتماثل يستخدم مفتاحاً واحداً للتشفير والفك. التشفير غير المتماثل يستخدم مفتاحين (عام وخاص). التجزئة (Hashing) تُنشئ بصمة فريدة لكلمات المرور لا يمكن عكسها.",
-                            quiz: [
-                                { q: "أي نوع من التشفير يستخدم مفتاحاً واحداً للتشفير وفك التشفير؟", options: ["غير متماثل", "التجزئة", "متماثل"], correct: 2 },
-                                { q: "ما هي الخاصية الرئيسية لعملية 'التجزئة' (Hashing)؟", options: ["يمكن فكها بسهولة", "لا يمكن عكسها للحصول على النص الأصلي", "تستخدم مفتاحين"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "5. إدارة الهوية والوصول (IAM)",
-                            storyTitle: "من يدخل القاعة المقدسة؟",
-                            dialogue: [
-                                { char: 'ahmed', text: "في عالم الأمن، يجب أن نعرف من هو من، وماذا يُسمح له أن يفعل. هذه مهمة IAM (Identity and Access Management)." },
-                                { char: 'recruit', text: "هل هي فقط كلمات مرور؟" },
-                                { char: 'ahmed', text: "أكثر من ذلك بكثير. IAM تتحقق من هويتك (Authentication) ثم تقرر ماذا يمكنك أن تفعل (Authorization). هويتك هي بطاقة الدخول، وصلاحيتك هي ما تتيحه لك البطاقة في الداخل." },
-                                { char: 'rital', text: "أفضل مثال هو المصادقة الثنائية (2FA). إنها ليست كلمة مرورك فقط، بل شيء آخر تعرفه (الرمز السري) أو تمتلكه (هاتفك). هذا يضاعف قوة الأمن." },
-                                { char: 'rital', text: "أهم مبدأ هنا هو 'الفصل بين الواجبات' (Separation of Duties). لا يمكن لشخص واحد أن يوافق على أمر وينفذه أيضاً. هذا يمنع الغش وسوء الاستخدام. " },
-                                { char: 'pharaoh', text: "IAM هي أساس الحفاظ على 'السرية'. تأمين من يصل إلى بياناتنا هو نصف المعركة." }
-                            ],
-                            summary: "IAM هو التحقق من الهوية (Authentication) ثم تحديد الصلاحيات (Authorization). المصادقة الثنائية (2FA) هي طبقة حماية إضافية. ومبدأ الفصل بين الواجبات (Separation of Duties) يمنع أي شخص من التحكم الكامل بالنظام.",
-                            quiz: [
-                                { q: "ماذا يعني 'Authentication' في IAM؟", options: ["تحديد ما يمكن للمستخدم فعله", "التحقق من هوية المستخدم (أنت من تقول)", "منح المستخدم صلاحيات إضافية"], correct: 1 },
-                                { q: "ما هو الإجراء الذي يضيف طبقة ثانية من الحماية بعد كلمة المرور؟", options: ["التشفير المتماثل", "المصادقة الثنائية (2FA)", "تعقيم المدخلات"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "6. أمن السحابة (Cloud Security) الأساسي",
-                            storyTitle: "مسؤوليتك... ومسؤولية السحابة!",
-                            dialogue: [
-                                { char: 'ahmed', text: "الأهرامات الرقمية تنتقل الآن إلى 'السحابة' (Cloud). تخيل أن السحابة هي استئجار غرفة في فندق فاخر بدلاً من بناء منزلك الخاص. الأمان مختلف هنا." },
-                                { char: 'rital', text: "المبدأ الأساسي هو 'نموذج المسؤولية المشتركة'. الموفر (مثل أمازون أو جوجل) مسؤول عن حماية الفندق نفسه (البنية التحتية، الجدران، الكهرباء)." },
-                                { char: 'rital', text: "أما أنت، أيها الحارس، فمسؤول عن تأمين محتويات غرفتك (بياناتك، كلمات المرور، إعدادات التطبيقات). لا يهم مدى قوة الجدار، إذا تركت الباب مفتوحاً! " },
-                                { char: 'recruit', text: "إذًا، إذا حدث اختراق بسبب ضعف كلمة مروري، فالمسؤولية تقع عليّ؟" },
-                                { char: 'ahmed', text: "بالضبط! هم يؤمنون 'السحابة' (Security *of* the Cloud)، وأنت تؤمن ما 'في داخل السحابة' (Security *in* the Cloud). هذا هو مفتاح النجاح في هذا الميدان الجديد." },
-                                { char: 'pharaoh', text: "تذكر: لا تثق أبداً بموفر السحابة ثقة عمياء. راجع إعدادات الأمان الخاصة بك دائماً." }
-                            ],
-                            summary: "أمن السحابة يعتمد على نموذج المسؤولية المشتركة. الموفر يؤمن البنية التحتية (السحابة نفسها)، والمستخدم يؤمن البيانات والإعدادات (ما في داخل السحابة).",
-                            quiz: [
-                                { q: "ما هو نموذج الأمن الذي يصف مسؤولية حماية البنية التحتية في خدمات السحابة؟", options: ["نموذج الثقة المطلقة", "نموذج المسؤولية المشتركة", "نموذج المسؤولية الكاملة للمستخدم"], correct: 1 },
-                                { q: "عند استخدام خدمة سحابية، من المسؤول عن تأمين كلمة المرور الخاصة بك والبيانات المشفرة؟", options: ["موفر خدمة السحابة", "أنت وحدك (الحارس)", "فريق الحماية المدنية"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "7. مقدمة في التحليل الجنائي الرقمي",
-                            storyTitle: "تعقب البصمات الإلكترونية",
-                            dialogue: [
-                                { char: 'ahmed', text: "عندما يقع الاختراق، لا ينتهي دورنا. بل يبدأ 'التحليل الجنائي الرقمي'. مهمتنا: تتبع خطوات المهاجم لمعرفة كيف دخل، وماذا فعل، وإعادة بناء المشهد." },
-                                { char: 'rital', text: "الأمر يشبه العمل كمحقق في موقع جريمة، لكن الأدلة هنا رقمية. أهم شيء هو 'سلسلة الحضانة' (Chain of Custody). لا يجب أن يتغير الدليل أو يتلوث. [attachment_7](attachment)" },
-                                { char: 'recruit', text: "ما هي أنواع الأدلة الرقمية التي نجمعها؟" },
-                                { char: 'rital', text: "أدلة 'متطايرة' (Volatile) مثل ذاكرة الوصول العشوائي (RAM) - تختفي عند إطفاء الجهاز. وأدلة 'غير متطايرة' (Non-Volatile) مثل الملفات الموجودة على القرص الصلب. يجب جمع الأدلة المتطايرة أولاً!" },
-                                { char: 'ahmed', text: "التحليل الجنائي يضمن أن الأدلة التي نجمعها مقبولة قانونياً ويمكن استخدامها لمعاقبة المعتدي. إنه فن استخراج الحقيقة من صمت الآلات." }
-                            ],
-                            summary: "التحليل الجنائي الرقمي هو عملية جمع وحفظ وتحليل الأدلة الرقمية بعد وقوع الحادثة. يجب الحفاظ على 'سلسلة الحضانة' للدليل لضمان قبوله. يتم جمع الأدلة المتطايرة (كالذاكرة RAM) قبل غير المتطايرة.",
-                            quiz: [
-                                { q: "ماذا يعني مصطلح 'سلسلة الحضانة' (Chain of Custody) في التحليل الجنائي؟", options: ["ترتيب الأدلة حسب أهميتها", "التأكد من أن الدليل لم يتلوث أو يتغير منذ جمعه", "نوع من التشفير"], correct: 1 },
-                                { q: "ما هو نوع الدليل الذي يجب جمعه أولاً لأنه يختفي عند إطفاء الجهاز؟", options: ["الأدلة غير المتطايرة (القرص الصلب)", "الأدلة الورقية", "الأدلة المتطايرة (RAM)"], correct: 2 }
-                            ]
-                        },
-                        {
-                            title: "8. أدوات الحارس الرقمي (Nmap, Wireshark) المتقدمة",
-                            storyTitle: "صناديق أدواتنا السحرية",
-                            dialogue: [
-                                { char: 'rital', text: "حان الوقت لاستعراض أدواتك القوية. 'Nmap' هي خريطة المملكة الرقمية، تسمح لك بفحص ورسم خرائط للشبكة من الخارج." },
-                                { char: 'recruit', text: "ماذا يفعل Nmap بالضبط؟" },
-                                { char: 'rital', text: "إنه يرسل نبضات للتعرف على الأجهزة النشطة والخدمات المفتوحة (المنافذ/Ports). إنها مثل إرسال جاسوس لاستطلاع الأبواب المفتوحة في حصن العدو. إذا كان المنفذ 80 مفتوحاً، فهناك خادم ويب يعمل! " },
-                                { char: 'ahmed', text: "أما 'Wireshark' فهو المجهر. ليس فقط يرى الحزم (كما في الدرس الأول)، بل يفككها إلى أدق تفاصيلها، ليعرض محادثة 'TCP/IP' كاملة بين جهازين." },
-                                { char: 'ahmed', text: "تخيل أنك تستمع إلى المكالمة الهاتفية بين المهاجم والضحية. هذه الأدوات لا غنى عنها في كل من الهجوم (الاختراق الأخلاقي) والدفاع (رصد التهديدات)." }
-                            ],
-                            summary: "Nmap: أداة رسم الخرائط والاستطلاع. تُستخدم لفحص الشبكات ورسم خريطتها وتحديد المنافذ المفتوحة. Wireshark: أداة التحليل العميق. تُستخدم لالتقاط وتحليل حزم الشبكة المعقدة (Deep Packet Inspection).",
-                            quiz: [
-                                { q: "ما هي الوظيفة الأساسية لأداة Nmap؟", options: ["تحرير الصور", "مسح الشبكات ورسم خريطتها وتحديد المنافذ المفتوحة", "كتابة الأكواد البرمجية"], correct: 1 },
-                                { q: "كيف يساعد Wireshark الحارس الرقمي؟", options: ["يجمع الأدلة المتطايرة من القرص الصلب", "يقوم بتحليل عميق لمحتوى حزم البيانات المتبادلة في الشبكة", "يعرض أسعار الأسهم"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "9. الدفاع ضد هجمات التصيد المتقدمة",
-                            storyTitle: "الاحتيال النخبوي",
-                            dialogue: [
-                                { char: 'pharaoh', text: "التصيد الاحتيالي (Phishing) هو سلاح المهاجم الأول. لكن عليك أن تتعرف على أنواعه المتقدمة." },
-                                { char: 'rital', text: "'الرمح' (Spear Phishing): هذه ليست شبكة تُلقى عشوائياً. بل هي رمح مصقول موجه نحوك أنت تحديداً. يستخدم المهاجم اسمك، شركتك، أو حتى اسم زميلك لخداعك. الرسالة تبدو شخصية وموثوقة جداً." },
-                                { char: 'rital', text: "والأخطر هو 'صيد الحيتان' (Whaling): هو رمح موجه إلى 'الحيتان'، أي كبار المسؤولين (الرئيس التنفيذي، المدير المالي) لسرقة معلومات ذات قيمة هائلة. " },
-                                { char: 'recruit', text: "ما هي الدفاعات التقنية ضده؟" },
-                                { char: 'ahmed', text: "بالإضافة إلى التدريب البشري، نستخدم بروتوكولات مثل 'DMARC' و 'SPF'. هذه آليات تحقق من أن المرسل الحقيقي للبريد هو نفسه من يدعي ذلك. إنها مثل ختم التحقق الرسمي لرسائل القصر." }
-                            ],
-                            summary: "التصيد المتقدم يستهدف أشخاصاً محددين: Spear Phishing (استهداف شخص معين) و Whaling (استهداف كبار المسؤولين). الدفاع يشمل التحقق البشري والتقني عبر بروتوكولات مثل DMARC و SPF.",
-                            quiz: [
-                                { q: "ما هو نوع هجوم التصيد الذي يستهدف كبار المديرين التنفيذيين في الشركة؟", options: ["Phishing", "Spear Phishing", "Whaling (صيد الحيتان)"], correct: 2 },
-                                { q: "ما هو أفضل خط دفاع ضد هجمات التصيد؟", options: ["سرعة الإنترنت", "التدريب الأمني المستمر والوعي", "تغيير خلفية الشاشة"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "10. إدارة المخاطر الأمنية",
-                            storyTitle: "حساب الكلفة الأمنية",
-                            dialogue: [
-                                { char: 'ahmed', text: "الحارس الجيد لا يكتفي بإصلاح ما انكسر، بل يمنع الكسر من الأساس. هذا هو دور 'إدارة المخاطر'." },
-                                { char: 'recruit', text: "كيف نحسب المخاطر؟" },
-                                { char: 'rital', text: "ببساطة: الخطر = التهديد $\\times$ الثغرة. كم هي محتملة وقوع هذا التهديد؟ وكم هي خطيرة الثغرة؟ يجب أن نفهم هذه المعادلة." },
-                                { char: 'rital', text: "العملية تتكون من ثلاثة مراحل: 1. تحديد الأصول (الكنوز التي لدينا). 2. تقييم المخاطر (التهديدات والثغرات). 3. معالجة المخاطر (كيفية الرد)." },
-                                { char: 'ahmed', text: "هناك أربع استجابات للمخاطر: *تجنب* الخطر (لا تقم بالنشاط)، *تقليل* الخطر (مثل التشفير)، *نقل* الخطر (مثل التأمين)، أو *قبول* الخطر (إذا كان تأثيره صغيراً جداً). [attachment_8](attachment)" },
-                                { char: 'pharaoh', text: "الخطر الذي لا يُقاس، لا يمكن السيطرة عليه. هذه هي المهمة الأخيرة التي ستمنحك رؤية شاملة للمملكة." }
-                            ],
-                            summary: "إدارة المخاطر هي عملية تحديد وتحليل ومعالجة المخاطر الأمنية. المخاطر = التهديد $\\times$ الثغرة. واستراتيجيات المعالجة هي: التجنب، التقليل، النقل، أو القبول.",
-                            quiz: [
-                                { q: "وفقاً للمفهوم الأمني، ما هي المعادلة الأساسية لحساب الخطر؟", options: ["الخطر = السرية + التوافر", "الخطر = التهديد $\\times$ الثغرة", "الخطر = الصلاحيات - الامتيازات"], correct: 1 },
-                                { q: "ما هي إحدى استراتيجيات 'معالجة' الخطر؟", options: ["تجاهل الخطر", "تقليل الخطر عن طريق تطبيق التشفير", "زيادة الثغرات"], correct: 1 }
-                            ]
-                        },
-                    ]
-                },
-                upperIntermediate: {
-                    title: "مسار فوق المتوسط",
-                    description: "صقل المهارات الدفاعية والهجومية الأخلاقية.",
-                    lessons: [
-                        {
-                            title: "1. هندسة الأمن البشري (Social Engineering) المتقدمة",
-                            storyTitle: "فن الخداع الصوتي",
-                            dialogue: [
-                                { char: 'ahmed', text: "أهلاً بك في المستوى المتقدم أيها المجند. لقد أثبتَّ جدارتك في الأساسيات. لكن العدو الآن أكثر دهاءً. سلاحه ليس البرمجيات فقط، بل... الكلمات." },
-                                { char: 'recruit', text: "الهندسة الاجتماعية؟ أعرفها... التصيد الاحتيالي (Phishing) صحيح؟" },
-                                { char: 'rital', text: "صحيح، لكننا نتحدث عن مستوى أعلى. ليس مجرد بريد إلكتروني. ماذا عن 'التصيد الصوتي' (Vishing)؟ تخيل أني أتصل بك الآن... *[صوت ريتال يتغير ليصبح رسمياً]* 'مرحباً، معك قسم الدعم التقني للمملكة. رصدنا نشاطاً غريباً على حسابك. نحتاج لتأكيد هويتك فوراً بإعطائنا كلمة المرور الخاصة بك'." },
-                                { char: 'recruit', text: "م... مستحيل! لن أعطي كلمة المرور أبداً!" },
-                                { char: 'rital', text: "*[تعود لصوتها الطبيعي]* جيد. لكن ماذا لو طلبت منك 'تأكيد اسم المستخدم' فقط؟ أو 'آخر 4 أرقام من هويتك'؟ المهاجم يجمع هذه الأجزاء الصغيرة (Pretexting) ليبني هجوماً كاملاً." },
-                                { char: 'ahmed', text: "الهندسة الاجتماعية المتقدمة هي فن بناء 'ذريعة' (Pretext) مقنعة. المهاجم يجعلك *ترغب* في مساعدته. قد يتظاهر بأنه زميل جديد يحتاج مساعدة، أو مدير مستعجل. الضغط النفسي هو سلاحه." },
-                                { char: 'pharaoh', text: "تذكر أيها الحارس: الجدار الناري الأقوى في مملكتنا هو... أنت. إذا تم خداعك، تسقط كل الدفاعات التقنية. الشك هو درعك الأول. " }
-                            ],
-                            summary: "الهندسة الاجتماعية المتقدمة تستخدم تقنيات مثل 'التصيد الصوتي' (Vishing) و 'الذرائع' (Pretexting) لخداعك. المهاجم يستغل الثقة والضغط النفسي لجمع معلومات حساسة قطعة بقطعة. الدفاع الأول هو الشك والتحقق الدائم.",
-                            quiz: [
-                                { q: "ما هو 'Vishing'؟", options: ["هجوم عبر الفيديو", "هجوم تصيد عبر المكالمات الهاتفية", "نوع من الفيروسات"], correct: 1 },
-                                { q: "ما هي أفضل طريقة للدفاع ضد مكالمة Vishing تطلب معلومات حساسة؟", options: ["إعطاؤهم معلومات خاطئة", "إنهاء المكالمة والاتصال بالجهة الرسمية عبر رقم موثوق للتحقق", "الاستمرار في المكالمة لجمع معلومات عنهم"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "2. أمن أنظمة التحكم الصناعي (ICS/SCADA)",
-                            storyTitle: "خطر على شبكة الكهرباء",
-                            dialogue: [
-                                { char: 'pharaoh', text: "تنبيه خطير! تخيل لو أن أضواء المملكة انطفأت فجأة. أو توقفت محطات تنقية المياه. هذه ليست بيانات بنكية، هذه هي الحياة المادية لشعبنا." },
-                                { char: 'recruit', text: "ما الذي يتسبب بهذا؟" },
-                                { char: 'ahmed', text: "أنظمة التحكم الصناعي (ICS) وأنظمة SCADA. هذه هي العقول الرقمية التي تدير البنية التحتية الحيوية: الكهرباء، المياه، المصانع." },
-                                { char: 'rital', text: "المشكلة يا مجند، أن هذه الأنظمة صُممت منذ عقود. كان تركيزها على 'السلامة' (Safety) و'التوافر' (Availability)... وليس 'الأمن' (Security). كانوا يفترضون أنها معزولة تماماً (Air-gapped)." },
-                                { char: 'recruit', text: "وهل هي كذلك؟" },
-                                { char: 'rital', text: "لم تعد كذلك! الصيانة تتم عن بعد، والأنظمة أصبحت متصلة بالإنترنت. هجوم 'Stuxnet' الشهير أثبت أنه يمكن تدمير معدات مادية (مثل أجهزة الطرد المركزي) عبر هجوم رقمي. [attachment_9](attachment)" },
-                                { char: 'ahmed', text: "مهمتنا هنا ليست حماية بيانات فقط، بل حماية الجسور والمصانع. يجب أن نفهم بروتوكولاتهم الغريبة (مثل Modbus) ونطبق 'تقسيم الشبكة' (Segmentation) لعزلهم حتى لو تم اختراق الشبكة الرئيسية." }
-                            ],
-                            summary: "أنظمة التحكم الصناعي (ICS/SCADA) تدير البنية التحتية الحيوية (كهرباء، ماء). تاريخياً، كانت هذه الأنظمة معزولة (Air-gapped) وركزت على السلامة لا الأمن، مما يجعلها ضعيفة. الدفاع عنها يتطلب تقنيات عزل متقدمة مثل تقسيم الشبكة.",
-                            quiz: [
-                                { q: "ما هو الخطر الرئيسي في أنظمة SCADA؟", options: ["سرقة بيانات العملاء", "التحكم في معدات مادية وتدميرها", "إرسال رسائل مزعجة"], correct: 1 },
-                                { q: "لماذا تعتبر أنظمة ICS/SCADA ضعيفة أمنياً؟", options: ["لأنها جديدة جداً وتستخدم الذكاء الاصطناعي", "لأنها قديمة وركزت على السلامة وليس الأمن السيبراني", "لأنها لا تستخدم الكهرباء"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "3. التوقيعات الرقمية والبنية التحتية للمفتاح العام (PKI)",
-                            storyTitle: "الختم الملكي الرقمي",
-                            dialogue: [
-                                { char: 'recruit', text: "قائد أحمد، ذكرت سابقاً التشفير غير المتماثل (المفتاح العام والخاص). لكن كيف أثق أن 'المفتاح العام' الذي أرسلته لي هو لك فعلاً؟ قد يكون المهاجم في المنتصف!" },
-                                { char: 'ahmed', text: "سؤال ممتاز. هذا هو جوهر الثقة الرقمية. الجواب هو 'البنية التحتية للمفتاح العام' (PKI). تخيلها كـ 'مكتب السجلات الملكية'." },
-                                { char: 'rital', text: "بالضبط! في هذا المكتب، توجد جهة موثوقة جداً نسميها 'سلطة التصديق' (CA - Certificate Authority). مثل جوجل، أمازون، أو حكومتنا." },
-                                { char: 'rital', text: "عندما أطلب 'شهادة رقمية' (Digital Certificate)، أقدم مفتاحي العام وهويتي للـ CA. يتحققون مني، ثم 'يختمون' مفتاحي العام بهويتهم الموثوقة. هذا الختم هو 'التوقيع الرقمي' للـ CA. " },
-                                { char: 'recruit', text: "إذاً، عندما أتصل بموقع البنك، هو يرسل لي شهادته. متصفحي يرى الختم، ويثق به لأن المتصفح 'يعرف' الـ CA مسبقاً؟" },
-                                { char: 'ahmed', text: "أحسنت. والتوقيع الرقمي لا يثبت الهوية (Authentication) فقط، بل يضمن 'السلامة' (Integrity) و'عدم الإنكار' (Non-repudiation). لا أستطيع أن أنكر أني أرسلت الرسالة، لأن مفتاحي الخاص 'فقط' هو من يملك الختم." }
-                            ],
-                            summary: "البنية التحتية للمفتاح العام (PKI) هي نظام للثقة الرقمية. 'سلطة التصديق' (CA) هي جهة موثوقة تصدر 'شهادات رقمية'. هذه الشهادات تربط هوية الشخص بمفتاحه العام. 'التوقيع الرقمي' يستخدم المفتاح الخاص لضمان الهوية، السلامة، وعدم الإنكار.",
-                            quiz: [
-                                { q: "ما هي الوظيفة الرئيسية لـ 'سلطة التصديق' (CA)؟", options: ["كتابة الكود", "إصدار شهادات رقمية للتحقق من الهويات", "بيع أجهزة الكمبيوتر"], correct: 1 },
-                                { q: "التوقيع الرقمي يضمن ثلاثة أشياء، منها:", options: ["السرعة، القوة، التكلفة", "الهوية، السلامة، عدم الإنكار", "التشفير، الضغط، الإرسال"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "4. تقنيات الاستجابة للحوادث (IR)",
-                            storyTitle: "إطفاء الحريق الرقمي",
-                            dialogue: [
-                                { char: 'pharaoh', text: "تنبيه! تم رصد اختراق! الجدار الناري الخارجي سقط! تحركوا!" },
-                                { char: 'recruit', text: "ماذا نفعل؟؟ هل نعيد تشغيل الخوادم؟!" },
-                                { char: 'ahmed', text: "قف! لا تلمس شيئاً! أول رد فعل خاطئ قد يدمر الأدلة. نحن نتبع 'خطة الاستجابة للحوادث' (IR Plan) خطوة بخطوة. ريتال، ما هي المرحلة؟" },
-                                { char: 'rital', text: "نحن في مرحلة 'التحديد' (Identification). تأكدنا أنه اختراق حقيقي وليس إنذاراً كاذباً. الآن، الخطوة الأهم: 'الاحتواء' (Containment)." },
-                                { char: 'ahmed', text: "بالضبط. اعزل الخادم المصاب عن الشبكة *فوراً*! افصل الكابل! لا نريد للنار أن تنتشر. هذا أهم من استعادة الخدمة الآن." },
-                                { char: 'rital', text: "بعد الاحتواء، نبدأ 'الاستئصال' (Eradication). العثور على 'الثغرة' التي دخل منها وإصلاحها. ثم 'الاسترداد' (Recovery)، أي إعادة بناء الخادم من نسخة احتياطية نظيفة." },
-                                { char: 'recruit', text: "وانتهى الأمر؟" },
-                                { char: 'ahmed', text: "لا. أهم خطوة هي الأخيرة: 'الدروس المستفادة' (Lessons Learned). لماذا حدث هذا؟ كيف نمنعه المرة القادمة؟ الحارس الذي لا يتعلم من أخطائه، سيكررها. " }
-                            ],
-                            summary: "خطة الاستجابة للحوادث (IR) لها مراحل: 1. الإعداد، 2. التحديد (هل هو حقيقي؟)، 3. الاحتواء (عزل الضرر)، 4. الاستئصال (إصلاح السبب)، 5. الاسترداد (إعادة الخدمة)، 6. الدروس المستفادة (التحسين المستمر).",
-                            quiz: [
-                                { q: "ما هي أهم خطوة *بعد* تحديد الاختراق مباشرة؟", options: ["الدروس المستفادة", "الاحتواء (عزل النظام)", "الاسترداد (إعادة التشغيل)"], correct: 1 },
-                                { q: "لماذا تعتبر مرحلة 'الدروس المستفادة' مهمة؟", options: ["لمعاقبة المخطئ", "لمنع تكرار نفس الاختراق مستقبلاً", "لكتابة تقرير طويل"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "5. التحليل الساكن والديناميكي للبرامج الضارة",
-                            storyTitle: "تشريح الأفعى الرقمية",
-                            dialogue: [
-                                { char: 'rital', text: "أيها المجند، وصلتنا 'هدية' من المهاجمين. ملف غريب تم إرساله لأحد الموظفين. مهمتنا: تشريحه." },
-                                { char: 'recruit', text: "هل... هل نفتحه؟" },
-                                { char: 'rital', text: "مطلقاً! ليس على نظامنا. سنبدأ بـ 'التحليل الساكن' (Static Analysis). هذا يعني أننا نفحصه وهو 'ميت'. ننظر إلى الكود، والنصوص المخفية بداخله (Strings)، دون تشغيله." },
-                                { char: 'rital', text: "أرى هنا... نصوص تشير إلى 'Encrypt' واتصال بموقع إنترنت غريب. هذا مثير للريبة، لكنه غير كافٍ." },
-                                { char: 'ahmed', text: "الآن للخطوة الأخطر. 'التحليل الديناميكي' (Dynamic Analysis). ريتال، جهزي 'الصندوق الرملي' (Sandbox)." },
-                                { char: 'rital', text: "الصندوق الرملي هو جهاز كمبيوتر افتراضي معزول تماماً. مثل غرفة تجارب محكمة الإغلاق. سنشغل الملف بداخلها ونراقب سلوكه. " },
-                                { char: 'rital', text: "*[صوت نقر]*... بدأ التشغيل... إنه يحاول الاتصال بذلك الموقع الغريب! ويقوم ب... نعم! بدأ في تشفير الملفات! إنها 'برمجية فدية' (Ransomware)!" },
-                                { char: 'ahmed', text: "ممتاز. الآن عرفنا سلوكه (Behavior) وبصمته الشبكية (Network Signature). يمكننا حظر ذلك الموقع على مستوى المملكة كلها. دمروا الصندوق الرملي وابدأوا كتابة التقرير." }
-                            ],
-                            summary: "تحليل البرامج الضارة نوعان: 1. التحليل الساكن (Static): فحص الكود دون تشغيله. 2. التحليل الديناميكي (Dynamic): تشغيل البرنامج في بيئة آمنة ومعزولة تسمى 'الصندوق الرملي' (Sandbox) لمراقبة سلوكه الفعلي.",
-                            quiz: [
-                                { q: "ما هي 'البيئة المعزولة' المستخدمة لتشغيل الفيروسات بأمان؟", options: ["نظام التشغيل الرئيسي", "الصندوق الرملي (Sandbox)", "متصفح الإنترنت"], correct: 1 },
-                                { q: "ما الفرق بين التحليل الساكن والديناميكي؟", options: ["الساكن بطيء والديناميكي سريع", "الساكن يفحص الكود 'ميتاً'، الديناميكي يشغله لمراقبة سلوكه", "الساكن للصور والديناميكي للفيديو"], correct: 1 }
-                            ]
-                        },
-                        { title: "6. القرصنة الأخلاقية والبحث عن الثغرات", storyTitle: "(قريباً...)" },
-                        { title: "7. الحماية المتقدمة للشبكات (IDS/IPS, Honeypots)", storyTitle: "(قريباً...)" },
-                        { title: "8. أمن الحاويات (Docker/Kubernetes)", storyTitle: "(قريباً...)" },
-                        { title: "9. البرمجة الآمنة (Secure Coding Practices)", storyTitle: "(قريباً...)" },
-                        { title: "10. متطلبات الامتثال واللوائح (GDPR, ISO 27001)", storyTitle: "(قريباً...)" },
-                    ]
-                },
-                advanced: {
-                    title: "مسار المحارب المتقدم",
-                    description: "السيطرة الكاملة على ميدان المعركة الرقمي والاستباقية.",
-                    lessons: [
-                        { title: "1. أمن إنترنت الأشياء (IoT) والأنظمة المضمنة", storyTitle: "(قريباً...)" },
-                        { title: "2. الصيد الاستباقي للتهديدات (Threat Hunting)", storyTitle: "(قريباً...)" },
-                        { title: "3. تحليل سجلات الأنظمة الكبيرة (SIEM)", storyTitle: "(قريباً...)" },
-                        { title: "4. اختراق تطبيقات الويب المتقدم (Zero-day)", storyTitle: "(قريباً...)" },
-                        { title: "5. الهجمات على سلاسل الإمداد (Supply Chain Attacks)", storyTitle: "(قريباً...)" },
-                        { title: "6. أمن البلوكشين والعملات المشفرة", storyTitle: "(قريباً...)" },
-                        { title: "7. هندسة عكسية للبرمجيات", storyTitle: "(قريباً...)" },
-                        { title: "8. أمن الذكاء الاصطناعي وتعلم الآلة (AI/ML Security)", storyTitle: "(قريباً...)" },
-                        { title: "9. التخطيط لاستمرارية الأعمال والتعافي من الكوارث (BCDR)", storyTitle: "(قريباً...)" },
-                        { title: "10. بناء فرق الاستجابة السريعة (CERT/CSIRT)", storyTitle: "(قريباً...)" },
-                    ]
-                }
+                intermediate: { title: "مسار الخبراء المتوسطين", description: "تكتيكات الحماية العميقة والتحليل.", lessons: [] },
+                upperIntermediate: { title: "مسار فوق المتوسط", description: "دفاع وهجوم متقدم.", lessons: [] },
+                advanced: { title: "مسار المحارب المتقدم", description: "السيطرة الكاملة.", lessons: [] }
             }
         };
 
@@ -895,129 +519,63 @@
             currentTypingTimeout: null,
             progress: {
                 beginnerUnlockedLesson: 0,
-                intermediateUnlockedLesson: -1, /* قفلتها مبدئياً لتبدو كصفحة قادمة */
+                intermediateUnlockedLesson: -1,
                 upperIntermediateUnlockedLesson: -1,
-                advancedUnlockedLesson: -1, 
+                advancedUnlockedLesson: -1,
                 scores: {}
             }
         };
 
-        // استخدام localStorage بسيط لحفظ التقدم (يجب استبداله بـ Firestore في تطبيق حقيقي)
-        const LOCAL_STORAGE_KEY = 'pharaohAiProgress';
+        const LOCAL_STORAGE_KEY = 'pharaohAiCyberProgress_v2';
 
         document.addEventListener('DOMContentLoaded', initApp);
 
         async function initApp() {
             try {
-                // إعدادات المسارات المغلقة مبدئياً
-                if (state.progress.intermediateUnlockedLesson === -1) {
-                    document.querySelector('[data-path="intermediate"]').disabled = true;
-                }
-                if (state.progress.upperIntermediateUnlockedLesson === -1) {
-                    document.querySelector('[data-path="upperIntermediate"]').disabled = true;
-                }
-                
                 await loadUserData();
-                setTimeout(initSplash, 500); 
+                setTimeout(initSplash, 2500); 
             } catch (error) {
-                console.error("خطأ فادح في تهيئة التطبيق:", error);
-                document.getElementById('loading-screen').innerHTML = "<p class='text-red-500'>حدث خطأ في تحميل التطبيق. حاول تحديث الصفحة.</p>";
+                console.error("App Error:", error);
             }
         }
 
         async function loadUserData() {
-            try {
-                const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-                if (savedData) {
-                    const loadedData = JSON.parse(savedData);
-                    state.progress = { 
-                        beginnerUnlockedLesson: loadedData.beginnerUnlockedLesson || 0,
-                        intermediateUnlockedLesson: loadedData.intermediateUnlockedLesson !== undefined ? loadedData.intermediateUnlockedLesson : -1,
-                        upperIntermediateUnlockedLesson: loadedData.upperIntermediateUnlockedLesson !== undefined ? loadedData.upperIntermediateUnlockedLesson : -1,
-                        advancedUnlockedLesson: loadedData.advancedUnlockedLesson !== undefined ? loadedData.advancedUnlockedLesson : -1,
-                        scores: loadedData.scores || {}
-                    };
-                } else {
-                    state.progress = {
-                        beginnerUnlockedLesson: 0,
-                        intermediateUnlockedLesson: -1,
-                        upperIntermediateUnlockedLesson: -1,
-                        advancedUnlockedLesson: -1,
-                        scores: {}
-                    };
-                    await saveUserData();
-                }
-
-                // تحديث حالة الأزرار بناءً على التقدم المحمل
-                updatePathButtonsState();
-            } catch (error) {
-                console.error("خطأ في تحميل بيانات المستخدم:", error);
-                // إعادة تعيين التقدم في حالة الخطأ
-                state.progress = {
-                    beginnerUnlockedLesson: 0,
-                    intermediateUnlockedLesson: -1,
-                    upperIntermediateUnlockedLesson: -1,
-                    advancedUnlockedLesson: -1,
-                    scores: {}
-                };
+            const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+            if (savedData) {
+                const loadedData = JSON.parse(savedData);
+                state.progress = { ...state.progress, ...loadedData };
             }
+            updatePathButtonsState();
         }
 
         function updatePathButtonsState() {
-            // تفعيل المسارات إذا تم فتحها
             if (state.progress.intermediateUnlockedLesson >= 0) {
                 const btn = document.querySelector('[data-path="intermediate"]');
-                if (btn) {
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
-                    btn.querySelector('.text-sm').textContent = '(تحليل وتكتيكات)';
-                }
+                if (btn) { btn.disabled = false; btn.querySelector('.lock-icon').textContent = 'مفتوح'; btn.classList.remove('opacity-40', 'grayscale'); }
             }
             if (state.progress.upperIntermediateUnlockedLesson >= 0) {
                 const btn = document.querySelector('[data-path="upperIntermediate"]');
-                if (btn) {
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
-                    btn.querySelector('.text-sm').textContent = '(دفاع وهجوم متقدم)';
-                }
+                if (btn) { btn.disabled = false; btn.querySelector('.lock-icon').textContent = 'مفتوح'; btn.classList.remove('opacity-40', 'grayscale'); }
             }
         }
 
         async function saveUserData() {
-            try {
-                const dataToSave = {
-                    beginnerUnlockedLesson: state.progress.beginnerUnlockedLesson,
-                    intermediateUnlockedLesson: state.progress.intermediateUnlockedLesson,
-                    upperIntermediateUnlockedLesson: state.progress.upperIntermediateUnlockedLesson,
-                    advancedUnlockedLesson: state.progress.advancedUnlockedLesson,
-                    scores: state.progress.scores
-                };
-                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToSave));
-                console.log("تم حفظ التقدم:", dataToSave);
-            } catch (error) {
-                console.error("خطأ في حفظ بيانات المستخدم:", error);
-            }
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state.progress));
         }
 
         function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
+            document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
             state.currentScreen = screenId.replace('-screen', '');
         }
 
         function initSplash() {
             showScreen('splash-screen');
-            setTimeout(() => {
-                startIntro();
-            }, 2500); 
+            setTimeout(() => startIntro(), 3500); 
         }
-        
-        document.getElementById('start-learning-btn').addEventListener('click', () => {
-            showScreen('path-selection-screen');
-        });
-        
+
+        document.getElementById('start-learning-btn').addEventListener('click', () => showScreen('path-selection-screen'));
+
         document.querySelectorAll('.path-btn').forEach(button => {
             button.addEventListener('click', (e) => {
                 const pathId = e.currentTarget.dataset.path;
@@ -1027,228 +585,149 @@
                 }
             });
         });
-        
-        document.getElementById('back-to-paths-btn').addEventListener('click', () => {
-            showScreen('path-selection-screen');
-        });
-        
+
+        document.getElementById('back-to-paths-btn').addEventListener('click', () => showScreen('path-selection-screen'));
+
         function typewriter(element, text, onComplete) {
             state.isTyping = true;
             element.innerHTML = '';
             let charIndex = 0;
-            const speed = 40; // أسرع قليلاً
+            const speed = 25; 
 
             function type() {
                 if (charIndex < text.length) {
-                    element.innerHTML += text.charAt(charIndex);
+                    element.textContent += text.charAt(charIndex);
                     charIndex++;
                     state.currentTypingTimeout = setTimeout(type, speed);
                 } else {
                     state.isTyping = false;
-                    if (onComplete) {
-                        onComplete();
-                    }
+                    if (onComplete) onComplete();
                 }
             }
             type();
         }
-        
+
         function finishTyping() {
-            if (state.currentTypingTimeout) {
-                clearTimeout(state.currentTypingTimeout);
-            }
-            const currentBubble = document.getElementById('lesson-dialogue-area').lastElementChild?.querySelector('.dialogue-text') || 
-                                 document.getElementById('intro-chat-messages').lastElementChild?.querySelector('.dialogue-text');
-            
-            if (currentBubble) {
-                const currentText = currentBubble.dataset.fullText;
-                if (currentText) {
-                    currentBubble.innerHTML = currentText;
-                }
+            if (state.currentTypingTimeout) clearTimeout(state.currentTypingTimeout);
+            const activeBubble = document.querySelector('.typing-effect');
+            if (activeBubble && activeBubble.dataset.fullText) {
+                activeBubble.textContent = activeBubble.dataset.fullText;
             }
             state.isTyping = false;
         }
 
         function startIntro() {
             showScreen('intro-chat-screen');
-            document.getElementById('intro-chat-messages').innerHTML = ''; // تنظيف المحادثة عند البداية
+            document.getElementById('intro-chat-messages').innerHTML = '';
             document.getElementById('intro-chat-actions').classList.add('hidden');
-            state.currentDialogueIndex = 0;
-            const introScreen = document.getElementById('intro-chat-screen');
-            introScreen.scrollTop = 0; 
-            startIntroSequence(0); 
+            startIntroSequence(0);
         }
 
         function startIntroSequence(index) {
             if (index < database.introChat.length) {
                 const msg = database.introChat[index];
-                addChatMessage(msg.char, msg.text, 'intro-chat-messages', () => {
-                    startIntroSequence(index + 1);
-                });
+                addChatMessage(msg.char, msg.text, 'intro-chat-messages', () => startIntroSequence(index + 1));
             } else {
                 document.getElementById('intro-chat-actions').classList.remove('hidden');
-                const introScreen = document.getElementById('intro-chat-screen');
-                introScreen.scrollTo({ top: introScreen.scrollHeight, behavior: 'smooth' });
             }
         }
-        
+
         function getCharacterInfo(char) {
-            const iconClass = "w-10 h-10 p-1 rounded-full border-2";
             switch(char) {
-                case 'pharaoh':
-                    return {
-                        name: "فرعون Ai",
-                        role: "المُشرف الرقمي",
-                        icon: `<svg class="${iconClass} bg-yellow-500 border-yellow-300 text-black/90 shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.37-3.371A8.25 8.25 0 0 0 15.362 5.214Z" /></svg>`,
-                        color: 'text-yellow-400',
-                        bgColor: 'bg-yellow-900/50',
-                        bubbleColor: '#B45309'
-                    };
-                case 'ahmed':
-                    return {
-                        name: "القائد أحمد",
-                        role: "مسؤول العمليات",
-                        icon: `<svg class="${iconClass} bg-blue-600 border-blue-400 text-white shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.83-5.83M11.42 15.17l-4.24-4.24m4.24 4.24L21 21M15.83 3.83l-4.24-4.24m4.24 4.24L21 21" /></svg>`,
-                        color: 'text-blue-400',
-                        bgColor: 'bg-blue-900/50',
-                        bubbleColor: '#1D4ED8'
-                    };
-                case 'rital':
-                    return {
-                        name: "المهندسة ريتال",
-                        role: "متخصصة التبسيط التقني",
-                        icon: `<svg class="${iconClass} bg-green-600 border-green-400 text-white shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m4.5-10.5H5.25A2.25 2.25 0 0 0 3 9v7.5a2.25 2.25 0 0 0 2.25 2.25h13.5A2.25 2.25 0 0 0 21 16.5V9a2.25 2.25 0 0 0-2.25-2.25ZM6.75 12h.008v.008H6.75V12Zm.008 3h.008v.008H6.75V15h.008Z" /></svg>`,
-                        color: 'text-green-400',
-                        bgColor: 'bg-green-900/50',
-                        bubbleColor: '#047857'
-                    };
-                case 'recruit':
-                    return {
-                        name: "المجند",
-                        role: "الحارس المستجد",
-                        icon: `<svg class="${iconClass} bg-gray-500 border-gray-400 text-white shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0 .75.75 0 0 1-.416.712A8.914 8.914 0 0 1 12 22a8.914 8.914 0 0 1-7.082-1.17.75.75 0 0 1-.416-.712Z" /></svg>`,
-                        color: 'text-gray-300',
-                        bgColor: 'bg-gray-800/50',
-                        bubbleColor: '#4B5563'
-                    };
-                default:
-                    return { name: "غير معروف", role: "", icon: "", color: 'text-gray-500', bgColor: 'bg-gray-700/50', bubbleColor: '#555' };
+                case 'pharaoh': return { name: "Pharaoh Ai", role: "مشرف النظام", color: 'text-cyber-gold', borderColor: 'border-cyber-gold', glow: 'shadow-[0_0_15px_rgba(255,215,0,0.4)]', avatarColor: 'bg-yellow-900' };
+                case 'ahmed': return { name: "القائد أحمد", role: "العمليات", color: 'text-blue-400', borderColor: 'border-blue-400', glow: 'shadow-[0_0_15px_rgba(96,165,250,0.4)]', avatarColor: 'bg-blue-900' };
+                case 'rital': return { name: "م. ريتال", role: "الدعم التقني", color: 'text-green-400', borderColor: 'border-green-400', glow: 'shadow-[0_0_15px_rgba(74,222,128,0.4)]', avatarColor: 'bg-green-900' };
+                case 'recruit': return { name: "المجند", role: "أنت", color: 'text-gray-300', borderColor: 'border-gray-500', glow: '', avatarColor: 'bg-gray-800' };
+                default: return { name: "Unknown", role: "", color: 'text-gray-500', borderColor: 'border-gray-500', glow: '', avatarColor: 'bg-gray-700' };
             }
         }
-        
+
         function updateSpeakerBar(char) {
             const info = getCharacterInfo(char);
             const speakerBar = document.getElementById('current-speaker-bar');
-
-            if (state.currentScreen === 'intro-chat' || state.currentScreen === 'splash' || state.currentScreen === 'loading') {
-                speakerBar.classList.add('hidden');
-                return;
-            }
-            
-            speakerBar.classList.remove('hidden');
-            speakerBar.className = `flex items-center p-3 px-4 shadow-xl border-b-2 border-yellow-800 ${info.bgColor} ${info.color} speaker-title-bar flex-shrink-0`;
             speakerBar.innerHTML = `
-                ${info.icon}
-                <div class="mr-3">
-                    <p class="text-xl font-bold">${info.name}</p>
-                    <p class="text-xs font-light opacity-75">${info.role}</p>
+                <div class="w-12 h-12 rounded-lg ${info.avatarColor} ${info.borderColor} border-2 flex items-center justify-center mr-4 ${info.glow}">
+                    <span class="text-xl font-bold text-white">${info.name.charAt(0)}</span>
+                </div>
+                <div>
+                    <p class="text-xl font-bold ${info.color} tracking-wide">${info.name}</p>
+                    <p class="text-xs text-gray-400 font-mono uppercase tracking-widest">${info.role}</p>
                 </div>
             `;
         }
 
         function addChatMessage(char, text, containerId, onComplete = null) {
-            if (containerId === 'lesson-dialogue-area') {
-                updateSpeakerBar(char);
-            }
-            
             const container = document.getElementById(containerId);
+            if (containerId === 'lesson-dialogue-area') updateSpeakerBar(char);
+
             const info = getCharacterInfo(char);
             const isRecruit = (char === 'recruit');
-
+            
             const wrapper = document.createElement('div');
-            wrapper.className = `chat-bubble-wrapper chat-${char}`;
+            wrapper.className = `flex flex-col ${isRecruit ? 'items-start' : 'items-end'} w-full mb-4`;
 
-            const speakerNameDiv = document.createElement('div');
-            speakerNameDiv.className = `chat-speaker-name ${isRecruit ? 'text-left' : 'text-right'}`; 
-            speakerNameDiv.style.alignSelf = isRecruit ? 'flex-end' : 'flex-start';
-
-            speakerNameDiv.innerHTML = `${info.name} <span class="text-xs opacity-60">(${info.role})</span>`;
-            wrapper.appendChild(speakerNameDiv);
-            
             const bubble = document.createElement('div');
-            bubble.className = `chat-bubble chat-${char} pulsing`;
+            // Styles for different bubbles
+            let bubbleStyle = isRecruit 
+                ? 'bg-white/5 border-l-2 border-gray-500 rounded-tr-xl rounded-br-xl rounded-bl-xl' 
+                : `bg-gradient-to-br from-[#0f1623] to-[#0a0e17] border-r-2 ${info.borderColor} rounded-tl-xl rounded-bl-xl rounded-br-xl`;
             
-            const textElement = document.createElement('div');
-            textElement.className = 'typing-effect dialogue-text';
-            textElement.dataset.fullText = text; 
-
-            bubble.appendChild(textElement);
+            bubble.className = `chat-bubble max-w-[85%] p-4 ${bubbleStyle} animate-float`;
+            
+            // Speaker Name inside bubble for intro
+            if(containerId === 'intro-chat-messages') {
+                 bubble.innerHTML = `<p class="text-xs font-bold mb-1 ${info.color} opacity-80">${info.name}</p>`;
+            }
+            
+            const textEl = document.createElement('p');
+            textEl.className = `typing-effect text-sm md:text-base leading-relaxed ${isRecruit ? 'text-gray-300' : 'text-white'}`;
+            textEl.dataset.fullText = text;
+            
+            bubble.appendChild(textEl);
             wrapper.appendChild(bubble);
             container.appendChild(wrapper);
             
-            if (containerId === 'intro-chat-messages') {
-                const introScreen = document.getElementById('intro-chat-screen');
-                introScreen.scrollTo({ top: introScreen.scrollHeight, behavior: 'smooth' });
-            } else {
-                container.scrollTop = container.scrollHeight; 
-            }
-
-            typewriter(textElement, text, onComplete);
-            setTimeout(() => bubble.classList.remove('pulsing'), 600);
+            container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+            typewriter(textEl, text, onComplete);
         }
-        
+
         function showLessonList(pathId) {
             showScreen('lesson-list-screen');
             const pathData = database.paths[pathId];
-            if (!pathData) return;
-
             document.getElementById('path-title').textContent = pathData.title;
-
             const grid = document.getElementById('lesson-grid');
             grid.innerHTML = '';
-            
+
             const unlockedKey = `${pathId}UnlockedLesson`;
-            const unlockedLesson = state.progress[unlockedKey] !== undefined ? state.progress[unlockedKey] : -1; 
-            
+            const unlockedLesson = state.progress[unlockedKey] || 0;
+
             pathData.lessons.forEach((lesson, index) => {
-                const isLocked = index > (unlockedLesson + 1); 
-                const isIncomplete = !lesson.dialogue || lesson.dialogue.length === 0;
-
-                const button = document.createElement('button');
-                button.className = `btn-lesson flex flex-col justify-between items-start`;
-                if (isLocked || isIncomplete) {
-                    button.classList.add('locked');
-                } else {
-                    button.classList.remove('locked');
-                }
+                const isLocked = index > unlockedLesson;
+                const card = document.createElement('button');
+                card.className = `glass-panel p-5 text-right relative overflow-hidden group transition-all duration-300 hover:-translate-y-1 ${isLocked ? 'opacity-50 grayscale cursor-not-allowed' : 'hover:border-cyber-gold/50 cursor-pointer'}`;
                 
-                const storyText = lesson.storyTitle || "قصة الدرس";
+                let statusIcon = isLocked ? 
+                    `<svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>` :
+                    `<svg class="w-6 h-6 text-cyber-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
 
-                button.innerHTML = `
-                    <div class="flex justify-between w-full items-center mb-2">
-                        <span class="text-xs font-light text-yellow-300 opacity-80">${index + 1}. مهمة</span>
-                        <svg class="w-8 h-8 text-yellow-400 lesson-lock" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                           <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V7.5a4.5 4.5 0 1 0-9 0v3h3m7.5 0h-15m5.25-9.75h4.5a2.25 2.25 0 0 1 2.25 2.25v10.5a2.25 2.25 0 0 1-2.25 2.25h-4.5a2.25 2.25 0 0 1-2.25-2.25v-10.5a2.25 2.25 0 0 1 2.25-2.25Z" />
-                        </svg>
+                card.innerHTML = `
+                    <div class="absolute top-0 right-0 w-1 h-full ${isLocked ? 'bg-gray-700' : 'bg-cyber-gold'}"></div>
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="font-mono text-xs text-gray-500">MISSION ${index + 1 < 10 ? '0'+(index+1) : index+1}</span>
+                        ${statusIcon}
                     </div>
-                    <h3 class="text-xl md:text-2xl font-bold mb-1 text-right">${lesson.title}</h3>
-                    <p class="text-sm text-gray-400 text-right">${storyText}</p>
+                    <h3 class="text-lg font-bold text-white mb-1 group-hover:text-cyber-gold transition-colors">${lesson.title}</h3>
+                    <p class="text-sm text-gray-400">${lesson.storyTitle}</p>
                 `;
-                
-                if (!isLocked && !isIncomplete) {
-                    button.addEventListener('click', () => startLesson(index));
+
+                if (!isLocked && lesson.dialogue) {
+                    card.onclick = () => startLesson(index);
                 }
-                grid.appendChild(button);
+                grid.appendChild(card);
             });
         }
-        
-        function startLesson(index) {
-            const lessons = database.paths[state.currentPathId].lessons;
-            if (!lessons[index] || !lessons[index].dialogue || lessons[index].dialogue.length === 0) {
-                 console.warn("Attempted to start an incomplete or locked lesson.");
-                 return;
-            }
 
+        function startLesson(index) {
             state.currentLessonIndex = index;
             state.currentDialogueIndex = 0;
             showScreen('lesson-view-screen');
@@ -1258,8 +737,6 @@
 
         function displayNextLessonMessage() {
             const lesson = database.paths[state.currentPathId].lessons[state.currentLessonIndex];
-            if (!lesson) return;
-            
             if (state.currentDialogueIndex < lesson.dialogue.length) {
                 const msg = lesson.dialogue[state.currentDialogueIndex];
                 addChatMessage(msg.char, msg.text, 'lesson-dialogue-area');
@@ -1267,35 +744,27 @@
                 showSummaryScreen(lesson);
             }
         }
-        
-        function handleLessonClick() {
-            if (state.isTyping) {
-                finishTyping(); 
-                return;
-            }
-            
-            if (state.currentScreen === 'lesson-view') {
+
+        document.getElementById('lesson-dialogue-area').addEventListener('click', () => {
+            if (state.isTyping) finishTyping();
+            else {
                 state.currentDialogueIndex++;
                 displayNextLessonMessage();
             }
-        }
-        document.getElementById('lesson-dialogue-area').addEventListener('click', handleLessonClick);
-
+        });
 
         function showSummaryScreen(lesson) {
             showScreen('summary-screen');
             document.getElementById('summary-content').innerHTML = `
-                <h3 class="text-xl font-bold text-yellow-400 mb-3">${lesson.title}</h3>
+                <h3 class="text-2xl font-bold text-cyber-gold mb-4">${lesson.title}</h3>
                 <p>${lesson.summary}</p>
             `;
             document.getElementById('start-quiz-btn').onclick = () => startQuiz(lesson.quiz);
         }
 
         let currentQuizData = [];
-
         function startQuiz(quizData) {
-            if (!quizData || quizData.length === 0) {
-                // If no quiz, auto-unlock next lesson and go back
+            if (!quizData || !quizData.length) {
                 unlockNextLesson();
                 showLessonList(state.currentPathId);
                 return;
@@ -1311,47 +780,17 @@
 
         function unlockNextLesson() {
             const unlockedKey = `${state.currentPathId}UnlockedLesson`;
-            const currentLessonIndex = state.currentLessonIndex;
-            
-            if (currentLessonIndex === state.progress[unlockedKey]) {
-                state.progress[unlockedKey] = currentLessonIndex + 1;
+            if (state.currentLessonIndex === (state.progress[unlockedKey] || 0)) {
+                state.progress[unlockedKey] = state.currentLessonIndex + 1;
                 saveUserData();
             }
         }
 
         function displayNextQuestion() {
             if (state.currentQuizQuestion >= currentQuizData.length) {
-                const total = currentQuizData.length;
-                const score = state.quizScore;
-                
-                let feedbackText = `أحسنت! أكملت مهمة التدريب.`;
-                let feedbackColor = 'text-green-400';
-                
-                if (score < total) {
-                    feedbackText = `لقد حصلت على ${score} من ${total}. عليك مراجعة بعض النقاط.`;
-                    feedbackColor = 'text-yellow-400';
-                } else if (score === total) {
-                    feedbackText = `تهانينا! ${score} من ${total}. نجاح باهر. يمكنك الآن فتح المهمة التالية.`;
-                    feedbackColor = 'text-green-400';
-                    
-                    unlockNextLesson();
-                }
-                
-                document.getElementById('quiz-question').innerHTML = `نتائجك النهائية: ${feedbackText}`;
-                document.getElementById('quiz-question').className = `text-2xl text-center mb-8 ${feedbackColor} font-bold`;
-
-                document.getElementById('quiz-options').innerHTML = '';
-                document.getElementById('quiz-feedback').innerHTML = '';
-                
-                const backButton = document.createElement('button');
-                backButton.className = 'btn-adventure text-lg mt-8 w-full max-w-xs mx-auto';
-                backButton.textContent = 'العودة لقائمة المهام';
-                backButton.onclick = () => showLessonList(state.currentPathId);
-                document.getElementById('quiz-options').appendChild(backButton);
-
+                showQuizResults();
                 return;
             }
-
             const currentQ = currentQuizData[state.currentQuizQuestion];
             document.getElementById('quiz-question').textContent = currentQ.q;
             document.getElementById('quiz-feedback').textContent = '';
@@ -1362,52 +801,65 @@
             
             currentQ.options.forEach((option, index) => {
                 const btn = document.createElement('button');
-                btn.className = 'btn-adventure text-lg w-full transition duration-200 ease-in-out';
+                btn.className = 'quiz-option glass-panel w-full p-4 text-right text-gray-300 hover:bg-white/5 hover:border-cyber-gold/50 hover:text-white';
                 btn.textContent = option;
-                btn.dataset.index = index;
                 btn.onclick = () => checkAnswer(btn, index, currentQ.correct, optionsContainer);
                 optionsContainer.appendChild(btn);
             });
         }
 
-        function checkAnswer(selectedButton, selectedIndex, correctIndex, optionsContainer) {
+        function checkAnswer(selectedBtn, index, correctIndex, container) {
             const feedback = document.getElementById('quiz-feedback');
-            
             document.getElementById('next-question-btn').classList.remove('hidden');
 
-            Array.from(optionsContainer.children).forEach(btn => {
+            Array.from(container.children).forEach(btn => {
                 btn.disabled = true;
-                btn.classList.add('opacity-70', 'cursor-default'); 
-
-                const isCorrectOption = parseInt(btn.dataset.index) === correctIndex;
-                const isSelectedOption = parseInt(btn.dataset.index) === selectedIndex;
-                
-                if (isCorrectOption) {
-                    btn.classList.add('quiz-correct');
-                    btn.textContent += ' (إجابة صحيحة)';
-                } else if (isSelectedOption) {
-                    btn.classList.add('quiz-incorrect');
-                    btn.textContent += ' (إجابتك)';
-                }
+                btn.classList.add('cursor-default');
             });
 
-            if (selectedIndex === correctIndex) {
+            if (index === correctIndex) {
+                selectedBtn.classList.add('quiz-correct');
                 state.quizScore++;
-                feedback.textContent = 'ممتاز! إجابتك صحيحة.';
-                feedback.className = 'text-center text-xl mt-6 font-bold text-green-400';
+                feedback.innerHTML = '<span class="text-green-400 font-bold">✓ إجابة صحيحة (نظام الحماية: مفعل)</span>';
             } else {
-                feedback.textContent = 'خطأ. راجع المبدأ الذي تم شرحه.';
-                feedback.className = 'text-center text-xl mt-6 font-bold text-red-400';
+                selectedBtn.classList.add('quiz-incorrect');
+                container.children[correctIndex].classList.add('quiz-correct');
+                feedback.innerHTML = '<span class="text-red-400 font-bold">⚠ خطأ أمني (تم كشف الثغرة)</span>';
             }
-
+            
             document.getElementById('next-question-btn').onclick = () => {
                 state.currentQuizQuestion++;
                 displayNextQuestion();
             };
         }
 
+        function showQuizResults() {
+            const total = currentQuizData.length;
+            const score = state.quizScore;
+            const passed = score === total;
+            
+            let resultHTML = `
+                <div class="text-center">
+                    <div class="text-6xl mb-4">${passed ? '🛡️' : '⚠️'}</div>
+                    <h3 class="text-3xl font-bold ${passed ? 'text-green-400' : 'text-red-400'} mb-2">
+                        ${passed ? 'تم التأمين بنجاح' : 'فشل البروتوكول'}
+                    </h3>
+                    <p class="text-gray-400 mb-6">النتيجة: ${score} من ${total}</p>
+                    <button id="finish-quiz-btn" class="btn-cyber px-8 py-3 rounded mx-auto">
+                        ${passed ? 'استلام التصريح التالي' : 'إعادة المحاولة'}
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('quiz-question').innerHTML = '';
+            document.getElementById('quiz-options').innerHTML = resultHTML;
+            document.getElementById('next-question-btn').classList.add('hidden');
+            
+            document.getElementById('finish-quiz-btn').onclick = () => {
+                if (passed) unlockNextLesson();
+                showLessonList(state.currentPathId);
+            };
+        }
     </script>
-    
 </body>
 </html>
-
