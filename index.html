@@ -307,6 +307,20 @@
                              </div>
                         </div>
                     </button>
+                    
+                    <button data-path="advanced" class="path-btn group glass-panel p-6 hover:bg-white/5 transition-all duration-300 border-l-4 border-l-purple-500 text-right relative overflow-hidden disabled:opacity-40 disabled:grayscale col-span-1 md:col-span-3">
+                        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-l from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10 flex flex-col md:flex-row justify-between items-center">
+                            <div>
+                                <span class="text-xs font-mono text-purple-500 mb-2 block">LEVEL 04 - FINAL</span>
+                                <h3 class="text-2xl font-bold text-white group-hover:text-purple-500 transition-colors mb-2">قائد الفيلق الرقمي</h3>
+                                <p class="text-sm text-gray-400 leading-relaxed">القيادة، استراتيجيات الـ Cloud، الذكاء الاصطناعي، وإدارة الفرق.</p>
+                            </div>
+                             <div class="mt-4 flex items-center text-purple-500 text-sm font-bold">
+                                <span class="lock-icon">🔒 مغلق حالياً</span>
+                             </div>
+                        </div>
+                    </button>
                 </div>
             </div>
         </div>
@@ -466,122 +480,175 @@
             paths: {
                 beginner: {
                     title: "مسار الحارس المبتدئ",
-                    description: "الأساس المتين لمواجهة التهديدات الأولية.",
+                    description: "الأساس المتين لمواجهة التهديدات الأولية وتأمين الأساسيات.",
                     lessons: [
-                        {
-                            title: "1. مفهوم الأمن السيبراني",
-                            storyTitle: "الدرع الرقمي",
-                            dialogue: [
-                                { char: 'ahmed', text: "المهمة الأولى: التعريف بالميدان. الأمن السيبراني ليس مجرد برامج مضادة للفيروسات." },
-                                { char: 'recruit', text: "ما هو إذاً؟" },
-                                { char: 'rital', text: "تخيل أن بياناتك (صورك، أموالك، رسائلك) هي جواهر داخل هرم زجاجي. الإنترنت هو العالم الخارجي المليء باللصوص." },
-                                { char: 'rital', text: "الأمن السيبراني هو الجدران، الكاميرات، والحراس الذين نضعهم لحماية هذا الهرم من السرقة أو التخريب." },
-                                { char: 'ahmed', text: "هدفنا هو حماية: السرية، السلامة، والتوافر. الآن، دعنا نرى كيف يعمل الدرع الرقمي عملياً." }
-                            ],
-                            practical: {
-                                id: "lab-01",
-                                title: "تفعيل الجدار الناري",
-                                description: "البيانات تتعرض لهجوم من حزم ضارة. قم بتفعيل طبقات الحماية لمنع الاختراق.",
-                                type: "shield-defense"
-                            },
-                            summary: "الأمن السيبراني هو حماية الأنظمة والشبكات والبيانات من الهجمات الرقمية. يهدف لحماية الأصول الرقمية من الوصول غير المصرح به أو الاستخدام الإجرامي.",
-                            quiz: [
-                                { q: "ما هو الهدف الرئيسي للأمن السيبراني؟", options: ["تصميم مواقع جميلة", "حماية البيانات والأنظمة من الهجمات", "زيادة سرعة الإنترنت"], correct: 1 },
-                                { q: "شبهنا البيانات في القصة بـ...؟", options: ["جواهر داخل هرم", "رمال الصحراء", "مياه النيل"], correct: 0 }
-                            ]
-                        },
-                         {
-                            title: "2. ثالوث الأمن السيبراني (CIA)",
-                            storyTitle: "أعمدة الهرم الثلاثة",
-                            dialogue: [
-                                { char: 'ahmed', text: "مهمتك التالية هي فهم 'أعمدة الهرم الثلاثة' (CIA)." },
-                                { char: 'rital', text: "إنه اختصار لـ: السرية (Confidentiality)، السلامة (Integrity)، والتوافر (Availability)." },
-                                { char: 'rital', text: "1. السرية: البيانات مشفرة ولا يراها إلا المصرح لهم.\n2. السلامة: البيانات لم يتم العبث بها.\n3. التوافر: النظام يعمل عند الحاجة." },
-                                { char: 'recruit', text: "إذًا يجب تحقيقها جميعًا؟" },
-                                { char: 'ahmed', text: "نعم. توجه إلى غرفة التحكم وتأكد من أن جميع الأنظمة الثلاثة تعمل." }
-                            ],
-                            practical: {
-                                id: "lab-02",
-                                title: "موازنة النظام (CIA)",
-                                description: "الخوادم غير مستقرة. قم بتشغيل بروتوكولات السرية والسلامة والتوافر لاستعادة النظام.",
-                                type: "cia-balance"
-                            },
-                            summary: "الأعمدة الثلاثة هي: 1. السرية (لا أحد يرى أسرارك)، 2. السلامة (لا أحد يغير بياناتك)، 3. التوافر (يمكنك الوصول لبياناتك وقتما تشاء).",
-                            quiz: [
-                                { q: "أي عمود يعني 'الحفاظ على سرية المعلومات'؟", options: ["السلامة", "السرية", "التوافر"], correct: 1 },
-                                { q: "إذا غير لص رسالتك، أي عمود تم اختراقه؟", options: ["السلامة", "السرية", "التوافر"], correct: 0 }
-                            ]
-                        },
-                        {
-                            title: "3. مصطلحات أساسية",
-                            storyTitle: "لغة الحراس",
-                            dialogue: [
-                                { char: 'ahmed', text: "يجب أن تتحدث لغتنا. هناك ثلاثة مفاهيم حيوية: الثغرة (Vulnerability)، والتهديد (Threat)، والخطر (Risk)."},
-                                { char: 'rital', text: "الثغرة: نقطة ضعف (شباك مفتوح). التهديد: لص يحاول الدخول. الخطر: احتمالية السرقة." },
-                                { char: 'recruit', text: "يجب إغلاق الثغرات لتقليل الخطر." },
-                                { char: 'ahmed', text: "صحيح. لدينا ماسح أمني كشف عن ثغرة، تعامل معها."}
-                            ],
-                            practical: {
-                                id: "lab-03",
-                                title: "إدارة المخاطر",
-                                description: "تم اكتشاف منفذ مفتوح (ثغرة) ويوجد تهديد خارجي. قم بإغلاق الثغرة لتقليل الخطر.",
-                                type: "vuln-scanner"
-                            },
-                            summary: "الثغرة (نقطة ضعف)، التهديد (قوة يمكن أن تستغل الضعف)، الخطر (احتمالية تحقق الضرر).",
-                            quiz: [
-                                { q: "الشباك المفتوح في الهرم هو مثال على...؟", options: ["تهديد", "ثغرة", "خطر"], correct: 1 }
-                            ]
-                        },
-                        {
-                            title: "4. أنواع المهاجمين",
-                            storyTitle: "القبعات المختلفة",
-                            dialogue: [
-                                { char: 'ahmed', text: "في عالمنا، الأعداء والحلفاء يرتدون 'قبعات' مختلفة." },
-                                { char: 'rital', text: "القبعة السوداء: مجرم (تدمير/سرقة). القبعة البيضاء: نحن (هاكر أخلاقي). القبعة الرمادية: منطقة وسطى." },
-                                { char: 'recruit', text: "كيف أميز بينهم؟" },
-                                { char: 'ahmed', text: "سأعطيك ملفات تعريف لثلاثة أشخاص، حدد هويتهم." }
-                            ],
-                            practical: {
-                                id: "lab-04",
-                                title: "تحليل الهوية (Profiling)",
-                                description: "أمامك ثلاثة ملفات تعريف. قم بتحليل سلوك كل منهم لتحديد لون القبعة.",
-                                type: "hacker-hats"
-                            },
-                            summary: "المهاجمون ثلاثة أنواع: 1. القبعة السوداء (المجرم/المخرب)، 2. القبعة البيضاء (الباحث الأمني/الأخلاقي)، 3. القبعة الرمادية (يعمل في منطقة رمادية بين الاثنين).",
-                            quiz: [
-                                { q: "من هو 'القبعة السوداء'؟", options: ["باحث أمني يساعدك", "مخترق أخلاقي", "لص رقمي يهدف للسرقة أو التدمير"], correct: 2 },
-                                { q: "ما هو دور 'القبعة البيضاء'؟", options: ["إيجاد الثغرات وإصلاحها بشكل أخلاقي", "سرقة المال", "الاختراق من أجل الشهرة فقط"], correct: 0 }
-                            ]
-                        },
-                        {
-                            title: "5. البرامج الضارة (Malware)",
-                            storyTitle: "العدوى الرقمية",
-                            dialogue: [
-                                { char: 'pharaoh', text: "تنبيه! تم رصد ملف مشبوه." },
-                                { char: 'rital', text: "البرامج الضارة (Malware) مثل الفيروسات والديدان وأحصنة طروادة. حصان طروادة يتنكر كبرنامج مفيد." },
-                                { char: 'ahmed', text: "لا تفتح أي شيء قبل فحصه. قم بتشغيل الساندبوكس (بيئة العزل) وافحص الملف المشبوه." },
-                            ],
-                            practical: {
-                                id: "lab-05",
-                                title: "فحص الملفات (Sandboxing)",
-                                description: "وصل ملف مرفق مشبوه. قم بفحصه داخل البيئة المعزولة واكتشف نوع البرمجية الخبيثة.",
-                                type: "malware-scan"
-                            },
-                            summary: "البرامج الضارة (Malware) هي برامج سيئة. أشهرها: الفيروس (يحتاج ملفاً مضيفاً)، الدودة (تنتشر بنفسها)، وحصان طروادة (يتنكر كبرنامج مفيد).",
-                            quiz: [
-                                { q: "ما هو البرنامج الضار الذي ينتشر عبر الشبكة بنفسه دون تدخل بشري؟", options: ["الفيروس", "الدودة (Worm)", "حصان طروادة"], correct: 1 }
-                            ]
-                        },
-                        { title: "6. التصيد والفدية", storyTitle: "(محاكاة قيد التحميل...)" },
-                        { title: "7. أساسيات الشبكات (IP/MAC)", storyTitle: "(محاكاة قيد التحميل...)" },
-                        { title: "8. الجدار الناري والمنافذ", storyTitle: "(محاكاة قيد التحميل...)" },
-                        { title: "9. أنظمة التشغيل والصلاحيات", storyTitle: "(محاكاة قيد التحميل...)" },
-                        { title: "10. الأمن الشخصي (كلمات المرور)", storyTitle: "(محاكاة قيد التحميل...)" },
+                        { title: "1. مفهوم الأمن السيبراني", storyTitle: "الدرع الرقمي", dialogue: [{ char: 'ahmed', text: "المهمة الأولى: التعريف بالميدان. الأمن السيبراني ليس مجرد برامج مضادة للفيروسات." }, { char: 'recruit', text: "ما هو إذاً؟" }, { char: 'rital', text: "تخيل أن بياناتك هي جواهر داخل هرم زجاجي. الإنترنت هو العالم الخارجي المليء باللصوص." }, { char: 'rital', text: "الأمن السيبراني هو الجدران، الكاميرات، والحراس الذين نضعهم لحماية هذا الهرم." }, { char: 'ahmed', text: "هدفنا حماية: السرية، السلامة، والتوافر. دعنا نرى كيف يعمل الدرع." }], practical: { id: "lab-01", title: "تفعيل الجدار الناري", description: "البيانات تتعرض لهجوم. قم بتفعيل الحماية.", type: "shield-defense" }, summary: "حماية الأنظمة والبيانات من الهجمات الرقمية.", quiz: [{ q: "ما هو الهدف الرئيسي للأمن السيبراني؟", options: ["تصميم مواقع", "حماية البيانات والأنظمة", "زيادة السرعة"], correct: 1 }] },
+                        { title: "2. ثالوث الأمن السيبراني (CIA)", storyTitle: "أعمدة الهرم الثلاثة", dialogue: [{ char: 'ahmed', text: "افهم 'أعمدة الهرم الثلاثة' (CIA)." }, { char: 'rital', text: "السرية (Confidentiality)، السلامة (Integrity)، التوافر (Availability)." }, { char: 'ahmed', text: "توجه لغرفة التحكم واضبط الأنظمة." }], practical: { id: "lab-02", title: "موازنة النظام (CIA)", description: "الخوادم غير مستقرة. شغل البروتوكولات.", type: "cia-balance" }, summary: "السرية (سرية المعلومات)، السلامة (عدم العبث)، التوافر (الوصول عند الحاجة).", quiz: [{ q: "أي عمود يعني 'الحفاظ على سرية المعلومات'؟", options: ["السلامة", "السرية", "التوافر"], correct: 1 }] },
+                        { title: "3. مصطلحات أساسية", storyTitle: "لغة الحراس", dialogue: [{ char: 'ahmed', text: "المفاهيم الحيوية: الثغرة، التهديد، الخطر." }, { char: 'rital', text: "الثغرة: نقطة ضعف. التهديد: لص. الخطر: احتمالية السرقة." }, { char: 'recruit', text: "يجب إغلاق الثغرات." }], practical: { id: "lab-03", title: "إدارة المخاطر", description: "اكتشفنا ثغرة. أغلقها.", type: "vuln-scanner" }, summary: "الثغرة (ضعف)، التهديد (خطر محتمل)، الخطر (احتمالية الضرر).", quiz: [{ q: "الشباك المفتوح هو مثال على...؟", options: ["تهديد", "ثغرة", "خطر"], correct: 1 }] },
+                        { title: "4. أنواع المهاجمين", storyTitle: "القبعات المختلفة", dialogue: [{ char: 'ahmed', text: "الأعداء يرتدون قبعات مختلفة." }, { char: 'rital', text: "سوداء: مجرم. بيضاء: هاكر أخلاقي. رمادية: بينهما." }], practical: { id: "lab-04", title: "تحليل الهوية", description: "حدد لون القبعة بناءً على السلوك.", type: "hacker-hats" }, summary: "القبعة السوداء (تخريب)، البيضاء (حماية)، الرمادية (هواية/فضول).", quiz: [{ q: "من هو 'القبعة السوداء'؟", options: ["باحث أمني", "مخترق أخلاقي", "لص رقمي"], correct: 2 }] },
+                        { title: "5. البرامج الضارة (Malware)", storyTitle: "العدوى الرقمية", dialogue: [{ char: 'pharaoh', text: "تنبيه! ملف مشبوه." }, { char: 'rital', text: "البرامج الضارة مثل الفيروسات والديدان." }, { char: 'ahmed', text: "افحصه في الساندبوكس." }], practical: { id: "lab-05", title: "فحص الملفات", description: "افحص الملف المشبوه.", type: "malware-scan" }, summary: "البرامج الضارة تضر الجهاز. الفيروس يحتاج مضيف، الدودة تنتشر ذاتياً.", quiz: [{ q: "ما البرنامج الذي ينتشر ذاتياً؟", options: ["الفيروس", "الدودة", "حصان طروادة"], correct: 1 }] },
+                        { title: "6. الهندسة الاجتماعية", storyTitle: "خداع العقل البشري", dialogue: [{ char: 'ahmed', text: "البشر هم أضعف حلقة." }, { char: 'rital', text: "التلاعب بالناس لإفشاء الأسرار." }], practical: { id: "lab-06", title: "المكالمة المشبوهة", description: "مكالمة من 'الدعم الفني'. كيف ترد؟", type: "social-eng" }, summary: "الهندسة الاجتماعية تستغل الثقة البشرية.", quiz: [{ q: "ما هي الهندسة الاجتماعية؟", options: ["فيروس", "تلاعب بالبشر", "إصلاح أجهزة"], correct: 1 }] },
+                        { title: "7. التصيد الإلكتروني", storyTitle: "الطعم الرقمي", dialogue: [{ char: 'pharaoh', text: "بريد مشبوه." }, { char: 'rital', text: "Phishing. رسالة مزيفة لسرقة البيانات." }], practical: { id: "lab-07", title: "كاشف التصيد", description: "ميز بين الرابط الحقيقي والمزيف.", type: "phishing-detect" }, summary: "التصيد هو انتحال صفة لسرقة البيانات.", quiz: [{ q: "ماذا تفعل عند استلام رسالة مشبوهة؟", options: ["أرسل البيانات", "أتحقق من الرابط", "أحذف النظام"], correct: 1 }] },
+                        { title: "8. كلمات المرور", storyTitle: "مفاتيح المملكة", dialogue: [{ char: 'ahmed', text: "كلمة المرور خط الدفاع الأول." }, { char: 'rital', text: "استخدم كلمات قوية وفعل 2FA." }], practical: { id: "lab-08", title: "كلمة مرور قوية", description: "أنشئ كلمة مرور قوية.", type: "password-strength" }, summary: "كلمات قوية + مصادقة ثنائية = أمان.", quiz: [{ q: "أي كلمة مرور أقوى؟", options: ["123456", "ahmed", "X#9vBg$2mLq"], correct: 2 }] },
+                        { title: "9. التشفير", storyTitle: "لغة الأسرار", dialogue: [{ char: 'rital', text: "التشفير يحمي الرسائل." }, { char: 'pharaoh', text: "تحويل البيانات لرموز." }], practical: { id: "lab-09", title: "آلة التشفير", description: "شفر الرسالة وفك تشفيرها.", type: "crypto-basic" }, summary: "التشفير يحمي سرية البيانات.", quiz: [{ q: "ما فائدة التشفير؟", options: ["تسريع النت", "حماية البيانات", "حذف الملفات"], correct: 1 }] },
+                        { title: "10. الشبكات (IP/DNS)", storyTitle: "خريطة العالم", dialogue: [{ char: 'ahmed', text: "IP هو عنوانك." }, { char: 'rital', text: "DNS هو دليل الهاتف." }], practical: { id: "lab-10", title: "أداة DNS", description: "ترجم اسم الموقع لـ IP.", type: "dns-lookup" }, summary: "IP عنوان الجهاز، DNS يترجم الأسماء لـ IP.", quiz: [{ q: "وظيفة DNS؟", options: ["حماية", "ترجمة الأسماء لعناوين", "تسريع"], correct: 1 }] },
+                        { title: "11. أمان المحمول", storyTitle: "الدرع في جيبك", dialogue: [{ char: 'ahmed', text: "احمِ هاتفك." }, { char: 'rital', text: "راجع الصلاحيات." }], practical: { id: "lab-11", title: "مدير الصلاحيات", description: "عطل الصلاحيات الخطرة.", type: "mobile-perms" }, summary: "تحديثات + صلاحيات = أمان المحمول.", quiz: [{ q: "تطبيق مصباح يطلب الموقع؟", options: ["أوافق", "أرفض", "أغلق"], correct: 1 }] },
+                        { title: "12. الخصوصية", storyTitle: "إخفاء الأثر", dialogue: [{ char: 'pharaoh', text: "بصمتك الرقمية." }, { char: 'ahmed', text: "قلل ما تشاركه." }], practical: { id: "lab-12", title: "مراجعة المنشور", description: "احجب البيانات الحساسة.", type: "privacy-check" }, summary: "البصمة الرقمية هي أثرك على النت.", quiz: [{ q: "ما هي البصمة الرقمية؟", options: ["بصمة إصبع", "آثار تصفحك", "كلمة مرور"], correct: 1 }] },
+                        { title: "13. النسخ الاحتياطي", storyTitle: "قارب النجاة", dialogue: [{ char: 'ahmed', text: "احذر الفدية." }, { char: 'rital', text: "النسخ الاحتياطي هو الحل." }], practical: { id: "lab-13", title: "استعادة النظام", description: "استعد الملفات بعد التشفير.", type: "backup-restore" }, summary: "النسخ الاحتياطي يحميك من ضياع البيانات.", quiz: [{ q: "أفضل حل للفدية؟", options: ["دفع المال", "نسخ احتياطي", "فورمات"], correct: 1 }] },
+                        { title: "14. التصفح الآمن", storyTitle: "حقل الألغام", dialogue: [{ char: 'rital', text: "ابحث عن القفل (HTTPS)." }], practical: { id: "lab-14", title: "فحص الرابط", description: "تأكد من أمان الموقع.", type: "https-check" }, summary: "HTTPS يعني اتصال مشفر.", quiz: [{ q: "ماذا يعني القفل؟", options: ["مغلق", "آمن ومشفر", "مقطوع"], correct: 1 }] },
+                        { title: "15. الأمن المادي", storyTitle: "حراس البوابات", dialogue: [{ char: 'ahmed', text: "اقفل جهازك." }, { char: 'rital', text: "احذر الـ USB المجهول." }], practical: { id: "lab-15", title: "الفخ المادي", description: "تعامل مع USB مجهول.", type: "physical-usb" }, summary: "الأمن المادي مهم كالأمن الرقمي.", quiz: [{ q: "وجدت USB مجهول؟", options: ["أوصله", "أسلمه للأمن", "أخذه"], correct: 1 }] },
+                        { title: "16. التحديثات", storyTitle: "ترميم الحصن", dialogue: [{ char: 'pharaoh', text: "حدث أنظمتك." }, { char: 'ahmed', text: "التحديثات تغلق الثغرات." }], practical: { id: "lab-16", title: "مركز التحديثات", description: "حدث النظام.", type: "system-update" }, summary: "التحديثات تسد الثغرات الأمنية.", quiz: [{ q: "لماذا نحدث؟", options: ["سد الثغرات", "تغيير الشكل", "إبطاء"], correct: 0 }] }
                     ]
                 },
-                intermediate: { title: "مسار الخبراء المتوسطين", description: "تكتيكات الحماية العميقة والتحليل.", lessons: [] },
-                upperIntermediate: { title: "مسار فوق المتوسط", description: "دفاع وهجوم متقدم.", lessons: [] },
-                advanced: { title: "مسار المحارب المتقدم", description: "السيطرة الكاملة.", lessons: [] }
+                intermediate: { 
+                    title: "مسار الخبراء التكتيكيين", 
+                    description: "تكتيكات الحماية العميقة، تحليل الشبكات، وأساسيات الهجوم الأخلاقي.", 
+                    lessons: [
+                        { title: "1. نموذج OSI Model", storyTitle: "بوابات العالم السفلي السبعة", dialogue: [{ char: 'ahmed', text: "مرحباً بك في المستوى التالي. هنا نفهم كيف تعمل الأشياء." }, { char: 'pharaoh', text: "البيانات تمر بسبع بوابات (طبقات) لتعبر الشبكة." }, { char: 'rital', text: "من الأسلاك (Physical) إلى التطبيق (Application)." }, { char: 'ahmed', text: "افهم النموذج لتفهم الشبكات." }], practical: { id: "lab-int-01", title: "ترتيب الطبقات", description: "رتب طبقات OSI السبعة لضمان وصول الرسالة.", type: "osi-sort" }, summary: "نموذج OSI يتكون من 7 طبقات: Physical, Data Link, Network, Transport, Session, Presentation, Application.", quiz: [{ q: "ما الطبقة المسؤولة عن الكابلات؟", options: ["Application", "Network", "Physical"], correct: 2 }, { q: "أين توجد عناوين IP؟", options: ["Data Link", "Network", "Transport"], correct: 1 }] },
+                        { title: "2. بروتوكولات TCP/IP", storyTitle: "لغة التخاطب", dialogue: [{ char: 'ahmed', text: "الأجهزة تتحدث لغات تسمى بروتوكولات." }, { char: 'rital', text: "أهمها TCP و UDP. الـ TCP موثوق. الـ UDP سريع." }, { char: 'recruit', text: "كيف يبدأ TCP؟" }, { char: 'ahmed', text: "بالمصافحة الثلاثية: SYN, SYN-ACK, ACK." }], practical: { id: "lab-int-02", title: "المصافحة الثلاثية", description: "قم بإجراء اتصال TCP آمن.", type: "tcp-handshake" }, summary: "TCP يضمن وصول البيانات عبر المصافحة الثلاثية. UDP أسرع لكنه غير موثوق.", quiz: [{ q: "ما البروتوكول الموثوق؟", options: ["UDP", "TCP", "IP"], correct: 1 }] },
+                        { title: "3. تحليل الحزم (Wireshark)", storyTitle: "التنصت على الشبكة", dialogue: [{ char: 'pharaoh', text: "البيانات تسير كـ 'حزم'." }, { char: 'ahmed', text: "Wireshark يلتقط الحزم." }, { char: 'rital', text: "البروتوكولات غير المشفرة تكشف كل شيء." }], practical: { id: "lab-int-03", title: "صياد الحزم", description: "التقط الحزم وابحث عن كلمة مرور.", type: "packet-sniffer" }, summary: "تحليل الحزم يكشف البيانات. Telnet/FTP غير آمنة لأنها غير مشفرة.", quiz: [{ q: "ما الأداة لتحليل الحزم؟", options: ["Wireshark", "Notepad", "Paint"], correct: 0 }] },
+                        { title: "4. فحص المنافذ (Nmap)", storyTitle: "رسم خرائط العدو", dialogue: [{ char: 'ahmed', text: "اعرف ماذا يوجد هناك." }, { char: 'rital', text: "Nmap يفحص المنافذ المفتوحة." }, { char: 'pharaoh', text: "كل منفذ مفتوح هو باب محتمل." }], practical: { id: "lab-int-04", title: "فحص الشبكة", description: "استخدم Nmap لاكتشاف المنافذ.", type: "port-scan" }, summary: "Nmap تكشف الأجهزة والخدمات والمنافذ المفتوحة.", quiz: [{ q: "ما وظيفة Nmap؟", options: ["فحص المنافذ", "تصميم", "تشفير"], correct: 0 }] },
+                        /* -------------- 5 New Intermediate Lessons -------------- */
+                        {
+                            title: "5. أساسيات Linux",
+                            storyTitle: "سلاح المحارب",
+                            dialogue: [
+                                { char: 'ahmed', text: "المحترف لا يستخدم الماوس دائماً. لينكس (Linux) هو بيئتنا." },
+                                { char: 'rital', text: "توزيعة Kali Linux مليئة بأدوات الاختراق." },
+                                { char: 'recruit', text: "كيف أتحكم به؟" },
+                                { char: 'ahmed', text: "عبر التيرمينال (Terminal). الأوامر أقوى من الواجهات الرسومية." }
+                            ],
+                            practical: {
+                                id: "lab-int-05",
+                                title: "محاكي التيرمينال",
+                                description: "اكتب الأوامر الأساسية: ls (عرض الملفات)، whoami (من أنا)، pwd (أين أنا).",
+                                type: "linux-term"
+                            },
+                            summary: "لينكس هو نظام التشغيل المفضل للمختصين. التيرمينال يمنحك سيطرة كاملة وسرعة في التنفيذ.",
+                            quiz: [
+                                { q: "ما الأمر الذي يعرض الملفات في المجلد الحالي؟", options: ["cd", "ls", "pwd"], correct: 1 }
+                            ]
+                        },
+                        {
+                            title: "6. سكربتات Bash",
+                            storyTitle: "الأتمتة الذكية",
+                            dialogue: [
+                                { char: 'pharaoh', text: "لماذا تكرر نفس الأمر 100 مرة؟" },
+                                { char: 'rital', text: "اكتب 'Script' ليقوم بالعمل نيابة عنك." },
+                                { char: 'ahmed', text: "لغة Bash هي لغة التخاطب مع نظام لينكس. أتمتة الهجوم والدفاع توفر الوقت." }
+                            ],
+                            practical: {
+                                id: "lab-int-06",
+                                title: "المبرمج الصغير",
+                                description: "اكتب سكربت بسيط يقوم بفحص اتصال (Ping) مجموعة من السيرفرات تلقائياً.",
+                                type: "bash-script"
+                            },
+                            summary: "Bash Scripting يسمح بتجميع أوامر لينكس في ملف واحد لأتمتة المهام المتكررة والمعقدة.",
+                            quiz: [
+                                { q: "ما هو امتداد ملفات سكربت Bash؟", options: [".exe", ".sh", ".py"], correct: 1 }
+                            ]
+                        },
+                        {
+                            title: "7. حقن SQL (SQL Injection)",
+                            storyTitle: "سم في العسل",
+                            dialogue: [
+                                { char: 'ahmed', text: "المواقع تخزن بياناتها في قواعد بيانات (Database)." },
+                                { char: 'rital', text: "إذا لم يتحقق الموقع من مدخلاتك، يمكنك خداعه." },
+                                { char: 'recruit', text: "كيف؟" },
+                                { char: 'ahmed', text: "بكتابة كود SQL داخل خانة الدخول. مثل القول: 'أدخلني أو... 1 يساوي 1'." }
+                            ],
+                            practical: {
+                                id: "lab-int-07",
+                                title: "تجاوز الدخول",
+                                description: "حاول الدخول كمدير (admin) دون معرفة كلمة المرور باستخدام ثغرة SQL Injection.",
+                                type: "sqli-attack"
+                            },
+                            summary: "SQL Injection هي ثغرة خطيرة تسمح للمهاجم بالتلاعب بقاعدة البيانات وسرقة المعلومات أو تجاوز المصادقة.",
+                            quiz: [
+                                { q: "ما الهدف من هجوم SQL Injection؟", options: ["إيقاف الموقع", "التلاعب بقاعدة البيانات", "سرقة ملفات الصور"], correct: 1 }
+                            ]
+                        },
+                        {
+                            title: "8. هجمات XSS",
+                            storyTitle: "النص الخبيث",
+                            dialogue: [
+                                { char: 'pharaoh', text: "المتصفح يثق في أي شيء يرسله الموقع." },
+                                { char: 'rital', text: "XSS (Cross-Site Scripting) يعني حقن كود JavaScript يشتغل عند الضحية." },
+                                { char: 'ahmed', text: "يمكنك سرقة جلسة المستخدم (Cookies) أو توجيهه لصفحة مزيفة بمجرد أن يفتح رابطاً." }
+                            ],
+                            practical: {
+                                id: "lab-int-08",
+                                title: "حقن السكربت",
+                                description: "الموقع مصاب! اكتب كود JavaScript في التعليقات ليظهر رسالة تنبيه (Alert) لكل من يزور الصفحة.",
+                                type: "xss-attack"
+                            },
+                            summary: "XSS تسمح بحقن كود خبيث في صفحات الويب يراه المستخدمون الآخرون، مما يؤدي لسرقة الجلسات أو التصيد.",
+                            quiz: [
+                                { q: "أي لغة تستخدم عادة في هجمات XSS؟", options: ["Python", "JavaScript", "C++"], correct: 1 }
+                            ]
+                        },
+                        {
+                            title: "9. أنظمة كشف التسلل (IDS/IPS)",
+                            storyTitle: "أجراس الإنذار",
+                            dialogue: [
+                                { char: 'ahmed', text: "كيف نعرف أن العدو داخل الشبكة؟" },
+                                { char: 'rital', text: "نحتاج لـ IDS (نظام كشف) و IPS (نظام منع)." },
+                                { char: 'pharaoh', text: "الـ IDS مثل الكاميرا يصور اللص. الـ IPS مثل الحارس يمسك به." }
+                            ],
+                            practical: {
+                                id: "lab-int-09",
+                                title: "غرفة المراقبة",
+                                description: "راقب حركة الشبكة. حدد الحزمة الخبيثة (Malicious Packet) واضغط 'Block' لمنع الهجوم.",
+                                type: "ids-monitor"
+                            },
+                            summary: "IDS يكتشف الأنشطة المشبوهة وينبه المسؤولين. IPS يكتشفها ويمنعها تلقائياً (Active Defense).",
+                            quiz: [
+                                { q: "ما الفرق الرئيسي بين IDS و IPS؟", options: ["IPS يمنع الهجوم، IDS يراقب فقط", "لا يوجد فرق", "IDS أسرع"], correct: 0 }
+                            ]
+                        },
+                        { title: "10. الشبكات الافتراضية (VPN & Proxies)", storyTitle: "النفق السري", dialogue: [], summary: "", quiz: [] },
+                        { title: "11. هجمات حجب الخدمة (DDoS)", storyTitle: "طوفان البيانات", dialogue: [], summary: "", quiz: [] },
+                        { title: "12. تأمين الخوادم (Server Hardening)", storyTitle: "تحصين القلاع", dialogue: [], summary: "", quiz: [] },
+                        { title: "13. تحليل السجلات (Log Analysis)", storyTitle: "قراءة أثر الأقدام", dialogue: [], summary: "", quiz: [] },
+                        { title: "14. إدارة الهوية والوصول (IAM)", storyTitle: "حراس البوابات الرقمية", dialogue: [], summary: "", quiz: [] }
+                    ] 
+                },
+                upperIntermediate: { 
+                    title: "مسار نخبة الظل (Red/Blue Team)", 
+                    description: "تقنيات متقدمة في اختبار الاختراق، الاستجابة للحوادث، والتحليل الجنائي.", 
+                    lessons: [
+                        /* -------------- دروس المستوى فوق المتوسط -------------- */
+                        { title: "1. إطار عمل ميتاسبلويت (Metasploit)", storyTitle: "الترسانة الشاملة", dialogue: [], summary: "", quiz: [] },
+                        { title: "2. اختراق الشبكات اللاسلكية (Wi-Fi)", storyTitle: "اختراق الأثير", dialogue: [], summary: "", quiz: [] },
+                        { title: "3. تصعيد الصلاحيات (Privilege Escalation)", storyTitle: "من جندي إلى ملك", dialogue: [], summary: "", quiz: [] },
+                        { title: "4. التحليل الجنائي الرقمي (Forensics)", storyTitle: "مسرح الجريمة الرقمي", dialogue: [], summary: "", quiz: [] },
+                        { title: "5. الاستجابة للحوادث (Incident Response)", storyTitle: "إطفاء الحرائق الرقمية", dialogue: [], summary: "", quiz: [] },
+                        { title: "6. الهندسة العكسية (Reverse Engineering)", storyTitle: "تفكيك القنبلة", dialogue: [], summary: "", quiz: [] },
+                        { title: "7. اختراق Active Directory", storyTitle: "السيطرة على المملكة", dialogue: [], summary: "", quiz: [] },
+                        { title: "8. تجاوز برامج الحماية (Evasion)", storyTitle: "فن التخفي", dialogue: [], summary: "", quiz: [] },
+                        { title: "9. أمن التطبيقات (AppSec)", storyTitle: "بناء بلا ثغرات", dialogue: [], summary: "", quiz: [] },
+                        { title: "10. استخبارات التهديدات (CTI)", storyTitle: "معرفة العدو قبل الضربة", dialogue: [], summary: "", quiz: [] },
+                        { title: "11. بايثون للأمن السيبراني", storyTitle: "برمجة أدواتك الخاصة", dialogue: [], summary: "", quiz: [] },
+                        { title: "12. التعامل مع برامج الفدية", storyTitle: "التفاوض وفك التشفير", dialogue: [], summary: "", quiz: [] }
+                    ] 
+                },
+                advanced: { 
+                    title: "مسار قائد الفيلق الرقمي (Leader)", 
+                    description: "القيادة، الحوكمة، أمن السحابة، والتقنيات المستقبلية.", 
+                    lessons: [
+                        /* -------------- دروس المستوى المتقدم -------------- */
+                        { title: "1. أمن الحوسبة السحابية (Cloud Security)", storyTitle: "حماية السماء الرقمية", dialogue: [], summary: "", quiz: [] },
+                        { title: "2. معايير ISO 27001 و NIST", storyTitle: "دستور المملكة", dialogue: [], summary: "", quiz: [] },
+                        { title: "3. إدارة مراكز العمليات (SOC Management)", storyTitle: "غرفة الحرب", dialogue: [], summary: "", quiz: [] },
+                        { title: "4. منهجية DevSecOps", storyTitle: "الأمن في خط الإنتاج", dialogue: [], summary: "", quiz: [] },
+                        { title: "5. نموذج الثقة الصفرية (Zero Trust)", storyTitle: "لا تثق بأحد، تحقق دائماً", dialogue: [], summary: "", quiz: [] },
+                        { title: "6. الذكاء الاصطناعي في الأمن السيبراني", storyTitle: "حرب الآلات", dialogue: [], summary: "", quiz: [] },
+                        { title: "7. إدارة الأزمات السيبرانية", storyTitle: "القيادة تحت النار", dialogue: [], summary: "", quiz: [] },
+                        { title: "8. الأمن المادي (Physical Security)", storyTitle: "تأمين العتاد", dialogue: [], summary: "", quiz: [] },
+                        { title: "9. قوانين وتشريعات الجرائم الإلكترونية", storyTitle: "محكمة العدل الرقمية", dialogue: [], summary: "", quiz: [] },
+                        { title: "10. بناء فريق الأمن السيبراني", storyTitle: "تجنيد النخبة", dialogue: [], summary: "", quiz: [] }
+                    ] 
+                }
             }
         };
 
@@ -632,6 +699,10 @@
             }
             if (state.progress.upperIntermediateUnlockedLesson >= 0) {
                 const btn = document.querySelector('[data-path="upperIntermediate"]');
+                if (btn) { btn.disabled = false; btn.querySelector('.lock-icon').textContent = 'مفتوح'; btn.classList.remove('opacity-40', 'grayscale'); }
+            }
+            if (state.progress.advancedUnlockedLesson >= 0) {
+                const btn = document.querySelector('[data-path="advanced"]');
                 if (btn) { btn.disabled = false; btn.querySelector('.lock-icon').textContent = 'مفتوح'; btn.classList.remove('opacity-40', 'grayscale'); }
             }
         }
@@ -795,7 +866,7 @@
                     <p class="text-sm text-gray-400">${lesson.storyTitle}</p>
                 `;
 
-                if (!isLocked && lesson.dialogue) {
+                if (!isLocked) {
                     card.onclick = () => startLesson(index);
                 }
                 grid.appendChild(card);
@@ -814,6 +885,18 @@
 
         function displayNextLessonMessage() {
             const lesson = database.paths[state.currentPathId].lessons[state.currentLessonIndex];
+            
+            // Fallback if dialogue is empty (for new lessons)
+            if (!lesson.dialogue || lesson.dialogue.length === 0) {
+                addChatMessage('pharaoh', "جاري تحميل بيانات المهمة... (المحتوى سيضاف قريباً)", 'lesson-dialogue-area');
+                document.getElementById('tap-indicator').classList.add('hidden');
+                // Auto unlock next just for preview purposes if user clicks empty lesson
+                setTimeout(() => {
+                     showSummaryScreen({ title: lesson.title, summary: "تم إنجاز المهمة (محاكاة).", quiz: [] });
+                }, 2000);
+                return;
+            }
+
             if (state.currentDialogueIndex < lesson.dialogue.length) {
                 const msg = lesson.dialogue[state.currentDialogueIndex];
                 addChatMessage(msg.char, msg.text, 'lesson-dialogue-area');
@@ -836,7 +919,7 @@
             else {
                 // Only advance if not at the end
                 const lesson = database.paths[state.currentPathId].lessons[state.currentLessonIndex];
-                if (state.currentDialogueIndex < lesson.dialogue.length) {
+                if (lesson.dialogue && state.currentDialogueIndex < lesson.dialogue.length) {
                     state.currentDialogueIndex++;
                     displayNextLessonMessage();
                 }
@@ -877,6 +960,46 @@
                 renderHatsLab(workspace, stepsList, completeBtn, feedback);
             } else if (lab.type === 'malware-scan') {
                 renderMalwareLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'social-eng') {
+                renderSocialLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'phishing-detect') {
+                renderPhishingLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'password-strength') {
+                renderPasswordLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'crypto-basic') {
+                renderCryptoLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'dns-lookup') {
+                renderDNSLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'mobile-perms') {
+                renderMobileLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'privacy-check') {
+                renderPrivacyLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'backup-restore') {
+                renderBackupLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'https-check') {
+                renderHTTPSLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'physical-usb') {
+                renderPhysicalLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'system-update') {
+                renderUpdateLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'osi-sort') {
+                renderOSILab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'tcp-handshake') {
+                renderTCPHandshakeLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'packet-sniffer') {
+                renderSnifferLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'port-scan') {
+                renderPortScanLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'linux-term') {
+                renderLinuxLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'bash-script') {
+                renderBashLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'sqli-attack') {
+                renderSQLiLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'xss-attack') {
+                renderXSSLab(workspace, stepsList, completeBtn, feedback);
+            } else if (lab.type === 'ids-monitor') {
+                renderIDSLab(workspace, stepsList, completeBtn, feedback);
             }
         }
 
@@ -889,23 +1012,17 @@
             completeBtn.classList.add('animate-pulse');
         }
 
-        // --- LAB 1: Shield Defense ---
+        /* ------ EXISTING LABS (1-5) ------ */
         function renderShieldLab(container, steps, btn, feedback) {
             steps.innerHTML = '<li>الشبكة تتعرض لهجوم (حزم حمراء).</li><li>اضغط على زر "تفعيل الجدار الناري".</li><li>شاهد كيف يتم صد الهجوم.</li>';
-            
-            // Create Elements
             const shield = document.createElement('div');
             shield.className = 'w-32 h-32 border-4 border-gray-600 rounded-full flex items-center justify-center transition-all duration-500 relative z-10 bg-black/50';
             shield.innerHTML = '<svg class="w-16 h-16 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>';
-            
             const activateBtn = document.createElement('button');
             activateBtn.textContent = "تفعيل الجدار الناري";
             activateBtn.className = 'btn-cyber px-6 py-2 mt-8 absolute bottom-10 z-20';
-            
             container.appendChild(shield);
             container.appendChild(activateBtn);
-
-            // Animation Logic (Particles)
             let isActive = false;
             const interval = setInterval(() => {
                 const packet = document.createElement('div');
@@ -913,15 +1030,12 @@
                 packet.style.right = '0px';
                 packet.style.top = Math.random() * 80 + 10 + '%';
                 container.appendChild(packet);
-                
-                // Move packet
                 let pos = 0;
                 const move = setInterval(() => {
                     pos += 5;
                     packet.style.right = pos + 'px';
-                    // Collision or end
                     if (pos > container.clientWidth / 2 - 40 && isActive) {
-                        packet.style.backgroundColor = '#00F0FF'; // Blocked
+                        packet.style.backgroundColor = '#00F0FF';
                         packet.style.boxShadow = '0 0 10px #00F0FF';
                         packet.style.transform = 'scale(0)';
                         setTimeout(() => packet.remove(), 200);
@@ -932,7 +1046,6 @@
                     }
                 }, 20);
             }, 500);
-
             activateBtn.onclick = () => {
                 isActive = true;
                 shield.classList.add('shield-active');
@@ -943,43 +1056,28 @@
                 activateBtn.disabled = true;
                 labSuccess(btn, feedback, "تم تأمين الشبكة بنجاح! الجدار الناري يعمل.");
             };
-            
-            // Cleanup on exit
             btn.addEventListener('click', () => clearInterval(interval));
         }
 
-        // --- LAB 2: CIA Triad ---
         function renderCIALab(container, steps, btn, feedback) {
             steps.innerHTML = '<li>السيرفرات الثلاثة في حالة حرجة (Offline).</li><li>قم بتشغيل كل سيرفر لتحقيق التوازن.</li>';
-            
             const wrapper = document.createElement('div');
             wrapper.className = 'flex flex-col md:flex-row gap-6 z-10';
-            
             const servers = ['Confidentiality', 'Integrity', 'Availability'];
             let status = [false, false, false];
-
             servers.forEach((name, idx) => {
                 const serverCard = document.createElement('div');
                 serverCard.className = 'glass-panel p-6 w-40 flex flex-col items-center border-red-500/50';
-                serverCard.innerHTML = `
-                    <div class="w-16 h-16 rounded border-2 border-red-500 bg-red-900/20 flex items-center justify-center mb-4 server-icon">
-                        <span class="text-2xl">⚠️</span>
-                    </div>
-                    <h4 class="text-white font-bold mb-2 text-sm">${name}</h4>
-                    <button class="btn-cyber px-4 py-1 text-xs w-full toggle-btn" data-idx="${idx}">OFFLINE</button>
-                `;
+                serverCard.innerHTML = `<div class="w-16 h-16 rounded border-2 border-red-500 bg-red-900/20 flex items-center justify-center mb-4 server-icon"><span class="text-2xl">⚠️</span></div><h4 class="text-white font-bold mb-2 text-sm">${name}</h4><button class="btn-cyber px-4 py-1 text-xs w-full toggle-btn" data-idx="${idx}">OFFLINE</button>`;
                 wrapper.appendChild(serverCard);
             });
-
             container.appendChild(wrapper);
-
             const toggleBtns = wrapper.querySelectorAll('.toggle-btn');
             toggleBtns.forEach(b => {
                 b.onclick = (e) => {
                     const idx = e.target.dataset.idx;
                     const card = e.target.parentElement;
                     const icon = card.querySelector('.server-icon');
-                    
                     status[idx] = true;
                     e.target.textContent = "ONLINE";
                     e.target.classList.add('text-green-400', 'border-green-400');
@@ -989,7 +1087,6 @@
                     icon.classList.remove('border-red-500', 'bg-red-900/20');
                     icon.classList.add('border-green-500', 'bg-green-900/20', 'shadow-[0_0_15px_rgba(74,222,128,0.3)]');
                     icon.innerHTML = '<span class="text-2xl">🛡️</span>';
-
                     if (status.every(Boolean)) {
                         labSuccess(btn, feedback, "تمت موازنة النظام! الثالوث الأمني نشط.");
                     }
@@ -997,154 +1094,774 @@
             });
         }
 
-        // --- LAB 3: Vuln/Risk ---
         function renderVulnLab(container, steps, btn, feedback) {
-            steps.innerHTML = '<li>الماسح الأمني (Scanner) وجد منفذاً مفتوحاً.</li><li>هناك تهديد (فيروس) يقترب.</li><li>اضغط "Patch Vulnerability" لإغلاق الثغرة.</li>';
-            
+            steps.innerHTML = '<li>الماسح الأمني وجد منفذاً مفتوحاً.</li><li>هناك تهديد يقترب.</li><li>اضغط "Patch" لإغلاق الثغرة.</li>';
             const scene = document.createElement('div');
             scene.className = 'relative w-full max-w-md h-64 bg-black/30 border border-gray-700 rounded flex items-center justify-between px-8 overflow-hidden';
-            
-            // Elements
             const threat = document.createElement('div');
             threat.className = 'w-12 h-12 text-red-500 animate-bounce absolute left-4';
             threat.innerHTML = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>';
-            
             const wall = document.createElement('div');
             wall.className = 'h-full w-4 bg-gray-700 absolute left-1/2 transform -translate-x-1/2 transition-all duration-500';
-            // Hole in wall
             const hole = document.createElement('div');
             hole.className = 'w-4 h-16 bg-black absolute top-1/2 left-0 transform -translate-y-1/2 border-y border-red-500 animate-pulse';
             wall.appendChild(hole);
-
             const asset = document.createElement('div');
             asset.className = 'w-16 h-16 text-yellow-500 absolute right-8';
             asset.innerHTML = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>';
-
             const patchBtn = document.createElement('button');
             patchBtn.textContent = "PATCH VULNERABILITY";
             patchBtn.className = 'btn-cyber absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xs px-4 py-2';
-
-            scene.appendChild(threat);
-            scene.appendChild(wall);
-            scene.appendChild(asset);
-            scene.appendChild(patchBtn);
+            scene.appendChild(threat); scene.appendChild(wall); scene.appendChild(asset); scene.appendChild(patchBtn);
             container.appendChild(scene);
-
             patchBtn.onclick = () => {
-                hole.style.backgroundColor = '#10B981';
-                hole.style.borderColor = '#10B981';
-                hole.classList.remove('animate-pulse');
-                threat.classList.remove('animate-bounce');
-                threat.style.opacity = '0.2';
-                patchBtn.textContent = "PATCH APPLIED";
-                patchBtn.disabled = true;
+                hole.style.backgroundColor = '#10B981'; hole.style.borderColor = '#10B981'; hole.classList.remove('animate-pulse');
+                threat.classList.remove('animate-bounce'); threat.style.opacity = '0.2';
+                patchBtn.textContent = "PATCH APPLIED"; patchBtn.disabled = true;
                 labSuccess(btn, feedback, "تم إغلاق الثغرة! الخطر انخفض إلى الصفر.");
             };
         }
 
-        // --- LAB 4: Hacker Hats ---
         function renderHatsLab(container, steps, btn, feedback) {
-            steps.innerHTML = '<li>حرك الفأرة فوق البطاقات للكشف عن النوايا.</li><li>حدد "القبعة السوداء" للقبض عليه.</li>';
-            
-            const grid = document.createElement('div');
-            grid.className = 'grid grid-cols-3 gap-4 z-10';
-            
-            const hackers = [
-                { type: 'White Hat', desc: 'يستأذنه المدير لفحص النظام.', color: 'text-white', safe: true },
-                { type: 'Black Hat', desc: 'يسرق البيانات ويطلب فدية.', color: 'text-red-500', safe: false },
-                { type: 'Grey Hat', desc: 'اخترق بدون إذن ليثبت مهارته.', color: 'text-gray-400', safe: true } // Treat safe for this logic just to find bad guy
-            ];
-
-            // Shuffle visual order logic omitted for simplicity, render direct
+            steps.innerHTML = '<li>حرك الفأرة للكشف عن النوايا.</li><li>حدد "القبعة السوداء" للقبض عليه.</li>';
+            const grid = document.createElement('div'); grid.className = 'grid grid-cols-3 gap-4 z-10';
+            const hackers = [{ type: 'White Hat', desc: 'يستأذنه المدير.', color: 'text-white', safe: true }, { type: 'Black Hat', desc: 'يسرق ويطلب فدية.', color: 'text-red-500', safe: false }, { type: 'Grey Hat', desc: 'يخترق بدون إذن.', color: 'text-gray-400', safe: true }];
             hackers.forEach((h) => {
                 const card = document.createElement('div');
                 card.className = 'glass-panel p-4 w-32 h-48 cursor-pointer group hover:bg-white/10 transition-all flex flex-col items-center justify-center text-center';
-                card.innerHTML = `
-                    <div class="text-4xl mb-2">🕵️</div>
-                    <div class="text-xs text-gray-500 group-hover:hidden">???</div>
-                    <div class="hidden group-hover:block text-xs text-white animate-fade-in">${h.desc}</div>
-                `;
-                
+                card.innerHTML = `<div class="text-4xl mb-2">🕵️</div><div class="text-xs text-gray-500 group-hover:hidden">???</div><div class="hidden group-hover:block text-xs text-white animate-fade-in">${h.desc}</div>`;
                 card.onclick = () => {
                     if (!h.safe) {
-                        card.classList.add('border-red-500', 'bg-red-900/20');
-                        card.innerHTML = `<div class="text-4xl">🚨</div><div class="text-red-500 font-bold mt-2">تم القبض عليه!</div>`;
-                        labSuccess(btn, feedback, "أحسنت! لقد حددت المهاجم الخبيث (القبعة السوداء).");
-                        // Disable others
+                        card.classList.add('border-red-500', 'bg-red-900/20'); card.innerHTML = `<div class="text-4xl">🚨</div><div class="text-red-500 font-bold mt-2">تم القبض عليه!</div>`;
+                        labSuccess(btn, feedback, "أحسنت! لقد حددت المهاجم الخبيث.");
                         Array.from(grid.children).forEach(c => c.style.pointerEvents = 'none');
                     } else {
-                        card.classList.add('border-green-500');
-                        card.innerHTML = `<div class="text-green-500 font-bold mt-2">ليس هذا!</div><div class="text-[10px]">${h.type}</div>`;
-                        feedback.textContent = "هذا ليس المجرم. ابحث عن صاحب النوايا الخبيثة.";
-                        feedback.classList.remove('hidden');
-                        feedback.classList.add('text-yellow-400');
+                        card.classList.add('border-green-500'); card.innerHTML = `<div class="text-green-500 font-bold mt-2">ليس هذا!</div>`;
                     }
                 };
                 grid.appendChild(card);
             });
-            
             container.appendChild(grid);
         }
 
-        // --- LAB 5: Malware Scan ---
         function renderMalwareLab(container, steps, btn, feedback) {
-            steps.innerHTML = '<li>اضغط "Start Scan" لفحص الملف.</li><li>انتظر التحليل.</li><li>اذا كان "Malicious" (ضار)، اضغط "Delete".</li>';
-            
-            const scanner = document.createElement('div');
-            scanner.className = 'w-64 glass-panel p-6 flex flex-col items-center relative';
-            
-            const fileIcon = document.createElement('div');
-            fileIcon.className = 'w-16 h-16 bg-gray-700 rounded mb-4 flex items-center justify-center text-2xl';
-            fileIcon.textContent = '📄';
-            
-            const progressBar = document.createElement('div');
-            progressBar.className = 'w-full h-2 bg-gray-700 rounded overflow-hidden mb-4';
-            const progressFill = document.createElement('div');
-            progressFill.className = 'h-full bg-cyber-blue w-0 transition-all duration-[2000ms] ease-linear';
-            progressBar.appendChild(progressFill);
-
-            const statusText = document.createElement('div');
-            statusText.className = 'text-xs font-mono text-cyber-blue mb-4 h-4';
-            statusText.textContent = 'READY TO SCAN';
-
-            const actionBtn = document.createElement('button');
-            actionBtn.className = 'btn-cyber px-4 py-1 text-xs';
-            actionBtn.textContent = 'START SCAN';
-
-            scanner.appendChild(fileIcon);
-            scanner.appendChild(progressBar);
-            scanner.appendChild(statusText);
-            scanner.appendChild(actionBtn);
+            steps.innerHTML = '<li>اضغط "Start Scan".</li><li>انتظر التحليل.</li><li>اذا كان "Malicious"، اضغط "Delete".</li>';
+            const scanner = document.createElement('div'); scanner.className = 'w-64 glass-panel p-6 flex flex-col items-center relative';
+            const fileIcon = document.createElement('div'); fileIcon.className = 'w-16 h-16 bg-gray-700 rounded mb-4 flex items-center justify-center text-2xl'; fileIcon.textContent = '📄';
+            const progressBar = document.createElement('div'); progressBar.className = 'w-full h-2 bg-gray-700 rounded overflow-hidden mb-4';
+            const progressFill = document.createElement('div'); progressFill.className = 'h-full bg-cyber-blue w-0 transition-all duration-[2000ms] ease-linear'; progressBar.appendChild(progressFill);
+            const statusText = document.createElement('div'); statusText.className = 'text-xs font-mono text-cyber-blue mb-4 h-4'; statusText.textContent = 'READY TO SCAN';
+            const actionBtn = document.createElement('button'); actionBtn.className = 'btn-cyber px-4 py-1 text-xs'; actionBtn.textContent = 'START SCAN';
+            scanner.appendChild(fileIcon); scanner.appendChild(progressBar); scanner.appendChild(statusText); scanner.appendChild(actionBtn);
             container.appendChild(scanner);
-
             actionBtn.onclick = () => {
                 if (actionBtn.textContent === 'START SCAN') {
-                    statusText.textContent = 'SCANNING...';
-                    progressFill.style.width = '100%';
-                    actionBtn.disabled = true;
-                    
+                    statusText.textContent = 'SCANNING...'; progressFill.style.width = '100%'; actionBtn.disabled = true;
                     setTimeout(() => {
-                        statusText.textContent = '⚠️ THREAT DETECTED: TROJAN';
-                        statusText.classList.replace('text-cyber-blue', 'text-red-500');
-                        statusText.classList.add('animate-pulse');
-                        fileIcon.innerHTML = '👾';
-                        fileIcon.classList.add('text-red-500', 'border', 'border-red-500');
-                        
-                        actionBtn.textContent = 'DELETE FILE';
-                        actionBtn.classList.replace('btn-cyber', 'bg-red-600');
-                        actionBtn.classList.add('border-red-500', 'text-red-100', 'hover:bg-red-700');
-                        actionBtn.disabled = false;
+                        statusText.textContent = '⚠️ THREAT DETECTED'; statusText.classList.replace('text-cyber-blue', 'text-red-500');
+                        fileIcon.innerHTML = '👾'; fileIcon.classList.add('text-red-500', 'border', 'border-red-500');
+                        actionBtn.textContent = 'DELETE FILE'; actionBtn.classList.replace('btn-cyber', 'bg-red-600'); actionBtn.disabled = false;
                     }, 2000);
                 } else {
-                    fileIcon.innerHTML = '🗑️';
-                    fileIcon.classList.remove('text-red-500', 'border-red-500');
-                    statusText.textContent = 'THREAT REMOVED';
-                    statusText.classList.replace('text-red-500', 'text-green-500');
-                    statusText.classList.remove('animate-pulse');
-                    actionBtn.disabled = true;
-                    labSuccess(btn, feedback, "تم عزل الملف وحذفه بنجاح! الجهاز آمن الآن.");
+                    fileIcon.innerHTML = '🗑️'; fileIcon.classList.remove('text-red-500', 'border-red-500');
+                    statusText.textContent = 'THREAT REMOVED'; statusText.classList.replace('text-red-500', 'text-green-500');
+                    actionBtn.disabled = true; labSuccess(btn, feedback, "تم عزل الملف وحذفه بنجاح!");
                 }
             };
+        }
+
+        /* ------ NEW LABS (6-14) ------ */
+
+        function renderSocialLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>أنت تتلقى مكالمة مشبوهة.</li><li>اختر الرد الأمني الصحيح لعدم كشف معلوماتك.</li>';
+            const chat = document.createElement('div');
+            chat.className = 'glass-panel w-full max-w-md p-6 flex flex-col gap-4';
+            chat.innerHTML = `
+                <div class="flex items-center gap-3 border-b border-white/10 pb-3">
+                    <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-xl">📞</div>
+                    <div><div class="font-bold">Unknown Caller</div><div class="text-xs text-red-400">يدعي أنه "مدير النظام"</div></div>
+                </div>
+                <div class="bg-white/10 p-3 rounded text-sm">"مرحباً، نحتاج كلمة مرورك الآن لتحديث السيرفر، وإلا سيتوقف حسابك!"</div>
+                <div class="grid gap-2 mt-2">
+                    <button class="btn-cyber p-2 text-sm border-red-500/50 hover:bg-red-900/20 wrong-ans">تفضل: 123456</button>
+                    <button class="btn-cyber p-2 text-sm border-green-500/50 hover:bg-green-900/20 correct-ans">عفواً، لا أشارك كلمات المرور عبر الهاتف. سأبلغ الأمن.</button>
+                </div>
+            `;
+            container.appendChild(chat);
+            chat.querySelector('.correct-ans').onclick = (e) => {
+                e.target.classList.add('bg-green-500', 'text-black');
+                labSuccess(btn, feedback, "ممتاز! لا تشارك كلمات المرور أبداً عبر الهاتف.");
+            };
+            chat.querySelector('.wrong-ans').onclick = (e) => {
+                e.target.classList.add('bg-red-500', 'text-white');
+                feedback.textContent = "خطأ! لقد سلمت مفاتيحك للمهاجم.";
+                feedback.classList.remove('hidden'); feedback.classList.add('text-red-400');
+            };
+        }
+
+        function renderPhishingLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>قارن بين الروابط.</li><li>اضغط على الرابط "المزيف" للإبلاغ عنه.</li>';
+            const wrapper = document.createElement('div'); wrapper.className = 'flex flex-col gap-4 w-full max-w-md';
+            const links = [
+                { url: 'https://www.paypal.com/login', safe: true },
+                { url: 'http://www.paypaI-secure-login.com/user', safe: false }
+            ];
+            links.forEach(l => {
+                const linkBtn = document.createElement('button');
+                linkBtn.className = 'glass-panel p-4 text-left flex items-center justify-between hover:bg-white/5 w-full';
+                linkBtn.innerHTML = `<span>${l.url}</span> <span class="text-xs bg-gray-700 px-2 py-1 rounded">زيارة</span>`;
+                linkBtn.onclick = () => {
+                    if (!l.safe) {
+                        linkBtn.classList.add('border-green-500', 'bg-green-900/20');
+                        labSuccess(btn, feedback, "رائع! لاحظت النطاق المزيف (HTTP واسم غريب).");
+                    } else {
+                        linkBtn.classList.add('border-red-500');
+                        feedback.textContent = "خطأ. هذا الرابط يبدو سليماً (HTTPS والنطاق الرسمي).";
+                        feedback.classList.remove('hidden');
+                    }
+                };
+                wrapper.appendChild(linkBtn);
+            });
+            container.appendChild(wrapper);
+        }
+
+        function renderPasswordLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>اكتب كلمة مرور قوية (> 8 أحرف + أرقام).</li><li>فعل خيار 2FA.</li>';
+            const form = document.createElement('div');
+            form.className = 'glass-panel p-6 w-64 flex flex-col gap-4';
+            form.innerHTML = `
+                <input type="text" id="pass-input" placeholder="كلمة المرور..." class="bg-black/50 border border-gray-600 p-2 rounded text-white focus:border-cyber-gold outline-none">
+                <div class="flex items-center justify-between text-sm text-gray-400">
+                    <span>المصادقة الثنائية (2FA)</span>
+                    <input type="checkbox" id="2fa-toggle" class="w-4 h-4">
+                </div>
+                <div id="strength-meter" class="h-1 w-full bg-gray-700 rounded overflow-hidden"><div class="h-full w-0 bg-red-500 transition-all"></div></div>
+                <button id="save-pass" class="btn-cyber py-1 text-sm">حفظ الإعدادات</button>
+            `;
+            container.appendChild(form);
+            const input = form.querySelector('#pass-input');
+            const meter = form.querySelector('#strength-meter div');
+            const toggle = form.querySelector('#2fa-toggle');
+            const save = form.querySelector('#save-pass');
+
+            input.addEventListener('input', () => {
+                const val = input.value;
+                if (val.length > 8 && /\d/.test(val)) { meter.style.width = '100%'; meter.className = 'h-full w-full bg-green-500 transition-all'; }
+                else if (val.length > 4) { meter.style.width = '50%'; meter.className = 'h-full w-full bg-yellow-500 transition-all'; }
+                else { meter.style.width = '10%'; meter.className = 'h-full w-full bg-red-500 transition-all'; }
+            });
+
+            save.onclick = () => {
+                if (input.value.length > 8 && /\d/.test(input.value) && toggle.checked) {
+                    labSuccess(btn, feedback, "كلمة مرور قوية + حماية مضاعفة. حسابك آمن!");
+                } else {
+                    feedback.textContent = "كلمة المرور ضعيفة أو لم تفعل 2FA.";
+                    feedback.classList.remove('hidden');
+                }
+            };
+        }
+
+        function renderCryptoLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>الرسالة "HELLO" غير آمنة.</li><li>اضغط "تشفير" لتحويلها لرموز.</li><li>ثم "فك التشفير" لاستعادتها.</li>';
+            const box = document.createElement('div');
+            box.className = 'glass-panel p-6 text-center';
+            box.innerHTML = `
+                <div id="crypto-text" class="text-2xl font-mono font-bold text-white mb-4 tracking-widest">HELLO</div>
+                <div class="flex gap-2 justify-center">
+                    <button id="enc-btn" class="btn-cyber px-4 py-1 text-sm">🔒 تشفير</button>
+                    <button id="dec-btn" class="btn-cyber px-4 py-1 text-sm opacity-50" disabled>🔓 فك تشفير</button>
+                </div>
+            `;
+            container.appendChild(box);
+            const textDiv = box.querySelector('#crypto-text');
+            const encBtn = box.querySelector('#enc-btn');
+            const decBtn = box.querySelector('#dec-btn');
+
+            encBtn.onclick = () => {
+                textDiv.textContent = "KHOOR"; // Caesar cipher +3
+                textDiv.classList.add('text-red-400');
+                encBtn.disabled = true; encBtn.classList.add('opacity-50');
+                decBtn.disabled = false; decBtn.classList.remove('opacity-50');
+                feedback.textContent = "البيانات الآن مشفرة ولا يمكن قراءتها.";
+                feedback.classList.remove('hidden');
+            };
+            decBtn.onclick = () => {
+                textDiv.textContent = "HELLO";
+                textDiv.classList.remove('text-red-400'); textDiv.classList.add('text-green-400');
+                decBtn.disabled = true;
+                labSuccess(btn, feedback, "تمت العملية بنجاح! التشفير يحمي البيانات أثناء النقل.");
+            };
+        }
+
+        function renderDNSLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>اكتب "nslookup google.com" في التيرمينال.</li><li>اضغط Enter لترجمة الاسم إلى IP.</li>';
+            const term = document.createElement('div');
+            term.className = 'bg-black border border-gray-600 p-4 font-mono text-sm text-green-400 w-full max-w-md h-48 overflow-y-auto rounded';
+            term.innerHTML = `<div>root@kali:~# <input type="text" id="cmd-input" class="bg-transparent border-none outline-none text-white w-64" autofocus></div>`;
+            container.appendChild(term);
+            
+            const input = term.querySelector('#cmd-input');
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const cmd = input.value.trim();
+                    const output = document.createElement('div');
+                    output.className = 'text-gray-300 mb-2';
+                    if (cmd === 'nslookup google.com') {
+                        output.innerHTML = `Server: 8.8.8.8<br>Address: 8.8.8.8#53<br><br>Non-authoritative answer:<br>Name: google.com<br>Address: 142.250.190.46`;
+                        term.insertBefore(output, input.parentElement);
+                        input.disabled = true;
+                        labSuccess(btn, feedback, "نجحت! الـ DNS هو دليل الهاتف للإنترنت.");
+                    } else {
+                        output.textContent = `Command not found: ${cmd}`;
+                        term.insertBefore(output, input.parentElement);
+                        input.value = '';
+                    }
+                }
+            });
+        }
+
+        function renderMobileLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>تطبيق "Flashlight" يطلب الوصول للموقع!</li><li>قم بتعطيل الصلاحية (Switch OFF).</li>';
+            const phone = document.createElement('div');
+            phone.className = 'glass-panel p-4 w-64 border border-gray-600 rounded-xl';
+            phone.innerHTML = `
+                <div class="flex items-center gap-2 mb-4 border-b border-gray-700 pb-2">
+                    <div class="w-8 h-8 bg-yellow-500 rounded-full"></div>
+                    <span class="font-bold">Flashlight App</span>
+                </div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm">Camera (Flash)</span>
+                    <input type="checkbox" checked disabled class="accent-green-500">
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-red-400">Location (GPS)</span>
+                    <input type="checkbox" id="gps-toggle" checked class="accent-red-500 cursor-pointer">
+                </div>
+            `;
+            container.appendChild(phone);
+            const toggle = phone.querySelector('#gps-toggle');
+            toggle.onchange = () => {
+                if (!toggle.checked) {
+                    labSuccess(btn, feedback, "صحيح! المصباح لا يحتاج لموقعك الجغرافي.");
+                }
+            };
+        }
+
+        function renderPrivacyLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>اضغط على المعلومات الحساسة في المنشور لحجبها.</li><li>(رقم الهاتف، تذكرة السفر).</li>';
+            const post = document.createElement('div');
+            post.className = 'glass-panel p-4 w-full max-w-md';
+            post.innerHTML = `
+                <div class="text-gray-300 mb-2">جاري النشر...</div>
+                <div class="bg-white/10 p-4 rounded text-sm leading-relaxed" id="post-text">
+                    أنا مسافر اليوم! ✈️ <br>
+                    رقم هاتفي للتواصل: <span class="cursor-pointer bg-red-500/20 hover:bg-red-500 px-1 rounded sens-data" data-type="phone">0501234567</span> <br>
+                    هذه صورة تذكرتي: <span class="cursor-pointer bg-red-500/20 hover:bg-red-500 px-1 rounded sens-data" data-type="ticket">[Ticket_Image.jpg]</span>
+                </div>
+            `;
+            container.appendChild(post);
+            let redactedCount = 0;
+            post.querySelectorAll('.sens-data').forEach(el => {
+                el.onclick = () => {
+                    if (!el.classList.contains('bg-black')) {
+                        el.className = 'bg-black text-black px-1 rounded cursor-default';
+                        el.textContent = '██████';
+                        redactedCount++;
+                        if (redactedCount === 2) {
+                            labSuccess(btn, feedback, "تم حجب البيانات الحساسة! خصوصيتك في أمان.");
+                        }
+                    }
+                };
+            });
+        }
+
+        function renderBackupLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>الشاشة حمراء (فيروس الفدية).</li><li>اضغط "Restore Backup" لاستعادة البيانات من القرص الخارجي.</li>';
+            const screen = document.createElement('div');
+            screen.className = 'w-full max-w-md h-48 bg-red-900/50 border-2 border-red-600 rounded flex flex-col items-center justify-center p-4 text-center transition-all duration-1000';
+            screen.id = 'ransom-screen';
+            screen.innerHTML = `
+                <div class="text-3xl mb-2">🔒 FILES ENCRYPTED</div>
+                <div class="text-xs mb-4">Pay $500 to decrypt</div>
+                <button id="restore-btn" class="btn-cyber px-4 py-2 text-xs bg-gray-800">💾 Restore from External Drive</button>
+            `;
+            container.appendChild(screen);
+            
+            const btnRestore = screen.querySelector('#restore-btn');
+            btnRestore.onclick = () => {
+                btnRestore.textContent = "RESTORING...";
+                setTimeout(() => {
+                    screen.className = 'w-full max-w-md h-48 bg-green-900/50 border-2 border-green-500 rounded flex flex-col items-center justify-center p-4 text-center';
+                    screen.innerHTML = `<div class="text-3xl mb-2">✅ SYSTEM RESTORED</div><div class="text-xs">No ransom paid!</div>`;
+                    labSuccess(btn, feedback, "النسخ الاحتياطي أنقذك من الكارثة!");
+                }, 2000);
+            };
+        }
+
+        function renderHTTPSLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>لاحظ الرابط: "http://" (غير آمن).</li><li>اضغط الزر لتفعيل "HTTPS" وتشفير الاتصال.</li>';
+            const browser = document.createElement('div');
+            browser.className = 'glass-panel w-full max-w-md flex flex-col overflow-hidden';
+            browser.innerHTML = `
+                <div class="bg-gray-800 p-2 flex items-center gap-2">
+                    <div id="lock-icon" class="text-red-500">🔓</div>
+                    <div id="url-bar" class="bg-white/10 px-2 rounded text-xs flex-grow font-mono py-1">http://mybank.com/login</div>
+                </div>
+                <div class="p-8 flex justify-center bg-white/5">
+                    <button id="enable-ssl" class="btn-cyber px-4 py-2">Enable HTTPS / SSL</button>
+                </div>
+            `;
+            container.appendChild(browser);
+            
+            const btnSSL = browser.querySelector('#enable-ssl');
+            btnSSL.onclick = () => {
+                browser.querySelector('#lock-icon').textContent = '🔒';
+                browser.querySelector('#lock-icon').className = 'text-green-500';
+                browser.querySelector('#url-bar').textContent = 'https://mybank.com/login';
+                browser.querySelector('#url-bar').classList.add('text-green-400');
+                btnSSL.disabled = true;
+                labSuccess(btn, feedback, "الاتصال الآن مشفر. القفل يعني الأمان.");
+            };
+        }
+
+        /* ------ ADDED LABS (15, 16, Intermediate 1, 2, 3, 4) ------ */
+
+        function renderPhysicalLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>وجدت USB مجهول.</li><li>اختر الإجراء الصحيح (توصيل أم إبلاغ).</li><li>اضغط على شاشة الكمبيوتر لقفلها.</li>';
+            const scene = document.createElement('div');
+            scene.className = 'relative w-full max-w-md h-64 bg-gray-900 border border-gray-700 rounded flex items-center justify-center overflow-hidden';
+            
+            // Desk Area
+            scene.innerHTML = `
+                <div id="pc-screen" class="w-32 h-24 bg-blue-500 border-4 border-gray-600 rounded mb-10 cursor-pointer relative flex items-center justify-center text-xs text-white text-center">
+                    Desktop (Unlocked)<br>Click to Lock
+                </div>
+                <div id="usb-drive" class="absolute bottom-4 right-10 w-8 h-4 bg-red-500 rounded cursor-pointer animate-bounce text-[8px] text-center text-white pt-0.5">USB</div>
+            `;
+            container.appendChild(scene);
+
+            let isLocked = false;
+            let usbHandled = false;
+
+            const screenDiv = scene.querySelector('#pc-screen');
+            const usbDiv = scene.querySelector('#usb-drive');
+
+            screenDiv.onclick = () => {
+                if (!isLocked) {
+                    screenDiv.classList.replace('bg-blue-500', 'bg-black');
+                    screenDiv.textContent = "Locked";
+                    isLocked = true;
+                    checkWin();
+                }
+            };
+
+            usbDiv.onclick = () => {
+                if (!usbHandled) {
+                    const choice = confirm("هل تريد توصيل الـ USB بالجهاز؟\nOK = توصيل\nCancel = إبلاغ الأمن");
+                    if (choice) {
+                        // Plugged in (Bad)
+                        screenDiv.classList.replace('bg-blue-500', 'bg-red-600');
+                        screenDiv.textContent = "HACKED!";
+                        feedback.textContent = "خطأ! قمت بتوصيل USB مصاب بالفيروسات.";
+                        feedback.classList.remove('hidden'); feedback.classList.add('text-red-400');
+                    } else {
+                        // Reported (Good)
+                        usbDiv.style.display = 'none';
+                        usbHandled = true;
+                        checkWin();
+                    }
+                }
+            };
+
+            function checkWin() {
+                if (isLocked && usbHandled) {
+                    labSuccess(btn, feedback, "أحسنت! قفلت جهازك وأبلغت عن التهديد المادي.");
+                }
+            }
+        }
+
+        function renderUpdateLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>النظام يحوي ثغرات خطيرة.</li><li>اضغط "Check for Updates".</li><li>ثم "Install Now".</li>';
+            const panel = document.createElement('div');
+            panel.className = 'glass-panel w-full max-w-md p-6 flex flex-col gap-4';
+            panel.innerHTML = `
+                <div class="flex justify-between items-center border-b border-gray-600 pb-2">
+                    <span class="font-bold text-lg">System Update</span>
+                    <span class="text-red-500 font-mono">⚠ Vulnerable</span>
+                </div>
+                <div class="text-sm text-gray-400">Last update: 2 years ago</div>
+                <div id="update-progress" class="w-full h-2 bg-gray-700 rounded overflow-hidden hidden">
+                    <div class="h-full bg-green-500 w-0 transition-all duration-[3000ms]"></div>
+                </div>
+                <button id="check-btn" class="btn-cyber py-2">Check for Updates</button>
+            `;
+            container.appendChild(panel);
+
+            const checkBtn = panel.querySelector('#check-btn');
+            const progress = panel.querySelector('#update-progress');
+            const bar = progress.querySelector('div');
+
+            checkBtn.onclick = () => {
+                if (checkBtn.textContent === 'Check for Updates') {
+                    checkBtn.textContent = 'Checking...';
+                    setTimeout(() => {
+                        checkBtn.textContent = 'Install Critical Patch (KB4023)';
+                        checkBtn.classList.add('animate-pulse');
+                    }, 1500);
+                } else if (checkBtn.textContent.includes('Install')) {
+                    checkBtn.disabled = true;
+                    checkBtn.classList.remove('animate-pulse');
+                    progress.classList.remove('hidden');
+                    setTimeout(() => { bar.style.width = '100%'; }, 100);
+                    
+                    setTimeout(() => {
+                        panel.querySelector('.text-red-500').textContent = '✓ Up to Date';
+                        panel.querySelector('.text-red-500').className = 'text-green-500 font-mono';
+                        checkBtn.textContent = "System Secure";
+                        labSuccess(btn, feedback, "النظام محدث الآن ومحمي من الثغرات المعروفة.");
+                    }, 3200);
+                }
+            };
+        }
+
+        function renderOSILab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>رتب الطبقات من 1 (الفيزيائية) إلى 7 (التطبيقات).</li><li>اضغط على الأزرار بالترتيب الصحيح.</li>';
+            const gameArea = document.createElement('div');
+            gameArea.className = 'flex gap-4 w-full justify-center items-start';
+            
+            // Shuffled layers
+            const layers = [
+                { id: 7, name: "Application" },
+                { id: 3, name: "Network" },
+                { id: 1, name: "Physical" },
+                { id: 5, name: "Session" },
+                { id: 2, name: "Data Link" },
+                { id: 6, name: "Presentation" },
+                { id: 4, name: "Transport" }
+            ];
+            
+            const buttonsDiv = document.createElement('div');
+            buttonsDiv.className = 'grid grid-cols-2 gap-2 w-1/2';
+            
+            layers.forEach(l => {
+                const b = document.createElement('button');
+                b.className = 'btn-cyber p-2 text-xs osi-btn';
+                b.textContent = l.name;
+                b.dataset.id = l.id;
+                buttonsDiv.appendChild(b);
+            });
+
+            const stackDiv = document.createElement('div');
+            stackDiv.className = 'w-1/2 bg-gray-800 border border-gray-600 h-64 flex flex-col-reverse p-2 gap-1 rounded relative';
+            stackDiv.innerHTML = '<div class="absolute inset-0 flex items-center justify-center text-gray-600 opacity-20 text-4xl font-bold">OSI</div>';
+
+            gameArea.appendChild(buttonsDiv);
+            gameArea.appendChild(stackDiv);
+            container.appendChild(gameArea);
+
+            let currentTarget = 1;
+
+            buttonsDiv.querySelectorAll('.osi-btn').forEach(b => {
+                b.onclick = () => {
+                    const id = parseInt(b.dataset.id);
+                    if (id === currentTarget) {
+                        // Correct
+                        const slot = document.createElement('div');
+                        slot.className = 'bg-green-600 text-white text-center text-xs py-1 rounded border border-green-400';
+                        slot.textContent = `${id}. ${b.textContent}`;
+                        stackDiv.appendChild(slot);
+                        b.disabled = true;
+                        b.classList.add('opacity-0');
+                        currentTarget++;
+                        if (currentTarget > 7) {
+                            labSuccess(btn, feedback, "أحسنت! لقد بنيت نموذج OSI بنجاح.");
+                        }
+                    } else {
+                        // Wrong
+                        b.classList.add('bg-red-600');
+                        setTimeout(() => b.classList.remove('bg-red-600'), 500);
+                        feedback.textContent = `خطأ! الطبقة رقم ${currentTarget} ليست ${b.textContent}`;
+                        feedback.classList.remove('hidden');
+                    }
+                };
+            });
+        }
+
+        function renderTCPHandshakeLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>أكمل المصافحة الثلاثية.</li><li>اضغط SYN -> SYN-ACK -> ACK.</li>';
+            const diagram = document.createElement('div');
+            diagram.className = 'flex justify-between items-center w-full max-w-md h-48 relative';
+            diagram.innerHTML = `
+                <div class="text-center"><div class="text-2xl">💻</div><div>Client</div></div>
+                <div class="flex-grow h-0.5 bg-gray-700 relative mx-4"></div>
+                <div class="text-center"><div class="text-2xl">🖥️</div><div>Server</div></div>
+                <div class="absolute bottom-0 w-full flex justify-center gap-2" id="tcp-controls">
+                    <button class="btn-cyber px-3 py-1 text-xs" data-type="SYN">Send SYN</button>
+                    <button class="btn-cyber px-3 py-1 text-xs" data-type="ACK">Send ACK</button>
+                </div>
+                <div id="tcp-log" class="absolute top-10 w-full text-center text-xs font-mono text-green-400"></div>
+            `;
+            container.appendChild(diagram);
+            
+            let state = 0; // 0: start, 1: sent SYN, 2: recv SYN-ACK
+            const log = diagram.querySelector('#tcp-log');
+            const controls = diagram.querySelector('#tcp-controls');
+
+            controls.onclick = (e) => {
+                if(e.target.tagName !== 'BUTTON') return;
+                const type = e.target.dataset.type;
+                
+                if (state === 0 && type === 'SYN') {
+                    log.textContent = 'Client -> SYN -> Server';
+                    state = 1;
+                    setTimeout(() => {
+                        log.textContent = 'Server -> SYN-ACK -> Client';
+                        state = 2;
+                    }, 1000);
+                } else if (state === 2 && type === 'ACK') {
+                    log.textContent = 'Client -> ACK -> Server';
+                    state = 3;
+                    setTimeout(() => {
+                        log.textContent = 'CONNECTION ESTABLISHED ✅';
+                        labSuccess(btn, feedback, "اتصال TCP ناجح وموثوق!");
+                    }, 1000);
+                } else {
+                    feedback.textContent = "ترتيب خاطئ! ابدأ بـ SYN.";
+                    feedback.classList.remove('hidden');
+                }
+            };
+        }
+
+        function renderSnifferLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>تتدفق البيانات في الشبكة.</li><li>اضغط على الحزمة التي تحتوي على "PASS" (كلمة مرور).</li>';
+            const monitor = document.createElement('div');
+            monitor.className = 'w-full max-w-md h-64 bg-black border border-green-500 p-2 font-mono text-xs overflow-hidden relative';
+            container.appendChild(monitor);
+
+            const packets = [
+                "IP 192.168.1.5 > 1.1: HTTP GET /index.html",
+                "IP 192.168.1.5 > 1.1: TCP 80 > 54321 Seq=1",
+                "IP 192.168.1.9 > 1.1: FTP USER admin",
+                "IP 192.168.1.9 > 1.1: FTP PASS secret123", // Target
+                "IP 192.168.1.2 > 1.1: DNS Query google.com",
+                "IP 192.168.1.5 > 1.1: HTTP 200 OK"
+            ];
+
+            let found = false;
+            // Animate packets
+            let i = 0;
+            const interval = setInterval(() => {
+                if(found) { clearInterval(interval); return; }
+                const p = document.createElement('div');
+                p.textContent = packets[i % packets.length];
+                p.className = 'mb-1 p-1 hover:bg-green-900/50 cursor-pointer transition-colors border-b border-gray-800';
+                
+                // Click logic
+                p.onclick = () => {
+                    if (p.textContent.includes("PASS")) {
+                        p.classList.add('bg-red-600', 'text-white');
+                        found = true;
+                        labSuccess(btn, feedback, "تم اصطياد كلمة المرور! بروتوكول FTP غير مشفر.");
+                    }
+                };
+                
+                monitor.prepend(p);
+                if (monitor.children.length > 8) monitor.lastChild.remove();
+                i++;
+            }, 800);
+        }
+
+        function renderPortScanLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>اكتب "nmap 192.168.1.5" واضغط Enter.</li><li>حدد المنفذ المفتوح (Open Port).</li>';
+            const term = document.createElement('div');
+            term.className = 'bg-black border border-gray-600 p-4 font-mono text-sm text-green-400 w-full max-w-md h-48 overflow-y-auto rounded';
+            term.innerHTML = `<div>root@kali:~# <input type="text" id="nmap-input" class="bg-transparent border-none outline-none text-white w-48" autofocus></div>`;
+            container.appendChild(term);
+
+            const input = term.querySelector('#nmap-input');
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const cmd = input.value.trim();
+                    if (cmd === 'nmap 192.168.1.5') {
+                        const res = document.createElement('div');
+                        res.innerHTML = `
+                            Starting Nmap...<br>
+                            Host is up (0.00s latency).<br>
+                            PORT     STATE SERVICE<br>
+                            <span class="text-red-500 cursor-pointer hover:underline port-line">21/tcp   open  ftp</span><br>
+                            <span class="text-gray-500">80/tcp   closed http</span><br>
+                            Nmap done.
+                        `;
+                        term.insertBefore(res, input.parentElement);
+                        input.disabled = true;
+                        
+                        // Click port logic
+                        res.querySelector('.port-line').onclick = () => {
+                            labSuccess(btn, feedback, "اكتشفت خدمة FTP مفتوحة! هذا مدخل محتمل.");
+                        };
+                    } else {
+                        term.insertBefore(document.createTextNode("Command not found or wrong IP.\n"), input.parentElement);
+                        input.value = '';
+                    }
+                }
+            });
+        }
+
+        /* ------ NEW INTERMEDIATE LABS (5,6,7,8,9) ------ */
+
+        function renderLinuxLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>اكتب "ls" لعرض الملفات.</li><li>اكتب "whoami" لمعرفة المستخدم.</li>';
+            const term = document.createElement('div');
+            term.className = 'bg-black border border-gray-600 p-4 font-mono text-sm text-green-400 w-full max-w-md h-48 overflow-y-auto rounded';
+            term.innerHTML = `<div>kali@linux:~$ <input type="text" id="linux-input" class="bg-transparent border-none outline-none text-white w-48" autofocus></div>`;
+            container.appendChild(term);
+            
+            const input = term.querySelector('#linux-input');
+            let cmds = { ls: false, whoami: false };
+            
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const cmd = input.value.trim();
+                    const div = document.createElement('div');
+                    if (cmd === 'ls') {
+                        div.innerHTML = 'Desktop  Documents  Downloads  passwords.txt';
+                        cmds.ls = true;
+                    } else if (cmd === 'whoami') {
+                        div.innerHTML = 'root';
+                        cmds.whoami = true;
+                    } else if (cmd === 'pwd') {
+                        div.innerHTML = '/home/kali';
+                    } else {
+                        div.innerHTML = `bash: ${cmd}: command not found`;
+                    }
+                    term.insertBefore(div, input.parentElement);
+                    term.insertBefore(document.createElement('br'), input.parentElement);
+                    input.value = '';
+                    
+                    if (cmds.ls && cmds.whoami) {
+                        labSuccess(btn, feedback, "أحسنت! أنت الآن تجيد أوامر لينكس الأساسية.");
+                    }
+                }
+            });
+        }
+
+        function renderBashLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>نريد فحص IP من 1 إلى 3.</li><li>أكمل السكربت بكتابة "1 2 3" في الفراغ.</li><li>اضغط "Run Script".</li>';
+            const editor = document.createElement('div');
+            editor.className = 'w-full max-w-md bg-[#1e1e1e] p-4 rounded text-gray-300 font-mono text-sm';
+            editor.innerHTML = `
+                <div class="text-green-500">#!/bin/bash</div>
+                <div>echo "Starting Ping Sweep..."</div>
+                <div class="flex gap-2">for ip in <input id="bash-input" class="bg-gray-700 text-white w-16 px-1 outline-none" placeholder="...">; do</div>
+                <div class="pl-4">ping -c 1 192.168.1.$ip</div>
+                <div>done</div>
+                <button id="run-bash" class="btn-cyber mt-4 px-4 py-1 text-xs">Run Script</button>
+                <div id="bash-output" class="mt-2 text-green-400 h-20 overflow-y-auto text-xs border-t border-gray-700 pt-2"></div>
+            `;
+            container.appendChild(editor);
+            
+            const input = editor.querySelector('#bash-input');
+            const runBtn = editor.querySelector('#run-bash');
+            const output = editor.querySelector('#bash-output');
+
+            runBtn.onclick = () => {
+                if (input.value.trim() === "1 2 3") {
+                    runBtn.disabled = true;
+                    let count = 1;
+                    const interval = setInterval(() => {
+                        output.innerHTML += `Pinging 192.168.1.${count}... Reply from 192.168.1.${count}<br>`;
+                        count++;
+                        if(count > 3) {
+                            clearInterval(interval);
+                            labSuccess(btn, feedback, "السكربت يعمل! لقد أتمت عملية الفحص.");
+                        }
+                    }, 500);
+                } else {
+                    output.innerHTML = "<span class='text-red-500'>Syntax Error: Loop range incorrect.</span>";
+                }
+            };
+        }
+
+        function renderSQLiLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>حاول الدخول كـ "admin".</li><li>في خانة الاسم اكتب الكود السحري: admin\' OR \'1\'=\'1</li><li>اضغط Login.</li>';
+            const loginBox = document.createElement('div');
+            loginBox.className = 'glass-panel w-64 p-6 flex flex-col gap-3';
+            loginBox.innerHTML = `
+                <h3 class="text-center font-bold mb-2">Admin Panel</h3>
+                <input type="text" id="sql-user" placeholder="Username" class="bg-black/50 border border-gray-600 p-1 text-sm text-white">
+                <input type="password" placeholder="Password" class="bg-black/50 border border-gray-600 p-1 text-sm text-white">
+                <button id="sql-login" class="btn-cyber py-1 text-sm">Login</button>
+            `;
+            container.appendChild(loginBox);
+            
+            const user = loginBox.querySelector('#sql-user');
+            const login = loginBox.querySelector('#sql-login');
+
+            login.onclick = () => {
+                if (user.value.includes("' OR '1'='1")) {
+                    loginBox.innerHTML = `<div class="text-green-500 text-center font-bold">Welcome Admin!<br>Access Granted</div>`;
+                    labSuccess(btn, feedback, "تم الاختراق! لقد خدعت قاعدة البيانات لتظن أن الشرط صحيح دائماً.");
+                } else {
+                    user.classList.add('border-red-500');
+                    setTimeout(() => user.classList.remove('border-red-500'), 500);
+                }
+            };
+        }
+
+        function renderXSSLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>اكتب كود JavaScript في التعليق.</li><li>اكتب: &lt;script&gt;alert(1)&lt;/script&gt;</li><li>اضغط نشر.</li>';
+            const forum = document.createElement('div');
+            forum.className = 'glass-panel w-full max-w-md p-4';
+            forum.innerHTML = `
+                <div class="border-b border-gray-600 pb-2 mb-2 font-bold">Public Forum</div>
+                <textarea id="xss-input" class="w-full bg-black/50 border border-gray-600 p-2 text-sm text-white h-20" placeholder="Write a comment..."></textarea>
+                <button id="post-comment" class="btn-cyber py-1 px-4 text-sm mt-2">Post</button>
+            `;
+            container.appendChild(forum);
+            
+            const input = forum.querySelector('#xss-input');
+            const btnPost = forum.querySelector('#post-comment');
+
+            btnPost.onclick = () => {
+                if (input.value.includes("<script>alert(1)<\/script>")) {
+                    alert("1 \n\n(XSS POPUP EXECUTED!)"); // Safe simulation
+                    labSuccess(btn, feedback, "نجح الهجوم! السكربت تنفذ في المتصفح.");
+                } else {
+                    const comment = document.createElement('div');
+                    comment.textContent = "User: " + input.value;
+                    comment.className = "text-xs text-gray-400 mt-2 border-t border-gray-700 pt-1";
+                    forum.appendChild(comment);
+                    input.value = "";
+                }
+            };
+        }
+
+        function renderIDSLab(container, steps, btn, feedback) {
+            steps.innerHTML = '<li>راقب حركة المرور (Traffic).</li><li>ابحث عن حزمة حمراء (Attack).</li><li>اضغط عليها لعمل Block.</li>';
+            const monitor = document.createElement('div');
+            monitor.className = 'w-full max-w-md h-48 bg-black border-2 border-green-500 p-2 font-mono text-[10px] overflow-hidden relative';
+            container.appendChild(monitor);
+
+            let blocked = false;
+            const interval = setInterval(() => {
+                if(blocked) { clearInterval(interval); return; }
+                const p = document.createElement('div');
+                const isBad = Math.random() > 0.7;
+                p.textContent = isBad ? "[ALERT] SQL Injection attempt from 192.168.1.55" : "Normal traffic: GET /index.html from 10.0.0.1";
+                p.className = isBad ? "text-red-500 cursor-pointer hover:bg-red-900" : "text-green-500";
+                
+                if(isBad) {
+                    p.onclick = () => {
+                        p.textContent = "[BLOCKED] IP 192.168.1.55 added to blacklist.";
+                        p.className = "text-yellow-400 font-bold";
+                        blocked = true;
+                        labSuccess(btn, feedback, "تم كشف الهجوم ومنعه بواسطة IPS!");
+                    };
+                }
+                
+                monitor.prepend(p);
+                if (monitor.children.length > 7) monitor.lastChild.remove();
+            }, 1000);
         }
 
         /* ---------------- END PRACTICAL LOGIC ---------------- */
@@ -1153,7 +1870,7 @@
             showScreen('summary-screen');
             document.getElementById('summary-content').innerHTML = `
                 <h3 class="text-2xl font-bold text-cyber-gold mb-4">${lesson.title}</h3>
-                <p>${lesson.summary}</p>
+                <p>${lesson.summary || 'أتممت هذا الدرس بنجاح. استمر في التقدم!'}</p>
             `;
             document.getElementById('start-quiz-btn').onclick = () => startQuiz(lesson.quiz);
         }
@@ -1176,8 +1893,18 @@
 
         function unlockNextLesson() {
             const unlockedKey = `${state.currentPathId}UnlockedLesson`;
-            if (state.currentLessonIndex === (state.progress[unlockedKey] || 0)) {
-                state.progress[unlockedKey] = state.currentLessonIndex + 1;
+            // unlock current index + 1
+            const nextIndex = state.currentLessonIndex + 1;
+            if (nextIndex > (state.progress[unlockedKey] || 0)) {
+                state.progress[unlockedKey] = nextIndex;
+                
+                // Unlock next path if finished all lessons in current path (Logic enhancement)
+                const currentPathLessons = database.paths[state.currentPathId].lessons.length;
+                if (nextIndex >= currentPathLessons) {
+                    if (state.currentPathId === 'beginner') state.progress.intermediateUnlockedLesson = Math.max(0, state.progress.intermediateUnlockedLesson);
+                    else if (state.currentPathId === 'intermediate') state.progress.upperIntermediateUnlockedLesson = Math.max(0, state.progress.upperIntermediateUnlockedLesson);
+                    else if (state.currentPathId === 'upperIntermediate') state.progress.advancedUnlockedLesson = Math.max(0, state.progress.advancedUnlockedLesson);
+                }
                 saveUserData();
             }
         }
