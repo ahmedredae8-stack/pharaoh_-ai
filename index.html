@@ -215,6 +215,24 @@
         .modal-content {
             animation: fadeIn 0.3s ease-out;
         }
+        
+        /* Custom Styles for Responsiveness */
+        /* 1. Lesson Title Expansion on Mobile */
+        @media (max-width: 768px) {
+            #lesson-grid h3 {
+                font-size: 1.5rem; /* Larger font size for titles on mobile */
+            }
+        }
+        /* 2. Practical Lab Instructions Visibility */
+        .instructions-hidden {
+            display: none;
+        }
+        
+        /* 3. Summary Content Scrolling */
+        #summary-content-wrapper {
+            max-height: 70vh; /* Max height for scrolling content */
+            overflow-y: auto;
+        }
 
     </style>
 </head>
@@ -420,8 +438,8 @@
 
                 <!-- Lab Content Container -->
                 <div class="flex-grow relative flex flex-col md:flex-row overflow-hidden">
-                    <!-- Instructions Sidebar -->
-                    <div class="w-full md:w-1/3 bg-black/40 border-l border-white/5 p-6 overflow-y-auto">
+                    <!-- Instructions Sidebar (Conditional Visibility) -->
+                    <div id="lab-instructions-sidebar" class="w-full md:w-1/3 bg-black/40 border-l border-white/5 p-6 overflow-y-auto instructions-hidden md:instructions-visible">
                         <h3 id="lab-title" class="text-2xl font-bold text-white mb-2 text-glow-blue"></h3>
                         <p id="lab-desc" class="text-gray-400 text-sm leading-relaxed mb-6"></p>
                         
@@ -434,20 +452,25 @@
                     </div>
 
                     <!-- Workspace (Visual Simulation) -->
-                    <div id="lab-workspace" class="w-full md:w-2/3 bg-[#050810] relative flex items-center justify-center overflow-hidden">
+                    <div id="lab-workspace" class="flex-grow bg-[#050810] relative flex items-center justify-center overflow-hidden">
                         <!-- Dynamic Content Injected Here -->
                         <div class="absolute inset-0 cyber-grid opacity-20"></div>
                     </div>
                 </div>
 
                 <!-- Footer Actions -->
-                <div class="p-4 border-t border-white/10 bg-black/60 flex justify-end gap-2">
-                    <button id="skip-lab-btn" class="btn-cyber px-4 py-2 text-sm bg-gray-700/50 hidden">
-                        تخطي المحاكي
+                <div class="p-4 border-t border-white/10 bg-black/60 flex justify-between gap-2">
+                    <button id="toggle-instructions-btn" class="btn-cyber px-4 py-2 text-sm">
+                        إظهار/إخفاء التعليمات
                     </button>
-                    <button id="complete-lab-btn" class="btn-cyber px-8 py-2 opacity-50 cursor-not-allowed" disabled>
-                        اكتمال المهمة والمتابعة
-                    </button>
+                    <div class="flex gap-2">
+                         <button id="skip-lab-btn" class="btn-cyber px-4 py-2 text-sm bg-gray-700/50 hidden">
+                             تخطي المحاكي
+                         </button>
+                         <button id="complete-lab-btn" class="btn-cyber px-8 py-2 opacity-50 cursor-not-allowed" disabled>
+                             اكتمال المهمة والمتابعة
+                         </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -465,8 +488,11 @@
                     <p class="text-cyber-gold font-mono text-sm">MISSION DEBRIEFING</p>
                 </div>
 
-                <div id="summary-content" class="bg-black/40 p-6 rounded-lg border-r-2 border-cyber-gold text-gray-300 leading-loose text-lg mb-8 shadow-inner">
-                    <!-- Content -->
+                <!-- Wrapper to allow scrolling on mobile for summary content -->
+                <div id="summary-content-wrapper" class="w-full"> 
+                    <div id="summary-content" class="bg-black/40 p-6 rounded-lg border-r-2 border-cyber-gold text-gray-300 leading-loose text-lg mb-8 shadow-inner">
+                        <!-- Content -->
+                    </div>
                 </div>
 
                 <button id="start-quiz-btn" class="btn-cyber w-full py-4 text-lg font-bold rounded flex items-center justify-center gap-3">
@@ -599,7 +625,7 @@
                             summary: `
                                 <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: الأساسيات الثلاثة</h4>
                                 <p>الأمن السيبراني هو مجموعة من الأدوات والممارسات التي تحمي شبكاتنا وبياناتنا من الهجمات. الهدف الأساسي هو ضمان أمان بياناتك عبر ثلاثة محاور رئيسية (CIA):</p>
-                                <ul class="list-disc pr-5 mt-2 space-y-1">
+                                <ul class="list-disc pr-5 mt-2 space-y-1 text-base">
                                     <li>**السرية (Confidentiality):** منع الوصول غير المصرح به (مفتاحك معك فقط).</li>
                                     <li>**السلامة (Integrity):** التأكد من أن البيانات لم يتم تعديلها أو تشويهها (الكنز سليم).</li>
                                     <li>**التوافر (Availability):** ضمان قدرتك على الوصول للبيانات والأنظمة عند الحاجة (الوصول متاح دائماً).</li>
@@ -652,8 +678,8 @@
                                 <p class="text-sm">الثغرة هي ترك الباب الأمامي مفتوحاً، والتهديد هو وجود لص في الحي. الخطر هو احتمال السرقة. أغلق الباب (الثغرة) لتقليل الخطر.</p>
                             `, 
                             quiz: [
-                                { q: "الشباك المفتوح في جدار الحماية (نقطة ضعف في التصميم) هو مثال على...؟", options: ["تهديد", "ثغرة", "خطر"], correct: 1 },
-                                { q: "عندما يتحد الـ 'تهديد' مع الـ 'ثغرة' الموجودة، فإن الناتج هو...؟", options: ["تشفير", "خطر أمني", "تحسين توافر"], correct: 1 }
+                                { q: "ما هي نقطة الضعف في نظام الحماية والتي يمكن استغلالها؟", options: ["التهديد", "الثغرة", "الخطر"], correct: 1 },
+                                { q: "ماذا يمثل احتمال أن يتسبب خلل في النظام بفقدان البيانات؟", options: ["تهديد", "إجراء وقائي", "خطر"], correct: 2 }
                             ] 
                         },
                         // ********* L4: أنواع المهاجمين *********
@@ -674,8 +700,8 @@
                                 <p class="text-sm">عندما تجد خطأ أمنياً في نظام ما، إذا أبلغت عنه المطورين، فأنت ترتدي القبعة البيضاء. وإذا استغللته لسرقة معلومات، فأنت ترتدي القبعة السوداء.</p>
                             `, 
                             quiz: [
-                                { q: "من هو 'القبعة السوداء'؟", options: ["باحث أمني", "مخترق أخلاقي", "لص رقمي يسبب الضرر"], correct: 2 },
-                                { q: "أي نوع من القبعات يعمل بشكل قانوني وبموافقة المالك لاكتشاف الثغرات؟", options: ["القبعة الرمادية", "القبعة البيضاء", "القبعة الحمراء"], correct: 1 }
+                                { q: "من هو نوع المهاجم الذي يكتشف الثغرات ويستغلها لأغراض شخصية أو تخريبية؟", options: ["القبعة البيضاء", "القبعة الرمادية", "القبعة السوداء"], correct: 2 },
+                                { q: "ما هو الدافع الرئيسي لـ 'القبعة البيضاء'؟", options: ["إثبات الذات", "الربح المادي غير المشروع", "تحسين الأمن والحماية بشكل قانوني"], correct: 2 }
                             ] 
                         },
                         // ********* L5: البرامج الضارة (Malware) - ENHANCED *********
@@ -720,8 +746,8 @@
                                 <p class="text-sm">إذا طلب منك شخص عبر الهاتف كلمة مرورك أو رمز التحقق، لا تعطها أبداً. علماً أن الشركات الكبرى لا تطلب كلمات المرور بهذه الطريقة.</p>
                             `, 
                             quiz: [
-                                { q: "ما هي الهندسة الاجتماعية؟", options: ["استخدام روبوتات آلية لاختراق الأنظمة", "التلاعب بالأفراد للحصول على معلومات سرية", "اختراق قواعد بيانات الشركات الكبرى"], correct: 1 },
-                                { q: "ماذا يعني أسلوب 'Pretexting' في الهندسة الاجتماعية؟", options: ["استخدام برامج ضارة لإصابة الجهاز", "اختلاق قصة أو سيناريو مقنع لسرقة المعلومات", "مراقبة شاشات الموظفين من مسافة بعيدة"], correct: 1 }
+                                { q: "ما هو الهدف الرئيسي من الهندسة الاجتماعية؟", options: ["اختراق جدران الحماية", "استغلال الضعف البشري لسرقة البيانات", "نشر البرامج الضارة على نطاق واسع"], correct: 1 },
+                                { q: "ماذا تفعل إذا تلقيت مكالمة من 'البنك' تطلب منك رمزاً سرياً؟", options: ["تمنحهم الرمز لحل المشكلة بسرعة", "تتصل بالبنك بنفسك عبر الرقم الرسمي للتحقق", "تغلق الهاتف دون رد"], correct: 1 }
                             ] 
                         },
                         // ********* L7: التصيد الإلكتروني - ENHANCED *********
@@ -742,8 +768,8 @@
                                 <p class="text-sm">لتجنب التصيد، لا تضغط أبداً على رابط "تحديث الحساب" أو "تسجيل الدخول" في رسالة بريد إلكتروني. اذهب للموقع بكتابة العنوان مباشرة في المتصفح.</p>
                             `, 
                             quiz: [
-                                { q: "ما هو التكتيك النفسي الأكثر شيوعاً في رسائل التصيد؟", options: ["الهدوء التام وعدم الاستعجال", "الإلحاح وخلق الخوف من فقدان الحساب", "تقديم معلومات تقنية معقدة"], correct: 1 },
-                                { q: "ما هو أول إجراء أمني تفعله عند استلام رسالة مشبوهة تدعي أنها من بنكك؟", options: ["الرد على الرسالة لتأكيد الهوية", "الضغط على الرابط لتفحص الموقع", "تجاهل الرسالة والاتصال بالبنك عبر رقمه الرسمي"], correct: 2 }
+                                { q: "ما هي العلامة التقنية الأكثر وضوحاً التي تشير إلى أن رابطاً ما هو رابط تصيد؟", options: ["أن يكون الرابط طويلاً جداً", "أن يبدأ بـ 'http://' بدلاً من 'https://'", "أن يكون اسم الموقع مكتوباً بأحرف كبيرة"], correct: 1 },
+                                { q: "رسالة إلكترونية تدعي أنك فزت بجائزة ضخمة وتطلب منك بياناتك البنكية. هذا النوع من الهجمات يسمى:", options: ["هجوم حجب الخدمة", "التصيد", "النسخ الاحتياطي"], correct: 1 }
                             ] 
                         },
                         // ********* L8: كلمات المرور والمصادقة - ENHANCED *********
@@ -765,7 +791,7 @@
                             `, 
                             quiz: [
                                 { q: "ما هي المتطلبات الأساسية لإنشاء كلمة مرور قوية جداً؟", options: ["أن تتكون من اسمك فقط", "أن تكون قصيرة ليسهل تذكرها", "أن تكون طويلة ومزيجاً من الأحرف والأرقام والرموز"], correct: 2 },
-                                { q: "عند استخدام رمز يصل إلى هاتفك لتسجيل الدخول، فإن هذا الرمز يمثل عامل...؟", options: ["المعرفة (Knowledge)", "الحيازة/الملكية (Possession)", "الوراثة (Inheritance)"], correct: 1 }
+                                { q: "ما هو أفضل وصف للمصادقة الثنائية (2FA)؟", options: ["استخدام بصمة الإصبع فقط", "استخدام عاملين مختلفين للتحقق (ككلمة المرور ورمز الهاتف)", "تغيير كلمة المرور كل 30 يوماً"], correct: 1 }
                             ] 
                         },
                         // ********* L9: التشفير - ENHANCED *********
@@ -785,8 +811,8 @@
                                 <p class="text-sm">عندما ترى قفلاً أخضر بجوار رابط الموقع (HTTPS)، فهذا يعني أن بياناتك مشفرة (باستخدام التشفير غير المتماثل غالباً) أثناء انتقالها بينك وبين الموقع.</p>
                             `, 
                             quiz: [
-                                { q: "ما هو الغرض الأساسي من استخدام التشفير (Encryption)؟", options: ["تقليل حجم الملفات", "ضمان سرية البيانات أثناء النقل والتخزين", "تسريع إرسال حزم الشبكة"], correct: 1 },
-                                { q: "في التشفير 'غير المتماثل'، ما المفتاح الذي يجب أن تظل محتفظاً به لنفسك؟", options: ["المفتاح العام (Public Key)", "المفتاح السري (Private Key)", "مفتاح الهاش (Hash Key)"], correct: 1 }
+                                { q: "ما هي الفائدة الأساسية من تشفير الرسائل؟", options: ["جعل الرسائل أقصر", "حماية البيانات من القراءة غير المصرح بها", "زيادة سرعة معالجة البيانات"], correct: 1 },
+                                { q: "ما هو نوع التشفير الذي يستخدم فيه نفس المفتاح لتشفير وفك تشفير الرسالة؟", options: ["تشفير متماثل (Symmetric)", "تشفير غير متماثل (Asymmetric)", "التجزئة (Hashing)"], correct: 0 }
                             ] 
                         },
                         // ********* L10: الشبكات (IP/DNS) - ENHANCED *********
@@ -808,7 +834,7 @@
                             `, 
                             quiz: [
                                 { q: "ما هي الوظيفة الأساسية لنظام DNS؟", options: ["إدارة كلمات المرور", "تحويل أسماء المواقع إلى عناوين IP رقمية", "تشفير الاتصالات على الويب"], correct: 1 },
-                                { q: "عنوان IP هو بمثابة:", options: ["البصمة الرقمية للجهاز", "الهوية الرقمية للجهاز على الشبكة", "مفتاح التشفير الخاص"], correct: 1 }
+                                { q: "ماذا يمكن أن ينتج عن هجوم 'تسميم DNS'؟", options: ["فشل تشفير كلمة المرور", "زيادة سرعة الإنترنت", "توجيهك إلى موقع ويب مزيف أو خبيث"], correct: 2 }
                             ] 
                         },
                         // ********* L11: أمان المحمول - ENHANCED *********
@@ -828,8 +854,8 @@
                                 <p class="text-sm">اذهب إلى إعدادات تطبيقاتك الآن وراجع الصلاحيات. إذا وجدت تطبيقاً لا يحتاج إلى الميكروفون أو الموقع لكنه يطلبه، قم بتعطيل هذه الصلاحية فوراً.</p>
                             `, 
                             quiz: [
-                                { q: "تطبيق مصباح يدوي يطلب صلاحية الوصول إلى الموقع الجغرافي. ما هو الإجراء الأمني الصحيح؟", options: ["أوافق لأن التطبيق يحتاج كل الصلاحيات", "أرفض لأنه لا يحتاج هذه الصلاحية لعمله", "أوافق فقط إذا كان الموقع يعمل"], correct: 1 },
-                                { q: "لماذا يمثل حذف التطبيقات غير المستخدمة خطوة أمنية جيدة؟", options: ["لأنها تستهلك البطارية فقط", "لتقليل عدد الثغرات المحتملة في الجهاز", "لزيادة مساحة التخزين فقط"], correct: 1 }
+                                { q: "أي من الصلاحيات التالية يعتبر الأكثر خطورة إذا تم منحها لتطبيق غير موثوق؟", options: ["الوصول إلى الكاميرا", "الوصول إلى جهات الاتصال والرسائل", "الوصول إلى الواي فاي"], correct: 1 },
+                                { q: "ما الإجراء الأمني الذي يمنع شخصاً غريباً من الوصول إلى بياناتك على هاتفك المفقود؟", options: ["تحديث التطبيقات", "تفعيل قفل الشاشة القوي (بصمة/رمز)", "إعادة تسمية الهاتف"], correct: 1 }
                             ] 
                         },
                         // ********* L12: الخصوصية - ENHANCED *********
@@ -850,8 +876,8 @@
                                 <p class="text-sm">لا تنشر صوراً أو معلومات تظهر فيها بيانات حساسة (مثل تذكرة السفر التي تظهر كود الحجز أو رقم هاتفك). وقم بمسح تاريخ التصفح وملفات تعريف الارتباط مرة واحدة شهرياً على الأقل.</p>
                             `, 
                             quiz: [
-                                { q: "ما هي البصمة الرقمية؟", options: ["بصمة إصبعك لفتح الهاتف", "آثار تصفحك والبيانات التي تشاركها على الإنترنت", "نسخة احتياطية من ملفاتك"], correct: 1 },
-                                { q: "ما هي أفضل طريقة للحد من جمع ملفات تعريف الارتباط (Cookies)؟", options: ["إيقاف تشغيل الإنترنت", "استخدام وضع التصفح المتخفي أو مسح الكوكيز دورياً", "نشر معلوماتك على العام"], correct: 1 }
+                                { q: "ما الذي يشكل جزءاً من بصمتك الرقمية؟", options: ["طولك ووزنك الفعلي", "سجل التصفح ومنشوراتك القديمة", "رقم هاتفك المحمول فقط"], correct: 1 },
+                                { q: "ما هي أفضل ممارسة لتقليل التتبع من المواقع؟", options: ["استخدام نفس كلمة المرور لكل المواقع", "مسح ملفات تعريف الارتباط (Cookies) بانتظام", "الموافقة على جميع شروط الخصوصية"], correct: 1 }
                             ] 
                         },
                         // ********* L13: النسخ الاحتياطي - ENHANCED *********
@@ -871,8 +897,8 @@
                                 <p class="text-sm">لتحقيق قاعدة 3-2-1 بسهولة، احتفظ بنسخة على جهاز الكمبيوتر الخاص بك، ونسخة على قرص صلب خارجي، ونسخة على خدمة سحابية موثوقة (مثل Google Drive أو OneDrive).</p>
                             `, 
                             quiz: [
-                                { q: "أفضل حل لبرامج الفدية التي تشفر ملفاتك؟", options: ["دفع المال للمهاجم", "الاعتماد على النسخ الاحتياطي الآمن", "إعادة تشغيل الجهاز بسرعة"], correct: 1 },
-                                { q: "ماذا تعني 'النسخة البعيدة' (Offsite Copy) في قاعدة 3-2-1؟", options: ["نسخة مخزنة في جهاز خارجي متصل بالشبكة", "نسخة مخزنة في السحابة أو في موقع جغرافي مختلف", "نسخة مخزنة على نفس القرص الصلب"], correct: 1 }
+                                { q: "ماذا تعني قاعدة '3-2-1' في النسخ الاحتياطي؟", options: ["3 أجهزة، 2 مستخدمين، 1 كلمة مرور", "3 نسخ، 2 وسيط، 1 نسخة بعيدة", "3 أيام، 2 تحديث، 1 إنذار"], correct: 1 },
+                                { q: "ما هو الإجراء الذي يضمن الحماية ضد برامج الفدية؟", options: ["عدم فتح أي بريد إلكتروني", "تحديث النظام بشكل يومي", "الاعتماد على النسخ الاحتياطي المنتظم والآمن"], correct: 2 }
                             ] 
                         },
                         // ********* L14: التصفح الآمن - ENHANCED *********
@@ -893,7 +919,7 @@
                             `, 
                             quiz: [
                                 { q: "ماذا يعني وجود 'HTTPS' بدلاً من 'HTTP' في عنوان الموقع؟", options: ["الموقع أسرع بكثير", "الاتصال بالموقع مشفّر وآمن", "الموقع جديد ولم يتم اختراقه بعد"], correct: 1 },
-                                { q: "إذا كنت تتصفح موقعاً حساساً ورأيت القفل مفتوحاً أو مفقوداً، فماذا يجب أن تفعل؟", options: ["تكمل تصفح الموقع", "تغلق الموقع وتتجنب إدخال أي بيانات", "تنتظر حتى يظهر القفل تلقائياً"], correct: 1 }
+                                { q: "ماذا يجب أن تفعل إذا رأيت موقعاً يطلب منك بيانات حساسة ويبدأ عنوانه بـ 'http://'؟", options: ["تكمل تصفح الموقع", "تغلق الموقع فوراً ولا تدخل أي بيانات", "تقوم بتحديث الصفحة"], correct: 1 }
                             ] 
                         },
                         // ********* L15: الأمن المادي - ENHANCED *********
@@ -1405,7 +1431,7 @@
                         <span class="font-mono text-xs text-gray-500">MISSION ${index + 1 < 10 ? '0'+(index+1) : index+1}</span>
                         <div class="lock-status-icon">${statusIcon}</div>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-1 group-hover:text-cyber-gold transition-colors">${lesson.title}</h3>
+                    <h3 class="text-lg md:text-xl font-bold text-white mb-1 group-hover:text-cyber-gold transition-colors">${lesson.title}</h3>
                     <p class="text-sm text-gray-400">${lesson.storyTitle}</p>
                 `;
                 
@@ -1531,18 +1557,50 @@
             }
         });
 
-        /* ---------------- PRACTICAL LAB LOGIC (NO CHANGES) ---------------- */
+        /* ---------------- PRACTICAL LAB LOGIC (ENHANCED FOR MOBILE VIEW) ---------------- */
+        document.getElementById('toggle-instructions-btn').onclick = () => {
+            const sidebar = document.getElementById('lab-instructions-sidebar');
+            const workspace = document.getElementById('lab-workspace');
+            
+            // Toggle visibility class
+            sidebar.classList.toggle('instructions-hidden');
+            
+            // Adjust grid layout dynamically based on visibility
+            if (sidebar.classList.contains('instructions-hidden')) {
+                 // Full width for workspace
+                workspace.classList.remove('md:w-2/3');
+                workspace.classList.add('w-full');
+            } else {
+                // Split view
+                workspace.classList.add('md:w-2/3');
+                workspace.classList.remove('w-full');
+            }
+        };
 
         function initPracticalLab(lesson) {
             showScreen('practical-screen');
             const lab = lesson.practical;
+            
+            // Set initial instructions visibility based on screen size (default hidden on small screens)
+            const sidebar = document.getElementById('lab-instructions-sidebar');
+            const workspace = document.getElementById('lab-workspace');
+            const isMobile = window.innerWidth < 768;
+
+            if (isMobile) {
+                 sidebar.classList.add('instructions-hidden');
+                 workspace.classList.remove('md:w-2/3');
+                 workspace.classList.add('w-full');
+            } else {
+                 sidebar.classList.remove('instructions-hidden');
+                 workspace.classList.add('md:w-2/3');
+                 workspace.classList.remove('w-full');
+            }
             
             // Set Header Info
             document.getElementById('lab-id-display').textContent = `SESSION: #${lab.id.toUpperCase()}`;
             document.getElementById('lab-title').textContent = lab.title;
             document.getElementById('lab-desc').textContent = lab.description;
             
-            const workspace = document.getElementById('lab-workspace');
             const completeBtn = document.getElementById('complete-lab-btn');
             const feedback = document.getElementById('lab-feedback');
             const stepsList = document.getElementById('lab-steps');
@@ -1620,6 +1678,7 @@
                 completeBtn.onclick = () => showSummaryScreen(lesson);
             }
         }
+        /* ---------------- END PRACTICAL LOGIC ---------------- */
 
         function labSuccess(completeBtn, feedback, msg) {
             feedback.innerHTML = msg;
