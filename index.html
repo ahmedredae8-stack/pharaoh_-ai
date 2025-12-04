@@ -8,6 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;500;700;900&display=swap" rel="stylesheet">
     
     <script>
+        // App versioning for settings reset/migration
+        const APP_VERSION = '1.0.1'; // Updated version
+        const LOCAL_STORAGE_KEY = 'pharaohAiCyberProgress_v5';
+        const SETTINGS_KEY = 'pharaohAiCyberSettings_v2';
+
         tailwind.config = {
             theme: {
                 extend: {
@@ -232,6 +237,10 @@
         #summary-content-wrapper {
             max-height: 70vh; /* Max height for scrolling content */
             overflow-y: auto;
+        }
+        /* Default mobile view for instructions */
+        #lab-instructions-sidebar.instructions-hidden {
+            display: none;
         }
 
     </style>
@@ -623,15 +632,15 @@
                             ], 
                             practical: { id: "lab-01", title: "تفعيل حقل الحماية", description: "وحدة البيانات الأساسية تتعرض لهجوم (جسيمات حمراء خبيثة). قم بتفعيل الجدار الناري لإسقاط الأعداء.", type: "shield-defense" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: الأساسيات الثلاثة</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: الأساسيات الثلاثة</h4>
                                 <p>الأمن السيبراني هو مجموعة من الأدوات والممارسات التي تحمي شبكاتنا وبياناتنا من الهجمات. الهدف الأساسي هو ضمان أمان بياناتك عبر ثلاثة محاور رئيسية (CIA):</p>
                                 <ul class="list-disc pr-5 mt-2 space-y-1 text-base">
                                     <li>**السرية (Confidentiality):** منع الوصول غير المصرح به (مفتاحك معك فقط).</li>
                                     <li>**السلامة (Integrity):** التأكد من أن البيانات لم يتم تعديلها أو تشويهها (الكنز سليم).</li>
                                     <li>**التوافر (Availability):** ضمان قدرتك على الوصول للبيانات والأنظمة عند الحاجة (الوصول متاح دائماً).</li>
                                 </ul>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">تذكر أن حماية معلوماتك الشخصية هي مهمة مستمرة. كلما عرفت ما تحميه (كنزك)، أصبحت دفاعاتك أقوى.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">تذكر أن حماية معلوماتك الشخصية هي مهمة مستمرة. كلما عرفت ما تحميه (كنزك)، أصبحت دفاعاتك أقوى.</p>
                             `, 
                             quiz: [
                                 { q: "ما هو الهدف الرئيسي للأمن السيبراني؟", options: ["تصميم مواقع جذابة", "حماية البيانات والأنظمة وضمان الوصول", "زيادة سرعة معالجة البيانات"], correct: 1 },
@@ -650,10 +659,10 @@
                             ], 
                             practical: { id: "lab-02", title: "موازنة ثالوث (CIA)", description: "ثلاثة خوادم رئيسية (C, I, A) غير مستقرة. قم بتشغيلها كلها لتحقيق التوازن والاستقرار الكامل للشبكة.", type: "cia-balance" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: CIA</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: CIA</h4>
                                 <p>الثالوث الأمني (CIA) هو نموذج أساسي للحماية. الحفاظ على سرية البيانات (C) يعني حمايتها بكلمات مرور وتشفير، بينما (I) يتطلب التحقق من عدم التلاعب بالبيانات، و(A) يتطلب نظاماً مستقراً وموثوقاً يمنع انقطاع الخدمات.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">عندما تقوم بتحديث نظامك (Patch)، فأنت تحافظ على سلامة بياناتك (I) وتوافرها (A). فالتحديث يسد الشقوق ويمنع الأعطال.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">عندما تقوم بتحديث نظامك (Patch)، فأنت تحافظ على سلامة بياناتك (I) وتوافرها (A). فالتحديث يسد الشقوق ويمنع الأعطال.</p>
                             `, 
                             quiz: [
                                 { q: "أي عمود يعني 'الحفاظ على سرية المعلومات ومنع الوصول غير المصرح به'؟", options: ["السلامة", "السرية", "التوافر"], correct: 1 },
@@ -672,10 +681,10 @@
                             ], 
                             practical: { id: "lab-03", title: "كاشف الثغرات والتهديدات", description: "ماسح ضوئي أمني يكشف ثغرة (شق) في المنفذ. يجب الضغط على زر التحديث 'Patch' لإغلاق الشق قبل وصول حزمة التهديد (الوحش).", type: "vuln-scanner" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: تحديد المخاطر</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: تحديد المخاطر</h4>
                                 <p>يجب أن نفرق بين ثلاث مصطلحات رئيسية: **الثغرة** (نقطة ضعف في نظامك، مثل برنامج قديم). **التهديد** (الاحتمال بوقوع هجوم، مثل وجود قبعة سوداء). و**الخطر** (تأثير وقوع التهديد عبر الثغرة). الحد من الخطر يأتي عبر إغلاق الثغرات.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">الثغرة هي ترك الباب الأمامي مفتوحاً، والتهديد هو وجود لص في الحي. الخطر هو احتمال السرقة. أغلق الباب (الثغرة) لتقليل الخطر.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">الثغرة هي ترك الباب الأمامي مفتوحاً، والتهديد هو وجود لص في الحي. الخطر هو احتمال السرقة. أغلق الباب (الثغرة) لتقليل الخطر.</p>
                             `, 
                             quiz: [
                                 { q: "ما هي نقطة الضعف في نظام الحماية والتي يمكن استغلالها؟", options: ["التهديد", "الثغرة", "الخطر"], correct: 1 },
@@ -694,10 +703,10 @@
                             ], 
                             practical: { id: "lab-04", title: "كشف النوايا الخفية", description: "راقب ثلاثة 'عملاء' محتملين. حرك الفأرة للكشف عن نواياهم الحقيقية. اضغط على 'القبعة السوداء' (العميل الخبيث) للقبض عليه.", type: "hacker-hats" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: القبعات الأمنية</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: القبعات الأمنية</h4>
                                 <p>يتم تصنيف المهاجمين بناءً على دوافعهم: **القبعة السوداء** (شرير يسرق ويدمر)، **القبعة البيضاء** (أخلاقي، يعمل لتعزيز الأمن)، **القبعة الرمادية** (يكتشف الثغرات دون إذن، لكن نيته ليست التخريب المباشر). في أي فريق أمني، يجب أن تتعلم تحديد نوايا الطرف الآخر.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">عندما تجد خطأ أمنياً في نظام ما، إذا أبلغت عنه المطورين، فأنت ترتدي القبعة البيضاء. وإذا استغللته لسرقة معلومات، فأنت ترتدي القبعة السوداء.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">عندما تجد خطأ أمنياً في نظام ما، إذا أبلغت عنه المطورين، فأنت ترتدي القبعة البيضاء. وإذا استغللته لسرقة معلومات، فأنت ترتدي القبعة السوداء.</p>
                             `, 
                             quiz: [
                                 { q: "من هو نوع المهاجم الذي يكتشف الثغرات ويستغلها لأغراض شخصية أو تخريبية؟", options: ["القبعة البيضاء", "القبعة الرمادية", "القبعة السوداء"], correct: 2 },
@@ -718,10 +727,10 @@
                             ], 
                             practical: { id: "lab-05", title: "تحليل الحجر الصحي", description: "وحدة البيانات الأساسية تتعرض لهجوم (جسيمات حمراء خبيثة). قم بتفعيل الجدار الناري لإسقاط الأعداء.", type: "malware-scan" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: أنواع البرامج الضارة</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: أنواع البرامج الضارة</h4>
                                 <p>تعلمنا عن أخطر أنواع البرامج الضارة. **الفيروس** يحتاج إلى تدخل يدوي (تشغيل ملف). **الدودة** تنتشر ذاتياً وسريعاً عبر الشبكات. **حصان طروادة** يتنكر كملف بريء ولكنه يسمح بوصول المهاجم لاحقاً. الفهم الدقيق للأنواع يساعد في الوقاية.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">إذا وصلك ملف مرفق من صديقك لكنك لم تتوقعه، يجب أن تطلب تأكيداً هاتفياً منه قبل فتحه، لأن الفيروسات تتنكر في رسائل بريئة.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">إذا وصلك ملف مرفق من صديقك لكنك لم تتوقعه، يجب أن تطلب تأكيداً هاتفياً منه قبل فتحه، لأن الفيروسات تتنكر في رسائل بريئة.</p>
                             `, 
                             quiz: [
                                 { q: "ما البرنامج الضار الذي ينتشر ذاتياً عبر الشبكة دون تدخل المستخدم؟", options: ["الفيروس (Virus)", "حصان طروادة (Trojan)", "الدودة (Worm)"], correct: 2 },
@@ -740,10 +749,10 @@
                             ], 
                             practical: { id: "lab-06", title: "المكالمة المشبوهة", description: "تلقيت مكالمة من 'مدير النظام' يطلب بياناتك. اختر الرد الأمني الصحيح لعدم كشف معلوماتك.", type: "social-eng" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: اختراق الثقة</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: اختراق الثقة</h4>
                                 <p>الهندسة الاجتماعية هي فن التلاعب النفسي بالبشر للحصول على معلومات سرية. المهاجمون يتنكرون بشخصيات موثوقة (كالموظف أو المدير) لخلق شعور بالاستعجال أو الخوف. **التوقف والتحقق** هو خط دفاعك الأول.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">إذا طلب منك شخص عبر الهاتف كلمة مرورك أو رمز التحقق، لا تعطها أبداً. علماً أن الشركات الكبرى لا تطلب كلمات المرور بهذه الطريقة.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">إذا طلب منك شخص عبر الهاتف كلمة مرورك أو رمز التحقق، لا تعطها أبداً. علماً أن الشركات الكبرى لا تطلب كلمات المرور بهذه الطريقة.</p>
                             `, 
                             quiz: [
                                 { q: "ما هو الهدف الرئيسي من الهندسة الاجتماعية؟", options: ["اختراق جدران الحماية", "استغلال الضعف البشري لسرقة البيانات", "نشر البرامج الضارة على نطاق واسع"], correct: 1 },
@@ -762,10 +771,10 @@
                             ], 
                             practical: { id: "lab-07", title: "كاشف التصيد", description: "ميز بين الرابط الحقيقي (HTTPS) والمزيف (HTTP أو اسم غريب) للإبلاغ عن عملية التصيد.", type: "phishing-detect" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: انتحال الصفة</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: انتحال الصفة</h4>
                                 <p>التصيد (Phishing) هو شكل رقمي من الهندسة الاجتماعية، حيث يقوم المهاجم بتقليد جهات موثوقة (مثل البنوك أو خدمات البريد الإلكتروني) للحصول على بيانات اعتمادك. مفتاح الحماية هو فحص اسم المرسل وعنوان الرابط (URL) جيداً والانتباه لعلامات التخويف أو العرض المغري.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">لتجنب التصيد، لا تضغط أبداً على رابط "تحديث الحساب" أو "تسجيل الدخول" في رسالة بريد إلكتروني. اذهب للموقع بكتابة العنوان مباشرة في المتصفح.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">لتجنب التصيد، لا تضغط أبداً على رابط "تحديث الحساب" أو "تسجيل الدخول" في رسالة بريد إلكتروني. اذهب للموقع بكتابة العنوان مباشرة في المتصفح.</p>
                             `, 
                             quiz: [
                                 { q: "ما هي العلامة التقنية الأكثر وضوحاً التي تشير إلى أن رابطاً ما هو رابط تصيد؟", options: ["أن يكون الرابط طويلاً جداً", "أن يبدأ بـ 'http://' بدلاً من 'https://'", "أن يكون اسم الموقع مكتوباً بأحرف كبيرة"], correct: 1 },
@@ -784,10 +793,10 @@
                             ], 
                             practical: { id: "lab-08", title: "بناء كلمة مرور منيعة", description: "أنشئ كلمة مرور 'قوية' (طول > 8 وأرقام) وقم بتفعيل المصادقة الثنائية (2FA) لحفظ الإعدادات.", type: "password-strength" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: القوة المضاعفة</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: القوة المضاعفة</h4>
                                 <p>كلمة المرور القوية يجب أن تكون طويلة (أكثر من 12 حرفاً) ومُعقّدة. لكن الحماية القصوى تأتي من المصادقة الثنائية (2FA)، التي تطلب منك عاملين مختلفين للتأكيد (مثل كلمة مرورك + رمز يصل إلى هاتفك)، مما يحمي حسابك حتى لو تم تسريب كلمة المرور.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">استخدم جملة ككلمة مرور (مثل: "PharaohAi2024!_Strong") بدلاً من كلمة واحدة. وقم بتفعيل المصادقة الثنائية على جميع حساباتك الهامة (الإيميل، البنك، وسائل التواصل).</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">استخدم جملة ككلمة مرور (مثل: "PharaohAi2024!_Strong") بدلاً من كلمة واحدة. وقم بتفعيل المصادقة الثنائية على جميع حساباتك الهامة (الإيميل، البنك، وسائل التواصل).</p>
                             `, 
                             quiz: [
                                 { q: "ما هي المتطلبات الأساسية لإنشاء كلمة مرور قوية جداً؟", options: ["أن تتكون من اسمك فقط", "أن تكون قصيرة ليسهل تذكرها", "أن تكون طويلة ومزيجاً من الأحرف والأرقام والرموز"], correct: 2 },
@@ -805,10 +814,10 @@
                             ], 
                             practical: { id: "lab-09", title: "آلة التشفير", description: "شفر الرسالة (HELLO) وحولها إلى رموز، ثم قم بفك تشفيرها لاستعادتها.", type: "crypto-basic" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: لغة الرموز</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: لغة الرموز</h4>
                                 <p>التشفير يحافظ على سرية المعلومات (Confidentiality) ويضمن عدم قراءتها من قبل المتطفلين. التشفير المتماثل (مفتاح واحد) سريع لكن التوزيع صعب. التشفير غير المتماثل (مفتاح عام وخاص) أبطأ لكنه مثالي للتواصل الآمن عبر الإنترنت حيث لا يحتاج المفتاح السري للانتقال.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">عندما ترى قفلاً أخضر بجوار رابط الموقع (HTTPS)، فهذا يعني أن بياناتك مشفرة (باستخدام التشفير غير المتماثل غالباً) أثناء انتقالها بينك وبين الموقع.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">عندما ترى قفلاً أخضر بجوار رابط الموقع (HTTPS)، فهذا يعني أن بياناتك مشفرة (باستخدام التشفير غير المتماثل غالباً) أثناء انتقالها بينك وبين الموقع.</p>
                             `, 
                             quiz: [
                                 { q: "ما هي الفائدة الأساسية من تشفير الرسائل؟", options: ["جعل الرسائل أقصر", "حماية البيانات من القراءة غير المصرح بها", "زيادة سرعة معالجة البيانات"], correct: 1 },
@@ -827,10 +836,10 @@
                             ], 
                             practical: { id: "lab-10", title: "أداة DNS", description: "استخدم أداة 'nslookup' لترجمة اسم الموقع لعنوان IP الخاص به.", type: "dns-lookup" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: الهوية الرقمية والملاح</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: الهوية الرقمية والملاح</h4>
                                 <p>عنوان **IP** هو الهوية الرقمية لجهازك على الشبكة، بينما **DNS** يعمل كدليل هاتف، يحول اسم الموقع (Domain Name) إلى عنوان IP المقابل. هذا النظام ضروري لعمل الإنترنت، لكنه قد يكون هدفاً لهجمات تسميم DNS التي تغير مسار وصولك إلى مواقع مزيفة.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">إذا قام جهازك بتحويلك إلى صفحة تسجيل دخول مختلفة تماماً عند محاولة زيارة موقع معروف، فقد يكون هجوم تسميم DNS. تحقق دائماً من عنوان URL في الأعلى.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">إذا قام جهازك بتحويلك إلى صفحة تسجيل دخول مختلفة تماماً عند محاولة زيارة موقع معروف، فقد يكون هجوم تسميم DNS. تحقق دائماً من عنوان URL في الأعلى.</p>
                             `, 
                             quiz: [
                                 { q: "ما هي الوظيفة الأساسية لنظام DNS؟", options: ["إدارة كلمات المرور", "تحويل أسماء المواقع إلى عناوين IP رقمية", "تشفير الاتصالات على الويب"], correct: 1 },
@@ -848,10 +857,10 @@
                             ], 
                             practical: { id: "lab-11", title: "مدير الصلاحيات", description: "تطبيق 'المصباح' يطلب صلاحية الموقع. قم بتعطيل هذه الصلاحية الخطرة.", type: "mobile-perms" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: حماية البوابة الصغيرة</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: حماية البوابة الصغيرة</h4>
                                 <p>الهواتف الذكية هي أهداف ثمينة. يجب مراجعة الصلاحيات (Permissions) التي تطلبها التطبيقات، والتأكد من أنها منطقية لوظيفة التطبيق. كما يجب استخدام قفل قوي (بصمة، وجه، أو رمز معقد) لتأمين البيانات في حالة الفقد أو السرقة.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">اذهب إلى إعدادات تطبيقاتك الآن وراجع الصلاحيات. إذا وجدت تطبيقاً لا يحتاج إلى الميكروفون أو الموقع لكنه يطلبه، قم بتعطيل هذه الصلاحية فوراً.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">اذهب إلى إعدادات تطبيقاتك الآن وراجع الصلاحيات. إذا وجدت تطبيقاً لا يحتاج إلى الميكروفون أو الموقع لكنه يطلبه، قم بتعطيل هذه الصلاحية فوراً.</p>
                             `, 
                             quiz: [
                                 { q: "أي من الصلاحيات التالية يعتبر الأكثر خطورة إذا تم منحها لتطبيق غير موثوق؟", options: ["الوصول إلى الكاميرا", "الوصول إلى جهات الاتصال والرسائل", "الوصول إلى الواي فاي"], correct: 1 },
@@ -870,10 +879,10 @@
                             ], 
                             practical: { id: "lab-12", title: "مراجعة المنشور", description: "أنت على وشك نشر بيانات حساسة. اضغط على المعلومات الحساسة لحجبها.", type: "privacy-check" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: الحفاظ على الأثر</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: الحفاظ على الأثر</h4>
                                 <p>بصمتك الرقمية هي السجل الكامل لنشاطك على الإنترنت. لحماية خصوصيتك، يجب أن تكون حذراً جداً فيما تنشره، وأن تراجع إعدادات الخصوصية باستمرار. **ملفات تعريف الارتباط (Cookies)** هي أدوات تستخدمها المواقع لتتبعك، ويمكنك التحكم فيها عبر المتصفح.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">لا تنشر صوراً أو معلومات تظهر فيها بيانات حساسة (مثل تذكرة السفر التي تظهر كود الحجز أو رقم هاتفك). وقم بمسح تاريخ التصفح وملفات تعريف الارتباط مرة واحدة شهرياً على الأقل.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">لا تنشر صوراً أو معلومات تظهر فيها بيانات حساسة (مثل تذكرة السفر التي تظهر كود الحجز أو رقم هاتفك). وقم بمسح تاريخ التصفح وملفات تعريف الارتباط مرة واحدة شهرياً على الأقل.</p>
                             `, 
                             quiz: [
                                 { q: "ما الذي يشكل جزءاً من بصمتك الرقمية؟", options: ["طولك ووزنك الفعلي", "سجل التصفح ومنشوراتك القديمة", "رقم هاتفك المحمول فقط"], correct: 1 },
@@ -891,10 +900,10 @@
                             ], 
                             practical: { id: "lab-13", title: "استعادة النظام", description: "النظام مصاب ببرنامج فدية. اضغط 'Restore Backup' لاستعادة الملفات من النسخة الآمنة.", type: "backup-restore" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: خطة الطوارئ</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: خطة الطوارئ</h4>
                                 <p>النسخ الاحتياطي (Backup) هو أهم خطوة لضمان **التوافر** (Availability)، خاصة ضد برامج الفدية (Ransomware) التي تشفر جميع ملفاتك. يجب اتباع قاعدة 3-2-1: 3 نسخ من البيانات، على 2 وسيط تخزين مختلف (مثل قرص صلب وسحابة)، ونسخة 1 في موقع بعيد (Offsite) لضمان عدم فقدانها في حال الكوارث المادية.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">لتحقيق قاعدة 3-2-1 بسهولة، احتفظ بنسخة على جهاز الكمبيوتر الخاص بك، ونسخة على قرص صلب خارجي، ونسخة على خدمة سحابية موثوقة (مثل Google Drive أو OneDrive).</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">لتحقيق قاعدة 3-2-1 بسهولة، احتفظ بنسخة على جهاز الكمبيوتر الخاص بك، ونسخة على قرص صلب خارجي، ونسخة على خدمة سحابية موثوقة (مثل Google Drive أو OneDrive).</p>
                             `, 
                             quiz: [
                                 { q: "ماذا تعني قاعدة '3-2-1' في النسخ الاحتياطي؟", options: ["3 أجهزة، 2 مستخدمين، 1 كلمة مرور", "3 نسخ، 2 وسيط، 1 نسخة بعيدة", "3 أيام، 2 تحديث، 1 إنذار"], correct: 1 },
@@ -912,10 +921,10 @@
                             ], 
                             practical: { id: "lab-14", title: "فحص الرابط", description: "لاحظ الرابط (HTTP غير آمن). اضغط الزر لتفعيل 'HTTPS' وتشفير الاتصال.", type: "https-check" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: طبقة الأمان (SSL/TLS)</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: طبقة الأمان (SSL/TLS)</h4>
                                 <p>القفلة الخضراء في شريط العنوان تعني أن الموقع يستخدم بروتوكول **HTTPS**، مما يضمن تشفير اتصالك وحماية بياناتك من التنصت. المواقع التي تستخدم **HTTP** فقط هي مواقع غير آمنة ويجب تجنب إدخال أي معلومات شخصية أو مالية بها.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">قبل إدخال كلمة مرورك أو معلومات بطاقتك الائتمانية في أي موقع، تأكد أولاً من وجود رمز القفل في بداية العنوان. إذا لم يكن موجوداً، أو كان الرابط يبدأ بـ 'HTTP' فقط، أغلق الموقع على الفور.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">قبل إدخال كلمة مرورك أو معلومات بطاقتك الائتمانية في أي موقع، تأكد أولاً من وجود رمز القفل في بداية العنوان. إذا لم يكن موجوداً، أو كان الرابط يبدأ بـ 'HTTP' فقط، أغلق الموقع على الفور.</p>
                             `, 
                             quiz: [
                                 { q: "ماذا يعني وجود 'HTTPS' بدلاً من 'HTTP' في عنوان الموقع؟", options: ["الموقع أسرع بكثير", "الاتصال بالموقع مشفّر وآمن", "الموقع جديد ولم يتم اختراقه بعد"], correct: 1 },
@@ -933,10 +942,10 @@
                             ], 
                             practical: { id: "lab-15", title: "الفخ المادي", description: "أقفل جهازك، وتعامل بأمان مع فخ الـ USB المجهول (يجب الإبلاغ).", type: "physical-usb" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: تأمين المحيط</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: تأمين المحيط</h4>
                                 <p>الأمن المادي يعني حماية الأجهزة الملموسة من الوصول غير المصرح به. يشمل ذلك قفل الشاشة عند مغادرة المكتب (حتى لدقائق)، والتعامل بحذر مع الوسائط الخارجية المجهولة (مثل أقراص USB المنسية)، حيث غالباً ما تستخدم هذه الأدوات لنشر البرامج الضارة.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">إذا اضطررت لترك جهازك، اضغط على (Windows + L) أو (Command + Control + Q) لقفل الشاشة فوراً. ولا تقم أبداً بتوصيل أي فلاش ميموري (USB) وجدته في مكان عام بجهازك الشخصي أو العمل.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">إذا اضطررت لترك جهازك، اضغط على (Windows + L) أو (Command + Control + Q) لقفل الشاشة فوراً. ولا تقم أبداً بتوصيل أي فلاش ميموري (USB) وجدته في مكان عام بجهازك الشخصي أو العمل.</p>
                             `, 
                             quiz: [
                                 { q: "وجدت USB مجهولاً ملقى على مكتبك، ما هو الإجراء الأمني الأفضل؟", options: ["توصيله بجهازك لفحص محتواه", "تسليمه إلى قسم الأمن/الدعم الفني", "أخذه إلى المنزل لاستخدامه الشخصي"], correct: 1 },
@@ -954,10 +963,10 @@
                             ], 
                             practical: { id: "lab-16", title: "مركز التحديثات", description: "النظام يحوي ثغرات. اضغط 'Check for Updates' ثم 'Install Critical Patch' لإصلاحه.", type: "system-update" }, 
                             summary: `
-                                <h4 class="text-xl font-bold mb-3 text-cyber-blue">ملخص الدرس: الترميم المستمر</h4>
+                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: الترميم المستمر</h4>
                                 <p>التحديثات (Updates) هي أهم ممارسة أمنية وقائية، حيث تقوم الشركات المصنعة بإطلاقها لسد الثغرات الأمنية المكتشفة حديثاً. عدم التحديث يعرضك لخطر استغلال هذه الثغرات من قبل المهاجمين. تأكد دائماً من أن جميع برامجك ونظام تشغيلك محدثة باستمرار.</p>
-                                <h4 class="text-sm font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-sm">لا تقم أبداً بتأجيل التحديثات الأمنية لوقت غير محدد. قم بضبط هاتفك وجهازك لتثبيت التحديثات تلقائياً ليلاً، لضمان أن دفاعاتك محدثة دون تعطيل عملك.</p>
+                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
+                                <p class="text-base">لا تقم أبداً بتأجيل التحديثات الأمنية لوقت غير محدد. قم بضبط هاتفك وجهازك لتثبيت التحديثات تلقائياً ليلاً، لضمان أن دفاعاتك محدثة دون تعطيل عملك.</p>
                             `, 
                             quiz: [
                                 { q: "لماذا تعتبر تحديثات النظام والتطبيقات ضرورية للأمن السيبراني؟", options: ["لتغيير شكل الواجهة فقط", "لسد الثغرات الأمنية وإصلاح نقاط الضعف", "لزيادة حجم ذاكرة الجهاز"], correct: 1 },
@@ -1135,27 +1144,32 @@
             },
             skipIntro: false,
             lessonSkipCount: 0, // Max 3 allowed
+            appVersion: APP_VERSION // Current app version
         };
 
-        const LOCAL_STORAGE_KEY = 'pharaohAiCyberProgress_v5'; // Bumped version for new state
-        const SETTINGS_KEY = 'pharaohAiCyberSettings_v2';
-
+        
         document.addEventListener('DOMContentLoaded', initApp);
 
         // --- CORE FUNCTIONS ---
         async function initApp() {
             try {
+                // 1. Load data first (Progress and old settings)
                 await loadUserData();
+                
+                // 2. Check and Apply Updates (Resetting settings if version changed)
+                checkAppVersionUpdate();
+                
+                // 3. Load settings (which might have been reset by checkAppVersionUpdate)
                 loadSettings();
-
-                // Update Skip Count Display in Settings
+                
+                // 4. Final initialization
                 updateSkipCountDisplay();
 
-                // Check for skip intro setting
+                // Show screen logic
                 if (state.skipIntro) {
                     showScreen('path-selection-screen');
                 } else {
-                    setTimeout(initSplash, 2500);
+                    setTimeout(initSplash, 2500); // FIX: Removed the immediate showScreen which caused the freeze
                 }
                 
                 initSettingsControls();
@@ -1165,15 +1179,39 @@
             }
         }
         
+        function checkAppVersionUpdate() {
+            const storedVersion = localStorage.getItem('pharaohAiAppVersion');
+            
+            if (storedVersion !== APP_VERSION) {
+                console.log(`New app version detected: ${APP_VERSION}. Resetting settings.`);
+                
+                // Keep only the progress data, reset volatile settings (skip count, skip intro)
+                const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+                let loadedData = {};
+                if (savedData) {
+                     loadedData = JSON.parse(savedData);
+                }
+
+                // Reset specific settings while keeping progress
+                state.progress = loadedData.progress || state.progress;
+                state.lessonSkipCount = 0; 
+                state.skipIntro = false;
+
+                // Update version and save everything back
+                localStorage.setItem('pharaohAiAppVersion', APP_VERSION);
+                saveUserData();
+                saveSettings();
+            }
+        }
+        
         async function loadUserData() {
             const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
             if (savedData) {
                 const loadedData = JSON.parse(savedData);
                 state.progress = { ...state.progress, ...loadedData.progress };
-                // Load new skip count state, defaulting to 0
                 state.lessonSkipCount = loadedData.lessonSkipCount !== undefined ? loadedData.lessonSkipCount : 0;
             }
-            saveUserData(); // Ensure new state is saved even if loaded from old format
+            // Note: We don't call saveUserData here, it's called after version check
         }
 
         async function saveUserData() {
@@ -1199,6 +1237,7 @@
             const savedSettings = localStorage.getItem(SETTINGS_KEY);
             if (savedSettings) {
                 const loadedSettings = JSON.parse(savedSettings);
+                // Only load skipIntro, other settings are handled by version check
                 state.skipIntro = loadedSettings.skipIntro || false;
             }
         }
@@ -1242,6 +1281,7 @@
                 confirmBtn.onclick = () => {
                     localStorage.removeItem(LOCAL_STORAGE_KEY);
                     localStorage.removeItem(SETTINGS_KEY);
+                    localStorage.removeItem('pharaohAiAppVersion'); // Ensure version is also reset on full deletion
                     window.location.reload();
                 };
                 
@@ -1678,7 +1718,6 @@
                 completeBtn.onclick = () => showSummaryScreen(lesson);
             }
         }
-        /* ---------------- END PRACTICAL LOGIC ---------------- */
 
         function labSuccess(completeBtn, feedback, msg) {
             feedback.innerHTML = msg;
