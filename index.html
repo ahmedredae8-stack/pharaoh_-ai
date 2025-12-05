@@ -9,7 +9,7 @@
     
     <script>
         // App versioning for settings reset/migration
-        const APP_VERSION = '1.0.1'; // Updated version
+        const APP_VERSION = '1.1.4'; // Fixed template literal syntax issue
         const LOCAL_STORAGE_KEY = 'pharaohAiCyberProgress_v5';
         const SETTINGS_KEY = 'pharaohAiCyberSettings_v2';
 
@@ -111,6 +111,11 @@
         ::-webkit-scrollbar-track { background: #050b14; }
         ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #FFD700; }
+
+        /* Custom Scrollbar for Content Areas */
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #FFD700; border-radius: 4px; border: 2px solid #050b14; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #050b14; }
 
         /* Buttons & Interactive Elements */
         .btn-cyber {
@@ -222,20 +227,24 @@
         }
         
         /* Custom Styles for Responsiveness */
-        /* 1. Lesson Title Expansion on Mobile */
-        @media (max-width: 768px) {
-            #lesson-grid h3 {
-                font-size: 1.5rem; /* Larger font size for titles on mobile */
+        /* Lesson Title Expansion on Mobile */
+        #lesson-list-screen h3 {
+            font-size: 1.25rem; /* Default for mobile screens */
+        }
+        @media (min-width: 640px) {
+            #lesson-list-screen h3 {
+                font-size: 1.5rem; /* sm:text-xl */
             }
         }
-        /* 2. Practical Lab Instructions Visibility */
-        .instructions-hidden {
-            display: none;
+        @media (min-width: 768px) {
+            #lesson-list-screen h3 {
+                font-size: 1.875rem; /* md:text-2xl */
+            }
         }
         
-        /* 3. Summary Content Scrolling */
+        /* Summary/Application Content Scrolling */
         #summary-content-wrapper {
-            max-height: 70vh; /* Max height for scrolling content */
+            max-height: 60vh; /* Adjusted for better mobile fit */
             overflow-y: auto;
         }
         /* Default mobile view for instructions */
@@ -305,7 +314,8 @@
                 <span class="text-xs font-mono text-cyber-blue opacity-70">SECURE_CHANNEL_V.1.0</span>
             </div>
 
-            <div id="intro-chat-messages" class="flex-grow flex flex-col space-y-6 p-4 md:p-6 overflow-y-auto scroll-smooth pb-32">
+            <!-- Increased padding on mobile for better spacing -->
+            <div id="intro-chat-messages" class="flex-grow flex flex-col space-y-6 p-4 md:p-6 overflow-y-auto custom-scrollbar pb-32">
                 <!-- Messages -->
             </div>
 
@@ -320,13 +330,12 @@
         </div>
 
         <!-- 4. Path Selection Screen -->
-        <div id="path-selection-screen" class="screen flex-col items-center justify-start w-full h-full p-4 md:p-8 overflow-y-auto">
+        <div id="path-selection-screen" class="screen flex-col items-center justify-start w-full h-full p-6 md:p-8 overflow-y-auto">
             <div class="max-w-5xl w-full">
                 <h2 class="text-4xl md:text-5xl font-black text-center text-white mb-2 text-glow">مسار المحارب</h2>
                 <p class="text-center text-gray-400 mb-10">اختر مستوى التصريح الأمني للبدء</p>
                 
-                <!-- Recovery Keys Display (REMOVED) -->
-                
+                <!-- Increased gap to 6 on mobile -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
                     <button data-path="beginner" class="path-btn group glass-panel p-6 hover:bg-white/5 transition-all duration-300 border-l-4 border-l-cyber-gold text-right relative overflow-hidden">
                         <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-l from-cyber-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -395,45 +404,47 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </button>
                 </div>
-                <div id="lesson-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 md:p-6 overflow-y-auto flex-grow custom-scrollbar">
+                <!-- Increased padding and gap for better spacing on mobile -->
+                <div id="lesson-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 md:p-8 overflow-y-auto flex-grow custom-scrollbar">
                     <!-- Lessons injected here -->
                 </div>
             </div>
         </div>
 
-        <!-- 6. Lesson View Screen (Dialogue) -->
+        <!-- 6. Lesson View Screen (Dialogue / Application / Summary) -->
         <div id="lesson-view-screen" class="screen flex-col w-full h-full max-w-4xl mx-auto md:p-4">
             <div class="flex-col w-full h-full glass-panel overflow-hidden flex rounded-none md:rounded-2xl relative">
                 
-                <!-- Speaker Bar -->
-                <div id="current-speaker-bar" class="flex items-center p-4 border-b border-white/10 bg-gradient-to-r from-black/80 to-transparent backdrop-blur-md z-20 transition-all duration-300 min-h-[90px]">
-                    <!-- Dynamic Speaker Info -->
+                <!-- Speaker Bar / Stage Title -->
+                <div id="lesson-header-bar" class="flex items-center p-4 border-b border-white/10 bg-gradient-to-r from-black/80 to-transparent backdrop-blur-md z-20 transition-all duration-300 min-h-[90px]">
+                    <!-- Dynamic Speaker Info or Stage Title -->
                 </div>
 
-                <!-- Dialogue Area -->
-                <div id="lesson-dialogue-area" class="flex-grow flex flex-col space-y-6 p-4 md:p-8 overflow-y-auto custom-scrollbar relative">
-                    <!-- Bubbles go here -->
+                <!-- Dialogue / Application / Summary Content Area -->
+                <div id="lesson-content-area" class="flex-grow flex flex-col space-y-6 p-4 md:p-8 overflow-y-auto custom-scrollbar relative">
+                    <!-- Dynamic content goes here (Bubbles, Application Story, Summary) -->
                 </div>
 
-                <!-- Tap Indicator -->
-                <div id="tap-indicator" class="p-3 text-center bg-black/60 border-t border-white/5 backdrop-blur text-gray-400 text-xs md:text-sm cursor-pointer hover:text-white transition-colors flex items-center justify-center gap-2 animate-pulse">
-                    <span class="w-2 h-2 bg-cyber-gold rounded-full"></span>
-                    اضغط في أي مكان للمتابعة
-                </div>
-
-                <!-- Practical Button (Hidden Initially) -->
-                <div id="practical-action-area" class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/95 to-transparent z-30 hidden text-center">
-                    <button id="start-practical-btn" class="btn-cyber w-full md:w-auto px-12 py-4 text-xl font-bold rounded-lg animate-pulse-glow">
-                        <span class="relative z-10 flex items-center justify-center gap-2">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                             بدء التدريب العملي (Simulation)
+                <!-- Flow Control Area -->
+                <div id="flow-control-area" class="sticky bottom-0 left-0 w-full p-4 bg-black/90 border-t border-white/10 backdrop-blur z-30 flex flex-col gap-2">
+                    
+                    <!-- Tap Indicator (Only for dialogue mode) -->
+                    <div id="tap-indicator" class="p-1 text-center bg-black/40 border border-white/5 rounded backdrop-blur text-gray-400 text-xs md:text-sm cursor-pointer hover:text-white transition-colors flex items-center justify-center gap-2 animate-pulse hidden">
+                        <span class="w-2 h-2 bg-cyber-gold rounded-full"></span>
+                        اضغط في أي مكان للمتابعة
+                    </div>
+                    
+                    <!-- Dynamic Action Button (For stage changes) -->
+                    <button id="next-stage-btn" class="btn-cyber w-full py-3 text-lg font-bold rounded-lg hidden">
+                        <span class="relative z-10 flex items-center justify-center gap-2" id="next-stage-text">
+                            <!-- Button text updated by JS -->
                         </span>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- 7. Practical Lab Screen (NEW) -->
+        <!-- 7. Practical Lab Screen (EXISTING) -->
         <div id="practical-screen" class="screen flex-col items-center justify-center w-full h-full p-4 md:p-6 bg-[#020408]">
             <div class="glass-panel w-full max-w-5xl h-[90vh] flex flex-col relative overflow-hidden border-cyber-blue/30 shadow-[0_0_50px_rgba(0,240,255,0.1)]">
                 <!-- Lab Header -->
@@ -484,34 +495,7 @@
             </div>
         </div>
 
-        <!-- 8. Summary Screen -->
-        <div id="summary-screen" class="screen flex-col items-center justify-center w-full h-full p-6">
-            <div class="glass-panel max-w-2xl w-full p-8 md:p-12 border-cyber-gold/30 relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyber-gold to-transparent"></div>
-                
-                <div class="mb-8 text-center">
-                    <div class="w-20 h-20 bg-cyber-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-cyber-gold/30">
-                        <svg class="w-10 h-10 text-cyber-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">تم إنجاز المهمة</h2>
-                    <p class="text-cyber-gold font-mono text-sm">MISSION DEBRIEFING</p>
-                </div>
-
-                <!-- Wrapper to allow scrolling on mobile for summary content -->
-                <div id="summary-content-wrapper" class="w-full"> 
-                    <div id="summary-content" class="bg-black/40 p-6 rounded-lg border-r-2 border-cyber-gold text-gray-300 leading-loose text-lg mb-8 shadow-inner">
-                        <!-- Content -->
-                    </div>
-                </div>
-
-                <button id="start-quiz-btn" class="btn-cyber w-full py-4 text-lg font-bold rounded flex items-center justify-center gap-3">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                    بدء اختبار التحقق
-                </button>
-            </div>
-        </div>
-
-        <!-- 9. Quiz Screen -->
+        <!-- 9. Quiz Screen (EXISTING) -->
         <div id="quiz-screen" class="screen flex-col items-center justify-center w-full h-full p-4">
             <div class="glass-panel max-w-3xl w-full p-6 md:p-10 relative">
                  <h2 class="font-bold text-cyber-gold text-center mb-8 text-3xl text-glow">اختبار المصادقة</h2>
@@ -624,24 +608,31 @@
                         { 
                             title: "1. مفهوم الأمن السيبراني", storyTitle: "الدرع الذهبي: حماية الكنز", 
                             dialogue: [
-                                { char: 'ahmed', text: "مهمتنا الأولى: تحديد ما نحميه. تخيل أن بياناتك كنز ثمين في قلب هرم ذهبي." }, 
-                                { char: 'recruit', text: "وما هو الإنترنت إذاً؟" }, 
-                                { char: 'rital', text: "الإنترنت هو عالم خارجي مليء بالوحوش والأشباح الرقمية التي تحاول سرقة هذا الكنز." }, 
-                                { char: 'rital', text: "الأمن السيبراني هو الجدار السحري والجهاز السري الذي ننشئه حول هذا الهرم. هدفنا ثلاثي: أن يظل الكنز سرياً، سليمًا، ومتاحاً لك متى أردت." }, 
-                                { char: 'ahmed', text: "هيا، لنقم بتفعيل الدرع!" }
+                                { char: 'pharaoh', text: "تذكر: أنت تحرس كياناً كاملاً. كل معلومة هي كتلة بناء في هرم المملكة الرقمية. أي شرخ يُهدد الوجود." },
+                                { char: 'ahmed', text: "مهمتنا الأولى ليست بناء جدار، بل فهم قيمة ما نحميه. تخيل أن بياناتك الحساسة - سجلاتك، هويتك، أموالك - هي كنز ثمين في قلب هرم ذهبي." }, 
+                                { char: 'recruit', text: "وما هو الإنترنت إذاً؟ هل هو أرض معادية؟" }, 
+                                { char: 'rital', text: "الإنترنت هو شبكة عالمية مفتوحة. إنها سوق ضخمة، ولكنها مليئة أيضاً بالوحوش والأشباح الرقمية التي تحاول سرقة هذا الكنز. مهمتنا هي تحويل هرمك إلى حصن." }, 
+                                { char: 'rital', text: "الأمن السيبراني هو مجموعة القواعد والإجراءات والبرامج التي تضمن حماية هذا الكنز. يجب أن يظل الكنز سرياً، سليمًا، ومتاحاً لك متى أردت. هذا هو الهدف ثلاثي الأبعاد." }, 
+                                { char: 'pharaoh', text: "هيا، لنقم بتفعيل الدرع الأساسي أولاً. لا وقت للتفكير، بل للعمل!" }
                             ], 
-                            practical: { id: "lab-01", title: "تفعيل حقل الحماية", description: "وحدة البيانات الأساسية تتعرض لهجوم (جسيمات حمراء خبيثة). قم بتفعيل الجدار الناري لإسقاط الأعداء.", type: "shield-defense" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: الأساسيات الثلاثة</h4>
-                                <p>الأمن السيبراني هو مجموعة من الأدوات والممارسات التي تحمي شبكاتنا وبياناتنا من الهجمات. الهدف الأساسي هو ضمان أمان بياناتك عبر ثلاثة محاور رئيسية (CIA):</p>
-                                <ul class="list-disc pr-5 mt-2 space-y-1 text-base">
-                                    <li>**السرية (Confidentiality):** منع الوصول غير المصرح به (مفتاحك معك فقط).</li>
-                                    <li>**السلامة (Integrity):** التأكد من أن البيانات لم يتم تعديلها أو تشويهها (الكنز سليم).</li>
-                                    <li>**التوافر (Availability):** ضمان قدرتك على الوصول للبيانات والأنظمة عند الحاجة (الوصول متاح دائماً).</li>
-                                </ul>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">تذكر أن حماية معلوماتك الشخصية هي مهمة مستمرة. كلما عرفت ما تحميه (كنزك)، أصبحت دفاعاتك أقوى.</p>
-                            `, 
+                            practical: { id: "lab-01", title: "تفعيل حقل الحماية", description: "وحدة البيانات الأساسية تتعرض لهجوم (جسيمات حمراء خبيثة). قم بتفعيل الجدار الناري لإسقاط الأعداء ومنعهم من الوصول إلى المفاعل.", type: "shield-defense" }, 
+                            applicationStory: " " + 
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة اختراق (Target 2013): مدخل غير متوقع</h3>" +
+                                "<p>في عام 2013، اخترق قراصنة شبكة متاجر Target العملاقة. المفارقة أنهم لم يخترقوا أنظمة الدفع مباشرة. بدلاً من ذلك، اخترقوا نظام التدفئة والتهوية والتكييف (HVAC) لشركة خارجية كانت تقدم خدمات لـ Target. <!-- Placeholder image was here --> استخدم القراصنة هذا المدخل البسيط (الذي لم يكن مؤمناً جيداً لأنه لا يحمل بيانات مالية!) للقفز إلى الشبكة الداخلية الرئيسية لـ Target. النتيجة؟ سُرقت بيانات أكثر من 40 مليون بطاقة ائتمانية. هذا يثبت أن **الأمن السيبراني هو سلسلة، وأي حلقة ضعيفة (حتى نظام التكييف) يمكن أن تسقط الحصن بأكمله.**</p>" +
+                            " ",
+                            applicationTips: " " + 
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: معاملة حياتك ككيان محمي</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**منزلك هو سيرفرك:** عامل شبكتك المنزلية وجهازك كأهم سيرفر في العالم. تأمين الراوتر بكلمة مرور قوية (مفتاح سري) هو جزء من السرية.</li>" +
+                                    "<li>**حماية البيانات السليمة:** قبل إرسال أي وثيقة رسمية (كالتقارير البنكية)، تأكد من أنك ترسلها عبر قناة مشفرة (مثل رسالة مشفرة أو موقع آمن) وتأكد من أن عنوان البريد الإلكتروني للمستلم صحيح تماماً لمنع تغيير البيانات في الطريق (السلامة).</li>" +
+                                    "<li>**توافر الكنز:** قم بإعداد نظام نسخ احتياطي تلقائي (Backup) لصورك وملفاتك الهامة على وسيط خارجي أو سحابي موثوق. هذا يضمن توافر بياناتك حتى لو تعطل جهازك أو تعرض لبرامج الفدية.</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: الأعمدة الثلاثة (CIA)</h4>" +
+                                "<p>الأمن السيبراني هو الدفاع عن ثلاثة قيم رئيسية: **السرية (Confidentiality)**: منع المتطفلين من الرؤية. **السلامة (Integrity)**: ضمان عدم التغيير أو التلاعب. **التوافر (Availability)**: التأكد من الوصول الدائم والفعال للأنظمة.</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">لقد أتممت بنجاح تفعيل الدرع الأساسي للهرم الرقمي. تذكر، قوة أمنك تبدأ بوعيك.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "ما هو الهدف الرئيسي للأمن السيبراني؟", options: ["تصميم مواقع جذابة", "حماية البيانات والأنظمة وضمان الوصول", "زيادة سرعة معالجة البيانات"], correct: 1 },
                                 { q: "أي من الآتي يمثل الركائز الثلاثة للأمن السيبراني؟", options: ["السرية، الجودة، الشفافية", "الخصوصية، الدقة، التخزين", "السرية، السلامة، التوافر (CIA)"], correct: 2 }
@@ -651,19 +642,30 @@
                         { 
                             title: "2. ثالوث الأمن السيبراني (CIA)", storyTitle: "الأعمدة الثلاثة المقدسة", 
                             dialogue: [
-                                { char: 'ahmed', text: "هذه هي الأعمدة الثلاثة التي ترتكز عليها حماية الكنز: السرية، السلامة، التوافر. إذا سقط أحدها، سقط النظام." }, 
-                                { char: 'rital', text: "السرية (Confidentiality): يعني أن مفتاح الصندوق السري معك أنت فقط. لا يراه إلا من له تصريح." }, 
-                                { char: 'rital', text: "السلامة (Integrity): يعني أن الكنز لم يتغير لونه أو شكله. لم يغيره أحد خلسة." }, 
-                                { char: 'rital', text: "التوافر (Availability): يعني أنك تستطيع الوصول إلى الكنز في أي لحظة تريد، وليس معطلاً أو مغلقاً." }, 
-                                { char: 'ahmed', text: "اذهب وفعل الطاقة لكل عمود." }
+                                { char: 'ahmed', text: "ركز معي، هذه الأعمدة هي الأساس الذي يقوم عليه كل قرار أمني. إذا لم تفهم الـ CIA، فأنت تقاتل في الظلام." }, 
+                                { char: 'rital', text: "العمود الأول: **السرية (Confidentiality)**. لن يرى أحد محتوى ملفاتك السرية إلا أنت أو من تمنحه مفتاح التشفير. نحن نضمن أن الرسائل لا تُقرأ." }, 
+                                { char: 'ahmed', text: "العمود الثاني: **السلامة (Integrity)**. هل تم التلاعب بالبيانات؟ هل غيّر أحد الدرجات في شهادتك؟ السلامة تضمن أن الكنز لم يتغير لونه أو شكله من المصدر حتى الوصول." }, 
+                                { char: 'rital', text: "العمود الثالث: **التوافر (Availability)**. الكنز يجب أن يكون متاحاً لك فوراً. إذا تعطل الموقع بسبب هجوم أو فشل تقني، فالتوافر سقط. نحن نضمن أن أنظمتنا تعمل دائماً." }, 
+                                { char: 'pharaoh', text: "إليك محاكي التحكم. اذهب وفعل الطاقة لكل عمود لتحقيق التوازن والاستقرار الكامل." }
                             ], 
                             practical: { id: "lab-02", title: "موازنة ثالوث (CIA)", description: "ثلاثة خوادم رئيسية (C, I, A) غير مستقرة. قم بتشغيلها كلها لتحقيق التوازن والاستقرار الكامل للشبكة.", type: "cia-balance" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: CIA</h4>
-                                <p>الثالوث الأمني (CIA) هو نموذج أساسي للحماية. الحفاظ على سرية البيانات (C) يعني حمايتها بكلمات مرور وتشفير، بينما (I) يتطلب التحقق من عدم التلاعب بالبيانات، و(A) يتطلب نظاماً مستقراً وموثوقاً يمنع انقطاع الخدمات.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">عندما تقوم بتحديث نظامك (Patch)، فأنت تحافظ على سلامة بياناتك (I) وتوافرها (A). فالتحديث يسد الشقوق ويمنع الأعطال.</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة اختراق (Shamoon 2012): هجوم على السلامة</h3>" +
+                                "<p>كان هجوم شامون (Shamoon) على شركة طاقة سعودية ضخمة مثالاً مرعباً على استهداف **السلامة (Integrity)**. لم يكتفِ المهاجمون بسرقة البيانات، بل قاموا بتدمير وحذف ملفات قرابة 30,000 جهاز كمبيوتر في الشركة واستبدالها بصورة علم محترق! الهدف كان تدمير ثقة الشركة في بياناتها وشلّ عملها بشكل كامل. هذا يثبت أن الحفاظ على البيانات سليمة لا يقل أهمية عن سريتها. <!-- Placeholder image was here --></p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: ضمان موثوقية معلوماتك</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**التحقق من السلامة:** استخدم التوقيعات الرقمية (Digital Signatures) أو التجزئة (Hashing) إذا أمكن، خاصة عند استلام برامج أو ملفات حساسة للتأكد من عدم التلاعب بها بعد إرسالها من المصدر.</li>" +
+                                    "<li>**تعزيز السرية:** لا تكتفِ بكلمة مرور عادية؛ استخدم المصادقة الثنائية (2FA) لكل حساب مهم. أنت بذلك تضيف طبقة حماية ثانية لسرية بياناتك.</li>" +
+                                    "<li>**تأمين التوافر:** قم بتحديث أنظمة التشغيل والبرامج باستمرار (Patching). التحديثات تسد الثغرات التي قد تستغل لتعطيل النظام (اختراق التوافر) وتضمن استمرار عمل الأجهزة.</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: إطلاق البروتوكول</h4>" +
+                                "<p>الـ CIA هي أول ثلاثة أوامر في بروتوكولك. **السرية** عبر التشفير وكلمات المرور. **السلامة** عبر التحقق من المصدر والتوقيع الرقمي. **التوافر** عبر النسخ الاحتياطي وحماية الأنظمة.</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">لقد نجحت في موازنة الأعمدة. النظام الآن مستقر ويمكنه مقاومة الهجمات الأولية.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "أي عمود يعني 'الحفاظ على سرية المعلومات ومنع الوصول غير المصرح به'؟", options: ["السلامة", "السرية", "التوافر"], correct: 1 },
                                 { q: "عندما يفشل النظام في تلبية طلبات المستخدمين بسبب هجوم كثيف (DDoS)، فإنه يخترق مبدأ...؟", options: ["السلامة", "التوافر", "السرية"], correct: 1 }
@@ -673,41 +675,63 @@
                         { 
                             title: "3. مصطلحات أساسية", storyTitle: "الكشف عن الشقوق والوحوش", 
                             dialogue: [
-                                { char: 'ahmed', text: "دعنا نتعلم لغة الخبراء: الثغرة، التهديد، الخطر." }, 
-                                { char: 'rital', text: "الثغرة (Vulnerability): هي أي شق صغير في الجدار السحري لدينا (نقطة ضعف)." }, 
-                                { char: 'rital', text: "التهديد (Threat): هو الوحش الذي يبحث عن هذا الشق ويسعى لاستغلاله (فعل خبيث)." }, 
-                                { char: 'rital', text: "الخطر (Risk): هو احتمال أن يدخل الوحش عبر الشق ويصيبنا بالضرر (احتمالية الضرر)." }, 
-                                { char: 'recruit', text: "إذاً، يجب أن نسد الشقوق لتقليل الخطر." }
+                                { char: 'ahmed', text: "سنعلمك كيف تفرق بين ثلاثة مفاهيم حاسمة: الثغرة، التهديد، والخطر. هذه لغة الأمن." }, 
+                                { char: 'rital', text: "**الثغرة (Vulnerability):** هي شق صغير في جدارك، نقطة ضعف برمجية أو إدارية. مثل برنامج قديم لم يتم تحديثه، أو كلمة مرور ضعيفة. إنها فرصة للمهاجم." }, 
+                                { char: 'ahmed', text: "**التهديد (Threat):** هو الوحش الذي يبحث بنشاط عن هذا الشق ويسعى لاستغلاله. التهديد هو المهاجم، أو فيروس الفدية، أو فيضان طبيعي يضرب السيرفرات." }, 
+                                { char: 'rital', text: "**الخطر (Risk):** هو احتمالية أن ينجح التهديد في الدخول عبر الثغرة ويصيبنا بالضرر. (الخطر = الثغرة × التهديد). نحن نهدف لتقليل الخطر." }, 
+                                { char: 'recruit', text: "إذاً، سد الشقوق (الثغرات) هو الطريقة الأسرع لتقليل الخطر." }
                             ], 
                             practical: { id: "lab-03", title: "كاشف الثغرات والتهديدات", description: "ماسح ضوئي أمني يكشف ثغرة (شق) في المنفذ. يجب الضغط على زر التحديث 'Patch' لإغلاق الشق قبل وصول حزمة التهديد (الوحش).", type: "vuln-scanner" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: تحديد المخاطر</h4>
-                                <p>يجب أن نفرق بين ثلاث مصطلحات رئيسية: **الثغرة** (نقطة ضعف في نظامك، مثل برنامج قديم). **التهديد** (الاحتمال بوقوع هجوم، مثل وجود قبعة سوداء). و**الخطر** (تأثير وقوع التهديد عبر الثغرة). الحد من الخطر يأتي عبر إغلاق الثغرات.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">الثغرة هي ترك الباب الأمامي مفتوحاً، والتهديد هو وجود لص في الحي. الخطر هو احتمال السرقة. أغلق الباب (الثغرة) لتقليل الخطر.</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة اختراق: ثغرة Heartbleed (2014)</h3>" +
+                                "<p>كانت Heartbleed ثغرة مدمرة في مكتبة OpenSSL (مكتبة تستخدم لتشفير الاتصال لمليارات المواقع). كانت هذه **الثغرة** موجودة لعامين قبل أن يتم اكتشافها! كان **التهديد** هو القراصنة الذين عرفوا بكيفية استغلالها لسرقة مفاتيح التشفير مباشرة من ذاكرة السيرفر. كان **الخطر** هو أن أي شخص يزور موقعاً مصاباً قد تتعرض بياناته للسرقة دون أن يعلم.  <!-- Placeholder image was here --> تثبت هذه القصة أن اكتشاف الثغرة يتطلب أحياناً عيوناً يقظة لخبراء القبعة البيضاء.</p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: تقييم الخطر يومياً</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**تحديد الثغرات:** راجع أجهزتك بانتظام. هل برنامج مكافحة الفيروسات (Antivirus) قديم؟ هل هناك جهاز قديم متصل بالشبكة ولا يتم تحديثه؟ هذه ثغرات.</li>" +
+                                    "<li>**فهم التهديد:** كن يقظاً للتهديدات المحيطة. هل سمعت عن موجة هجمات تصيد (Phishing) جديدة تستهدف البنوك في منطقتك؟ هذا هو التهديد النشط.</li>" +
+                                    "<li>**تقليل الخطر:** إذا كانت لديك ثغرة (برنامج قديم) وهناك تهديد نشط (فيروس يستهدف هذا البرنامج)، فإن الخطر مرتفع. قم فوراً بإغلاق الثغرة (تحديث البرنامج) لتقليل الخطر.</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: سد الشقوق</h4>" +
+                                "<p>**الثغرة** هي ضعف. **التهديد** هو ما يستغل الضعف. و**الخطر** هو تأثير ذلك. مهمتك الأساسية هي التركيز على إزالة نقاط الضعف عبر التحديثات والإعدادات الأمنية الصحيحة.</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">لقد نجحت في تحديد الخطر. الوقاية هي دائماً أفضل من العلاج.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "ما هي نقطة الضعف في نظام الحماية والتي يمكن استغلالها؟", options: ["التهديد", "الثغرة", "الخطر"], correct: 1 },
                                 { q: "ماذا يمثل احتمال أن يتسبب خلل في النظام بفقدان البيانات؟", options: ["تهديد", "إجراء وقائي", "خطر"], correct: 2 }
                             ] 
                         },
-                        // ********* L4: أنواع المهاجمين *********
+                         // ********* L4: أنواع المهاجمين *********
                         { 
                             title: "4. أنواع المهاجمين", storyTitle: "لعبة القبعات الملونة", 
                             dialogue: [
-                                { char: 'ahmed', text: "في عالمنا، المحاربون يرتدون قبعات. كل لون يدل على النية." }, 
-                                { char: 'rital', text: "القبعة السوداء (Black Hat): اللص الشرير. هدفه التخريب وسرقة كنزك." }, 
-                                { char: 'rital', text: "القبعة البيضاء (White Hat): البطل الطيب. يختبر جدارك بموافقتك ليجده أقوى (مخترق أخلاقي)." }, 
-                                { char: 'rital', text: "القبعة الرمادية (Grey Hat): قد يكون فضولياً، يخترق لإثبات الذات دون نية شر. لكنه لا يطلب الإذن." }, 
-                                { char: 'ahmed', text: "ستراقب شاشة الاستخبارات لتحديد من هو الصديق ومن هو العدو!" }
+                                { char: 'pharaoh', text: "كل محارب في هذا العالم يرتدي قبعة. عليك معرفة لون قبعة العدو لتعرف نواياه." }, 
+                                { char: 'ahmed', text: "القبعة السوداء (Black Hat): هم اللصوص الخبثاء. هدفهم التخريب وسرقة كنزك أو بيعه في السوق السوداء. هذا هو العدو الحقيقي." }, 
+                                { char: 'rital', text: "القبعة البيضاء (White Hat): هؤلاء هم حلفاؤنا، الأبطال الطيبون. هم يخترقون الأنظمة بإذن صريح من أصحابها لغرض وحيد: إيجاد الثغرات وإصلاحها قبل أن يصل إليها السود." }, 
+                                { char: 'ahmed', text: "القبعة الرمادية (Grey Hat): منطقة الخطر. قد يكون فضولياً، يخترق لإثبات الذات. قد يبلغ عن الثغرة مقابل فدية بسيطة، لكنه لا يطلب الإذن. لا تثق بهم." }, 
+                                { char: 'pharaoh', text: "انظر إلى شاشة الاستخبارات. حدد نوايا الأطراف الثلاثة بدقة." }
                             ], 
                             practical: { id: "lab-04", title: "كشف النوايا الخفية", description: "راقب ثلاثة 'عملاء' محتملين. حرك الفأرة للكشف عن نواياهم الحقيقية. اضغط على 'القبعة السوداء' (العميل الخبيث) للقبض عليه.", type: "hacker-hats" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: القبعات الأمنية</h4>
-                                <p>يتم تصنيف المهاجمين بناءً على دوافعهم: **القبعة السوداء** (شرير يسرق ويدمر)، **القبعة البيضاء** (أخلاقي، يعمل لتعزيز الأمن)، **القبعة الرمادية** (يكتشف الثغرات دون إذن، لكن نيته ليست التخريب المباشر). في أي فريق أمني، يجب أن تتعلم تحديد نوايا الطرف الآخر.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">عندما تجد خطأ أمنياً في نظام ما، إذا أبلغت عنه المطورين، فأنت ترتدي القبعة البيضاء. وإذا استغللته لسرقة معلومات، فأنت ترتدي القبعة السوداء.</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة: كيف تحول مخترق رمادي إلى أبيض (Kevin Mitnick)</h3>" +
+                                "<p>كيفن متنيك، أحد أشهر المخترقين في التاريخ، بدأ كـ 'قبعة رمادية' حيث اخترق أنظمة شركات عملاقة (مثل Motorola و Nokia) بسبب الفضول والتحدي، مما أدى إلى ملاحقته وسجنه. بعد خروجه، تحول إلى 'قبعة بيضاء' وأصبح مستشار أمني عالمي. هذه القصة تظهر أن الفضول التقني يمكن أن يكون قوياً، لكن النوايا هي التي تحدد المصير الأمني.</p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: تحديد النوايا في كل اتصال</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**القبعة البيضاء في العمل:** إذا كنت مطوراً أو مبرمجاً، تذكر أن مسؤوليتك هي العمل كقبعة بيضاء: اختبر الكود بحثاً عن الثغرات بوعي تام وحسن نية.</li>" +
+                                    "<li>**الحذر من القبعة الرمادية:** عندما تجد خللاً أمنياً على الإنترنت، لا تستغله. الإجراء الصحيح هو الإبلاغ عنه مباشرة للشركة (ما يعرف بـ Bug Bounty) لتجنب الملاحقة القانونية.</li>" +
+                                    "<li>**العدو دائماً أسود:** أي شخص يطلب منك بيانات حساسة (كلمة المرور، رمز التحقق) أو يهددك (هجمات الفدية) هو قبعة سوداء. لا تتعامل معه على الإطلاق.</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: لعبة الألوان</h4>" +
+                                "<p>حدد نوايا المهاجم: **الأسود** للتدمير، **الأبيض** للإصلاح، **الرمادي** لإثبات الذات أو الربح المشبوه. مهمتك هي تعزيز الأبيض ومحاربة الأسود والرمادي.</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">لقد نجحت في تحديد الهدف. المعرفة بالنوايا هي نصف المعركة.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "من هو نوع المهاجم الذي يكتشف الثغرات ويستغلها لأغراض شخصية أو تخريبية؟", options: ["القبعة البيضاء", "القبعة الرمادية", "القبعة السوداء"], correct: 2 },
                                 { q: "ما هو الدافع الرئيسي لـ 'القبعة البيضاء'؟", options: ["إثبات الذات", "الربح المادي غير المشروع", "تحسين الأمن والحماية بشكل قانوني"], correct: 2 }
@@ -717,21 +741,32 @@
                         { 
                             title: "5. البرامج الضارة (Malware)", storyTitle: "جراثيم الظلام: العدوى", 
                             dialogue: [
-                                { char: 'pharaoh', text: "تنبيه! تم اكتشاف ملف مشبوه في منطقة الحجر الصحي. إنه يحمل جراثيم الظلام." }, 
-                                { char: 'rital', text: "البرامج الضارة (Malware) هي الجراثيم الرقمية. دعنا نحدد ثلاثة أنواع رئيسية: الفيروسات، والديدان، وأحصنة طروادة." }, 
-                                { char: 'ahmed', text: "تخيل: الفيروس مثل الضيف غير المرغوب فيه. لا يدخل إلا إذا 'فتحته' أو 'دعوته' بيدك (تفعيل الملف)." }, 
-                                { char: 'rital', text: "أما الدودة (Worm)، فهي لا تحتاج لدعوة! إنها تنسخ نفسها وتنتقل عبر الشبكة كالنار في الهشيم دون أي تفاعل بشري." },
-                                { char: 'ahmed', text: "وحصان طروادة (Trojan) يتنكر كبرنامج مفيد أو لعبة. أنت من تحضره للمنزل، لكنه يخفي بداخله جواسيس لفتح الباب للمهاجمين لاحقاً." },
-                                { char: 'recruit', text: "إذاً، يجب أن أكون حذراً جداً من كل ما أفتحه أو أحمله." },
-                                { char: 'pharaoh', text: "بالضبط. قم بتحليل الملف! لا تدع الجرثومة تنتشر." }
+                                { char: 'pharaoh', text: "تنبيه! تم اكتشاف ملف مشبوه في منطقة الحجر الصحي. إنه يحمل جراثيم الظلام، وهي تتكاثر بسرعة." }, 
+                                { char: 'rital', text: "البرامج الضارة (Malware) هي الجراثيم الرقمية التي تصيب الأنظمة. دعنا نحدد ثلاثة أنواع رئيسية: الفيروسات، والديدان، وأحصنة طروادة، فكل واحد ينتشر بطريقة مختلفة." }, 
+                                { char: 'ahmed', text: "الفيروس (Virus): يتطلب تدخل بشري لينتشر. هو مثل الضيف غير المرغوب فيه. لا يدخل إلا إذا 'فتحته' أو 'دعوته' بيدك (تفعيل ملف مرفق)." }, 
+                                { char: 'rital', text: "الدودة (Worm): لا تحتاج لدعوة! إنها تنسخ نفسها وتنتقل عبر الشبكة كالنار في الهشيم مستغلة الثغرات التقنية دون أي تفاعل بشري." },
+                                { char: 'ahmed', text: "حصان طروادة (Trojan): يتنكر كبرنامج مفيد أو لعبة جميلة. أنت من تحضره للمنزل (تثبته)، لكنه يخفي بداخله جواسيس لفتح الباب الخلفي (Backdoor) للمهاجمين لاحقاً." },
+                                { char: 'recruit', text: "إذاً، يجب أن أكون حذراً جداً من كل ما أفتحه أو أحمله، خاصة ما يبدو بريئاً." },
+                                { char: 'pharaoh', text: "بالضبط. قم بتحليل الملف المشبوه! لا تدع الجرثومة تنتشر." }
                             ], 
-                            practical: { id: "lab-05", title: "تحليل الحجر الصحي", description: "وحدة البيانات الأساسية تتعرض لهجوم (جسيمات حمراء خبيثة). قم بتفعيل الجدار الناري لإسقاط الأعداء.", type: "malware-scan" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: أنواع البرامج الضارة</h4>
-                                <p>تعلمنا عن أخطر أنواع البرامج الضارة. **الفيروس** يحتاج إلى تدخل يدوي (تشغيل ملف). **الدودة** تنتشر ذاتياً وسريعاً عبر الشبكات. **حصان طروادة** يتنكر كملف بريء ولكنه يسمح بوصول المهاجم لاحقاً. الفهم الدقيق للأنواع يساعد في الوقاية.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">إذا وصلك ملف مرفق من صديقك لكنك لم تتوقعه، يجب أن تطلب تأكيداً هاتفياً منه قبل فتحه، لأن الفيروسات تتنكر في رسائل بريئة.</p>
-                            `, 
+                            practical: { id: "lab-05", title: "تحليل الحجر الصحي", description: "ماسح ضوئي يقوم بتحليل الملف المشبوه لتحديد نوعه. قم بتحديد نوع البرمجية الضارة وحذفها.", type: "malware-scan" }, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة: دودة Stuxnet (2010) وتدمير المنشآت النووية</h3>" +
+                                "<p>دودة Stuxnet هي أشهر مثال على الدودة (Worm). تم تصميمها لاستهداف برنامج تحكم صناعي محدد في منشآت نووية. انتشرت هذه الدودة عبر شبكات مغلقة وغير متصلة بالإنترنت (Off-Grid) مستغلة ثغرات USB المجهولة. بمجرد دخولها، قامت بإصدار أوامر خاطئة لأجهزة الطرد المركزي، مما أدى لتدميرها المادي.  <!-- Placeholder image was here --> كانت مثالاً على هجوم سياسي معقد استهدف التوافر (Availability) والسلامة (Integrity).</p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: حماية جهازك من العدوى</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**الحذر من المتنكرين:** لا تقم بتنزيل أي برنامج أو لعبة أو تطبيق من مصدر غير رسمي. أغلب أحصنة طروادة تأتي متنكرة في شكل تطبيقات مكركة أو غير مرخصة.</li>" +
+                                    "<li>**تفعيل الدرع:** تأكد أن برنامج مكافحة الفيروسات (Antivirus) مُحدَّث ويعمل في الخلفية دائماً. هو خط دفاعك الأول ضد الفيروسات.</li>" +
+                                    "<li>**التحديث المستمر:** تذكر أن الديدان تستغل الثغرات. تحديث نظام التشغيل (Windows, iOS, Android) يسد هذه الثغرات ويوقف انتشار الديدان ذاتياً.</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: تصنيف الجراثيم</h4>" +
+                                "<p>تعلمنا أن **الفيروس** يتطلب تنفيذاً، **الدودة** تنتشر ذاتياً عبر الشبكة، و**حصان طروادة** يتنكر ليمنح المهاجم وصولاً لاحقاً (Backdoor).</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">تم عزل الجرثومة. لقد حمت المملكة من وباء رقمي محتمل.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "ما البرنامج الضار الذي ينتشر ذاتياً عبر الشبكة دون تدخل المستخدم؟", options: ["الفيروس (Virus)", "حصان طروادة (Trojan)", "الدودة (Worm)"], correct: 2 },
                                 { q: "ما هو حصان طروادة؟", options: ["برنامج يطلب فدية لتشفير ملفاتك", "برنامج يتنكر بزي مفيد لسرقة بياناتك", "برنامج يقوم بتحسين أداء النظام"], correct: 1 }
@@ -741,41 +776,64 @@
                         { 
                             title: "6. الهندسة الاجتماعية", storyTitle: "سحر الكلام (الخداع البشري)", 
                             dialogue: [
-                                { char: 'ahmed', text: "تذكر، أقوى دفاع هو جدارك، لكن أضعف نقطة هي الإنسان. وهذا هو هدف الهندسة الاجتماعية." }, 
-                                { char: 'rital', text: "إنها التلاعب النفسي! المهاجم لا يخترق جهازك، بل يخترق 'ثقتك' عبر رسائل عاجلة، أو انتحال صفة (كأن يدعي أنه مديرك)." },
-                                { char: 'ahmed', text: "أكثر الطرق شيوعاً هي الـ 'Pretexting'، حيث يختلقون قصة مقنعة جداً (كأن يقولوا: 'نظام كشوف المرتبات معطل، نحتاج تأكيد بياناتك الآن')." },
-                                { char: 'recruit', text: "هل يجب أن أشك في كل اتصال؟" },
-                                { char: 'rital', text: "لا، لكن يجب أن تتحقق دائماً. إذا كان الطلب عاجلاً أو يثير الخوف، فتوقف وتحقق من المصدر عبر قناة اتصال ثانية وموثوقة." }
+                                { char: 'ahmed', text: "أنت الآن تعرف الجدران النارية والبرامج الضارة، لكن أضعف نقطة هي الإنسان. وهذا هو هدف الهندسة الاجتماعية (Social Engineering)." }, 
+                                { char: 'rital', text: "إنها التلاعب النفسي! المهاجم لا يخترق جهازك، بل يخترق 'ثقتك'. عبر انتحال صفة (كأن يدعي أنه مديرك العاجز) أو خلق شعور بالخوف والضغط." },
+                                { char: 'ahmed', text: "هناك أساليب عديدة: **الذريعة (Pretexting)**: اختلاق قصة مقنعة جداً. مثل أن يتصل بك شخص ويدعي أنه من الدعم الفني ويقول: 'نظام كشوف المرتبات معطل، نحتاج تأكيد بياناتك الآن وإلا لن تحصل على راتبك! عاجل!'" },
+                                { char: 'rital', text: "المعلومة هي مفتاحهم. إذا طلب منك شخص معلومات لا يحتاجها لوظيفته، أو طلبها بطريقة عاجلة، توقف وفكر." },
+                                { char: 'recruit', text: "هل يجب أن أشك في كل اتصال إذاً؟" },
+                                { char: 'pharaoh', text: "لا، لكن يجب أن تتحقق دائماً. قم بمحاكاة المكالمة المشبوهة واختر الرد الذي يحمي كنزك." }
                             ], 
                             practical: { id: "lab-06", title: "المكالمة المشبوهة", description: "تلقيت مكالمة من 'مدير النظام' يطلب بياناتك. اختر الرد الأمني الصحيح لعدم كشف معلوماتك.", type: "social-eng" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: اختراق الثقة</h4>
-                                <p>الهندسة الاجتماعية هي فن التلاعب النفسي بالبشر للحصول على معلومات سرية. المهاجمون يتنكرون بشخصيات موثوقة (كالموظف أو المدير) لخلق شعور بالاستعجال أو الخوف. **التوقف والتحقق** هو خط دفاعك الأول.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">إذا طلب منك شخص عبر الهاتف كلمة مرورك أو رمز التحقق، لا تعطها أبداً. علماً أن الشركات الكبرى لا تطلب كلمات المرور بهذه الطريقة.</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة: خدعة Google و Facebook (2013-2015)</h3>" +
+                                "<p>استخدم هكر ليتواني الهندسة الاجتماعية للاحتيال على شركتي Google و Facebook بملايين الدولارات! كان يرسل فواتير مزيفة تبدو وكأنها من مورد آسيوي حقيقي يتعاملون معه، مدعياً أنه يجب تغيير رقم الحساب البنكي للدفع. نجح في ذلك مراراً وتكراراً لسنوات دون الحاجة لأي كود اختراق،  <!-- Placeholder image was here --> فقط عبر التلاعب بالثقة والأوراق المزيفة. هذه الواقعة تظهر أن التلاعب البشري هو أكثر الهجمات فعالية.</p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: لا تعطِ مفاتيحك أبداً</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**قاعدة التحقق الثنائي:** إذا تلقيت اتصالاً أو بريداً عاجلاً يطلب معلومات حساسة أو يحث على السرعة، لا تستجب. اتصل بالطرف الآخر عبر قناة اتصال ثانية وموثوقة (مثلاً، اتصل بالبنك على رقمه الرسمي المطبوع خلف البطاقة).</li>" +
+                                    "<li>**لا تثق بالمستعجل:** المهاجمون يستخدمون لغة الخوف والعجلة (\"الآن أو ستخسر كل شيء\"). توقف. فكر. وتحقق.</li>" +
+                                    "<li>**كلمة المرور سرك:** تذكر أن أي شركة أو بنك حقيقي لن يطلب منك كلمة المرور بالكامل عبر الهاتف أو البريد الإلكتروني أو الرسائل النصية تحت أي ظرف.</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: اختراق الثقة</h4>" +
+                                "<p>الهندسة الاجتماعية هي استغلال الضعف البشري. هدفها تجاوز التكنولوجيا عبر التلاعب النفسي بالثقة (Pretexting, Impersonation).</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">أحسنت في اتخاذ القرار الصحيح. خط دفاعك الأول هو يقظتك الذهنية.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "ما هو الهدف الرئيسي من الهندسة الاجتماعية؟", options: ["اختراق جدران الحماية", "استغلال الضعف البشري لسرقة البيانات", "نشر البرامج الضارة على نطاق واسع"], correct: 1 },
                                 { q: "ماذا تفعل إذا تلقيت مكالمة من 'البنك' تطلب منك رمزاً سرياً؟", options: ["تمنحهم الرمز لحل المشكلة بسرعة", "تتصل بالبنك بنفسك عبر الرقم الرسمي للتحقق", "تغلق الهاتف دون رد"], correct: 1 }
                             ] 
                         },
-                        // ********* L7: التصيد الإلكتروني - ENHANCED *********
+                        // ********* L7: التصيد الإلكتروني *********
                         { 
                             title: "7. التصيد الإلكتروني", storyTitle: "طعم سمك مزيف", 
                             dialogue: [
-                                { char: 'pharaoh', text: "بريد مشبوه وصل إلى صندوق الرسائل الآمن. إنه يحمل طعم سمك!" }, 
-                                { char: 'rital', text: "التصيد (Phishing) هو انتحال صفة (كأن يدعي أنه البنك أو مديرك) لإرسال رابط أو ملف خبيث. يركزون على خلق شعور بالخوف أو الطمع." }, 
-                                { char: 'ahmed', text: "تكتيكهم الرئيسي هو استخدام 'هندسة اجتماعية رقمية'. يطلبون منك تصفير كلمة المرور فوراً، أو يخبرونك بأنك ربحت مليون دولار!" }, 
-                                { char: 'rital', text: "تحقق جيداً من شكل 'السنارة': هل الرابط (URL) مطابق تماماً لاسم الموقع؟ هل يبدأ بـ HTTP (غير آمن) أم HTTPS (آمن)؟" }, 
-                                { char: 'recruit', text: "فهمت. يجب أن أفحص الرابط جيداً قبل الضغط." }
+                                { char: 'pharaoh', text: "بريد مشبوه وصل إلى صندوق الرسائل الآمن. إنه يحمل طعم سمك مصمم باحترافية." }, 
+                                { char: 'rital', text: "التصيد (Phishing) هو الشكل الرقمي للهندسة الاجتماعية. المهاجم ينتحل صفة موثوقة (كأن يدعي أنه البنك أو مديرك) ويرسل لك رابطاً أو ملفاً خبيثاً." }, 
+                                { char: 'ahmed', text: "علامات الخطر هي نفسها: يخلقون شعوراً بالخوف ('لقد تم إيقاف حسابك!') أو الطمع ('لقد ربحت جائزة ضخمة!'). هدفهم إجبارك على الضغط على رابطهم المزيف." }, 
+                                { char: 'rital', text: "تحقق جيداً من شكل 'السنارة': هل الرابط (URL) مطابق تماماً لاسم الموقع؟ هل هناك أخطاء إملائية؟ الأهم: هل يبدأ بـ HTTP (غير آمن) أم HTTPS (آمن)؟" }, 
+                                { char: 'recruit', text: "فهمت. يجب أن أفحص الرابط وعنوان المرسل بدقة عالية." }
                             ], 
                             practical: { id: "lab-07", title: "كاشف التصيد", description: "ميز بين الرابط الحقيقي (HTTPS) والمزيف (HTTP أو اسم غريب) للإبلاغ عن عملية التصيد.", type: "phishing-detect" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: انتحال الصفة</h4>
-                                <p>التصيد (Phishing) هو شكل رقمي من الهندسة الاجتماعية، حيث يقوم المهاجم بتقليد جهات موثوقة (مثل البنوك أو خدمات البريد الإلكتروني) للحصول على بيانات اعتمادك. مفتاح الحماية هو فحص اسم المرسل وعنوان الرابط (URL) جيداً والانتباه لعلامات التخويف أو العرض المغري.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">لتجنب التصيد، لا تضغط أبداً على رابط "تحديث الحساب" أو "تسجيل الدخول" في رسالة بريد إلكتروني. اذهب للموقع بكتابة العنوان مباشرة في المتصفح.</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة: اختراق حملة كلينتون الانتخابية (2016)</h3>" +
+                                "<p>أحد أبرز الهجمات التي أثرت على السياسة العالمية كان هجوم التصيد على جون بوديستا، رئيس حملة هيلاري كلينتون. تلقى رسالة بريد إلكتروني تخبره بأن شخصاً ما حاول اختراق حسابه على Google وتطلب منه تغيير كلمة المرور عبر رابط. اعتقد الفريق أن الرسالة حقيقية (حتى أنهم أرسلوا إشعاراً خاطئاً بأنه 'سليم')، فقام بوديستا بتغيير كلمة المرور عبر الرابط المزيف. <!-- Placeholder image was here --> سمح هذا للمخترقين بالوصول إلى آلاف الرسائل الإلكترونية التي تم نشرها لاحقاً.</p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: كيف تتجنب السنارة</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**قاعدة التمرير (Hover):** قبل الضغط على أي رابط في رسالة إلكترونية، مرر مؤشر الفأرة فوقه (أو اضغط طويلاً على الهاتف) لترى العنوان الفعلي الذي سيأخذك إليه. إذا كان العنوان مختلفاً عن عنوان الشركة المعروف، فهو تصيد.</li>" +
+                                    "<li>**تجنب تسجيل الدخول:** لا تضغط أبداً على رابط \"تحديث الحساب\" أو \"تسجيل الدخول\" داخل رسالة بريد إلكتروني. اذهب إلى الموقع بكتابة العنوان مباشرة في المتصفح.</li>" +
+                                    "<li>**التحقق من URL:** ابحث عن الأخطاء الإملائية أو الأحرف البديلة (مثل 0 بدلاً من O، أو حرف I كبير بدلاً من l صغير) في عنوان الموقع. هذا هو تكتيك المهاجمين لإخفاء الصفة المزيفة.</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: انتحال الصفة الرقمية</h4>" +
+                                "<p>التصيد هو انتحال صفة (كالبنك أو المدير) لخداعك لفتح رابط أو ملف خبيث. دليلك هو فحص عنوان URL، وعنوان المرسل، والبحث عن علامات الخوف أو الطمع.</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">تم الإبلاغ عن عملية التصيد. لقد أغلقت البوابة على المهاجمين.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "ما هي العلامة التقنية الأكثر وضوحاً التي تشير إلى أن رابطاً ما هو رابط تصيد؟", options: ["أن يكون الرابط طويلاً جداً", "أن يبدأ بـ 'http://' بدلاً من 'https://'", "أن يكون اسم الموقع مكتوباً بأحرف كبيرة"], correct: 1 },
                                 { q: "رسالة إلكترونية تدعي أنك فزت بجائزة ضخمة وتطلب منك بياناتك البنكية. هذا النوع من الهجمات يسمى:", options: ["هجوم حجب الخدمة", "التصيد", "النسخ الاحتياطي"], correct: 1 }
@@ -785,62 +843,96 @@
                         { 
                             title: "8. كلمات المرور والمصادقة", storyTitle: "مفتاح الحصن المزدوج", 
                             dialogue: [
-                                { char: 'ahmed', text: "كلمة المرور هي القفل الأساسي لحصنك. يجب أن يكون القفل معقداً وغير متوقع." }, 
-                                { char: 'rital', text: "المفتاح القوي: أن يكون طويلاً (>12 حرفاً) ويحتوي على مزيج من الحروف الكبيرة والصغيرة والأرقام والرموز." }, 
-                                { char: 'ahmed', text: "لكن أقوى دفاع هو المفتاح المزدوج (2FA) أو المصادقة الثنائية. هل تعرف ما هي العوامل التي تعتمد عليها؟" },
-                                { char: 'recruit', text: "عاملان. شيء تعرفه وشيء تملكه؟" },
-                                { char: 'rital', text: "صحيح. (شيء تعرفه) مثل كلمة المرور، و (شيء تملكه) مثل الرمز الذي يصل لهاتفك. وهذا يجعل الاختراق شبه مستحيل حتى لو عرف المهاجم كلمة مرورك." }
+                                { char: 'ahmed', text: "كلمة المرور هي القفل الأساسي لحصنك. مفتاح ضعيف يساوي كارثة. يجب أن يكون القفل معقداً وطويلاً وغير متوقع." }, 
+                                { char: 'rital', text: "المفتاح القوي ليس فقط معقداً، بل طويلاً (>12 حرفاً) ويحتوي على مزيج من الحروف الكبيرة والصغيرة والأرقام والرموز. وتجنب استخدام نفس كلمة المرور لأكثر من حساب." }, 
+                                { char: 'ahmed', text: "لكن أقوى دفاع هو المفتاح المزدوج: المصادقة الثنائية (2FA). حتى لو سُربت كلمة مرورك، فلن يتمكن المهاجم من الدخول." },
+                                { char: 'recruit', text: "هل المصادقة الثنائية تعتمد فقط على الرمز الذي يصل لهاتفي؟" },
+                                { char: 'rital', text: "هي تعتمد على عاملين من ثلاثة: شيء تعرفه (كلمة المرور)، وشيء تملكه (هاتفك/رمزك)، وشيء يمثلك (بصمة الإصبع). المصادقة الثنائية تجمع اثنين من هذه العوامل." }
                             ], 
                             practical: { id: "lab-08", title: "بناء كلمة مرور منيعة", description: "أنشئ كلمة مرور 'قوية' (طول > 8 وأرقام) وقم بتفعيل المصادقة الثنائية (2FA) لحفظ الإعدادات.", type: "password-strength" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: القوة المضاعفة</h4>
-                                <p>كلمة المرور القوية يجب أن تكون طويلة (أكثر من 12 حرفاً) ومُعقّدة. لكن الحماية القصوى تأتي من المصادقة الثنائية (2FA)، التي تطلب منك عاملين مختلفين للتأكيد (مثل كلمة مرورك + رمز يصل إلى هاتفك)، مما يحمي حسابك حتى لو تم تسريب كلمة المرور.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">استخدم جملة ككلمة مرور (مثل: "PharaohAi2024!_Strong") بدلاً من كلمة واحدة. وقم بتفعيل المصادقة الثنائية على جميع حساباتك الهامة (الإيميل، البنك، وسائل التواصل).</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة: اختراق LinkedIn وكلمات المرور المكررة (2012)</h3>" +
+                                "<p>تم اختراق شبكة LinkedIn في عام 2012، مما أدى إلى تسريب مئات الملايين من كلمات المرور. المشكلة لم تكن فقط في LinkedIn، بل أن ملايين المستخدمين كانوا يستخدمون نفس كلمة المرور المسربة لحساباتهم البنكية والإيميل!  <!-- Placeholder image was here --> هذا مكّن القراصنة من استخدام القوائم المسربة لتجربة الدخول على آلاف المواقع الأخرى، مما أدى إلى سرقات هائلة. كانت النتيجة كارثية بسبب **إعادة استخدام كلمات المرور الضعيفة.**</p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: قوة الجملة وسرّ الهاتف</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**استخدم مدير كلمات المرور:** لا تحاول تذكر كل كلمة مرور معقدة. استخدم تطبيقات موثوقة (مثل 1Password أو LastPass) لتوليد كلمات مرور قوية وفريدة وتخزينها بأمان.</li>" +
+                                    "<li>**كلمة المرور كجملة:** استخدم جملة ككلمة مرور بدلاً من كلمة واحدة. مثال: \"MyDog_Loves_Bones_2024!\" بدلاً من \"dog123\".</li>" +
+                                    "<li>**تفعيل 2FA في كل مكان:** قم بتفعيل المصادقة الثنائية على جميع حساباتك الهامة (الإيميل، البنك، وسائل التواصل) فوراً. هي خط الدفاع الأخير والأهم.</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: قوة المفتاح</h4>" +
+                                "<p>كلمة المرور القوية يجب أن تكون طويلة ومعقدة وفريدة لكل حساب. لكن الحماية القصوى تأتي من **المصادقة الثنائية (2FA)** التي تطلب عاملين للتحقق.</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">تم تأمين بوابة الدخول بمفتاح مزدوج. أنت في وضع دفاعي ممتاز.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "ما هي المتطلبات الأساسية لإنشاء كلمة مرور قوية جداً؟", options: ["أن تتكون من اسمك فقط", "أن تكون قصيرة ليسهل تذكرها", "أن تكون طويلة ومزيجاً من الأحرف والأرقام والرموز"], correct: 2 },
                                 { q: "ما هو أفضل وصف للمصادقة الثنائية (2FA)؟", options: ["استخدام بصمة الإصبع فقط", "استخدام عاملين مختلفين للتحقق (ككلمة المرور ورمز الهاتف)", "تغيير كلمة المرور كل 30 يوماً"], correct: 1 }
                             ] 
                         },
-                        // ********* L9: التشفير - ENHANCED *********
+                         // ********* L9: التشفير - ENHANCED *********
                         { 
                             title: "9. التشفير", storyTitle: "لغة الأسرار", 
                             dialogue: [
-                                { char: 'rital', text: "التشفير (Encryption) هو لغتنا السرية. عندما ترسل رسالة، نحولها لرموز لا يفهمها إلا من يملك مفتاح فك التشفير." }, 
-                                { char: 'ahmed', text: "هناك نوعان رئيسيان: التشفير المتماثل (Symmetric) حيث يستخدم نفس المفتاح للتشفير وفك التشفير. والتشفير غير المتماثل (Asymmetric)." },
-                                { char: 'rital', text: "في التشفير غير المتماثل، لديك مفتاحان. مفتاح 'عام' ترسله للجميع، ومفتاح 'خاص' تحتفظ به لنفسك. المفتاح العام يشفر، والخاص يفك التشفير." },
-                                { char: 'pharaoh', text: "تحويل البيانات لرموز. هذا يضمن أن يظل الكنز سرياً حتى لو سقط في أيدي الأعداء." }
+                                { char: 'rital', text: "التشفير (Encryption) هو لغتنا السرية. عندما ترسل رسالة، نحولها إلى رموز لا يفهمها إلا من يملك مفتاح فك التشفير الصحيح. <!-- Placeholder image was here -->" }, 
+                                { char: 'ahmed', text: "التشفير المتماثل (Symmetric): مفتاح واحد مشترك للتشغيل والقفل. إنه سريع، لكن عليك أن تثق بالطرف الآخر لمنحه نفس المفتاح السري." },
+                                { char: 'rital', text: "التشفير غير المتماثل (Asymmetric): لديك مفتاحان. مفتاح 'عام' ترسله للجميع ليشفروا لك الرسائل، ومفتاح 'خاص' تحتفظ به لنفسك لفك التشفير. هذا هو أساس الإنترنت الآمن." },
+                                { char: 'pharaoh', text: "هذه العملية تضمن أن يظل الكنز سرياً (Confidential) حتى لو سقط في أيدي الأعداء في منتصف الطريق." },
+                                { char: 'recruit', text: "إذاً التشفير غير المتماثل أفضل لأنه لا يشارك المفتاح السري مع أحد." }
                             ], 
                             practical: { id: "lab-09", title: "آلة التشفير", description: "شفر الرسالة (HELLO) وحولها إلى رموز، ثم قم بفك تشفيرها لاستعادتها.", type: "crypto-basic" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: لغة الرموز</h4>
-                                <p>التشفير يحافظ على سرية المعلومات (Confidentiality) ويضمن عدم قراءتها من قبل المتطفلين. التشفير المتماثل (مفتاح واحد) سريع لكن التوزيع صعب. التشفير غير المتماثل (مفتاح عام وخاص) أبطأ لكنه مثالي للتواصل الآمن عبر الإنترنت حيث لا يحتاج المفتاح السري للانتقال.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">عندما ترى قفلاً أخضر بجوار رابط الموقع (HTTPS)، فهذا يعني أن بياناتك مشفرة (باستخدام التشفير غير المتماثل غالباً) أثناء انتقالها بينك وبين الموقع.</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة: رسالة الثقة لـ PGP وأمن الإيميل (1991)</h3>" +
+                                "<p>في عام 1991، ابتكر فيل زيمرمان برنامج 'الخصوصية الجيدة جداً' (PGP) الذي استخدم التشفير غير المتماثل (Public/Private Key) لتأمين رسائل البريد الإلكتروني. كان الهدف هو تمكين أي شخص من إرسال رسائل خاصة وسرية، حتى لو تم التنصت على الإنترنت بالكامل. لقد غير PGP طريقة تعاملنا مع السرية الرقمية، حيث سمح بمفهوم 'التوقيع الرقمي' لضمان أن الرسالة وصلت سليمة ومن المرسل الحقيقي.</p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: كيف تعرف أن اتصالك مشفر؟</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**قفلة المتصفح:** عندما ترى قفلاً أخضر بجوار رابط الموقع، فهذا يعني أن بياناتك مشفرة (باستخدام التشفير غير المتماثل غالباً). <!-- Placeholder image was here --></li>" +
+                                    "<li>**رسائل النهاية إلى النهاية (End-to-End):** استخدم تطبيقات مراسلة (مثل واتساب أو سيجنال) التي تعلن صراحة عن استخدامها لتشفير 'النهاية إلى النهاية'، مما يعني أن الشركة نفسها لا تستطيع قراءة رسائلك.</li>" +
+                                    "<li>**تشفير الملفات:** استخدم برامج لتشفير المستندات الحساسة التي تخزنها على جهازك الشخصي باستخدام كلمة مرور قوية (تشفير متماثل).</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: لغة الأمان</h4>" +
+                                "<p>التشفير يحمي السرية. **المتماثل** (مفتاح واحد) سريع. **غير المتماثل** (مفتاح عام/خاص) آمن ومستخدم في الويب (HTTPS).</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">لقد نجحت في فهم لغة التشفير. الآن يمكنك إرسال الأسرار بأمان.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "ما هي الفائدة الأساسية من تشفير الرسائل؟", options: ["جعل الرسائل أقصر", "حماية البيانات من القراءة غير المصرح بها", "زيادة سرعة معالجة البيانات"], correct: 1 },
                                 { q: "ما هو نوع التشفير الذي يستخدم فيه نفس المفتاح لتشفير وفك تشفير الرسالة؟", options: ["تشفير متماثل (Symmetric)", "تشفير غير متماثل (Asymmetric)", "التجزئة (Hashing)"], correct: 0 }
                             ] 
                         },
-                        // ********* L10: الشبكات (IP/DNS) - ENHANCED *********
+                         // ********* L10: الشبكات (IP/DNS) - ENHANCED *********
                         { 
                             title: "10. الشبكات (IP/DNS)", storyTitle: "الدليل والبوصلة الرقمية", 
                             dialogue: [
-                                { char: 'ahmed', text: "كل جهاز على الإنترنت يحتاج إلى هوية للاتصال. هذه الهوية هي عنوان IP الخاص به (مثل عنوان منزلك)." }, 
-                                { char: 'rital', text: "عناوين IP هي أرقام معقدة، لذا نحتاج إلى دليل هاتف. هذا هو نظام DNS (نظام أسماء النطاقات)." }, 
-                                { char: 'ahmed', text: "عندما تكتب اسم موقع (مثل google.com)، فإن DNS يترجم الاسم إلى عنوان IP العددي الفعلي (مثلاً: 142.250.190.46) حتى يعرف جهازك أين يذهب." }, 
+                                { char: 'ahmed', text: "كل جهاز على الإنترنت يحتاج إلى هوية للاتصال. هذه الهوية هي عنوان IP الخاص به (مثل عنوان منزلك) لكي يعرف العالم أين يجدك." }, 
+                                { char: 'rital', text: "لكن عناوين IP هي أرقام معقدة وطويلة. تخيل لو كان عليك حفظ IP لكل موقع تزوره! لحسن الحظ، لدينا دليل هاتف." }, 
+                                { char: 'pharaoh', text: "هذا الدليل هو نظام DNS (نظام أسماء النطاقات). إنه يترجم اسم الموقع الذي تتذكره (مثل google.com) إلى عنوان IP العددي الفعلي (142.250.190.46) الذي تفهمه الآلة." }, 
                                 { char: 'recruit', text: "إذاً، بدون DNS، يجب أن أتذكر كل العناوين الرقمية!" },
-                                { char: 'rital', text: "صحيح، ويستخدم المهاجمون أحياناً طرقاً لخداع DNS لتوجيهك لمواقع مزيفة." }
+                                { char: 'rital', text: "صحيح. والمهاجمون يستغلون ضعف DNS أحياناً لخداعك، وهو ما يسمى 'تسميم DNS' (DNS Poisoning) لتوجيهك لمواقع مزيفة." }
                             ], 
                             practical: { id: "lab-10", title: "أداة DNS", description: "استخدم أداة 'nslookup' لترجمة اسم الموقع لعنوان IP الخاص به.", type: "dns-lookup" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: الهوية الرقمية والملاح</h4>
-                                <p>عنوان **IP** هو الهوية الرقمية لجهازك على الشبكة، بينما **DNS** يعمل كدليل هاتف، يحول اسم الموقع (Domain Name) إلى عنوان IP المقابل. هذا النظام ضروري لعمل الإنترنت، لكنه قد يكون هدفاً لهجمات تسميم DNS التي تغير مسار وصولك إلى مواقع مزيفة.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">إذا قام جهازك بتحويلك إلى صفحة تسجيل دخول مختلفة تماماً عند محاولة زيارة موقع معروف، فقد يكون هجوم تسميم DNS. تحقق دائماً من عنوان URL في الأعلى.</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة: هجوم تسميم DNS على البرازيل (2018)</h3>" +
+                                "<p>استهدفت مجموعة من المهاجمين آلاف أجهزة التوجيه (Routers) في البرازيل، وقاموا ببرمجتها سراً لتوجيه طلبات DNS الخاصة بالمستخدمين إلى سيرفرات مزيفة يسيطرون عليها. عندما كان المستخدم يحاول الوصول إلى بنكه، كان DNS المزيف يعيد توجيهه إلى صفحة تصيد مطابقة تماماً للصفحة الأصلية، مما سمح للمهاجمين بسرقة بيانات الدخول المصرفية بسهولة. هذا يثبت خطورة التلاعب ببوصلة الإنترنت. <!-- Placeholder image was here --></p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: كيف تحمي بوصلتك</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**تجنب شبكات الواي فاي العامة:** تجنب إجراء معاملات حساسة (كالدخول على البنك) عبر شبكات الواي فاي العامة، حيث يسهل على المهاجمين إجراء هجمات تسميم DNS عليها.</li>" +
+                                    "<li>**تأمين جهاز التوجيه (الراوتر):** قم بتغيير كلمة المرور الافتراضية للراوتر الخاص بك فوراً. هذا يمنع المخترقين من السيطرة عليه وتغيير إعدادات DNS الخاصة بك.</li>" +
+                                    "<li>**استخدم DNS مشفر:** قم بتغيير إعدادات DNS على جهازك إلى خدمات موثوقة (مثل Google DNS أو Cloudflare DNS) التي توفر تشفيراً لطلبات الترجمة (DNS over HTTPS).</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: معرفة الهوية</h4>" +
+                                "<p>**IP** هو هويتك الرقمية. **DNS** هو الدليل الذي يترجم الأسماء إلى أرقام (IP). يجب حماية هذا الدليل من التلاعب الذي يهدف إلى توجيهك للمواقع الخبيثة.</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">لقد نجحت في فك شيفرة الهوية الرقمية. أنت الآن تعرف كيف يعمل الاتصال في صميمه.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "ما هي الوظيفة الأساسية لنظام DNS؟", options: ["إدارة كلمات المرور", "تحويل أسماء المواقع إلى عناوين IP رقمية", "تشفير الاتصالات على الويب"], correct: 1 },
                                 { q: "ماذا يمكن أن ينتج عن هجوم 'تسميم DNS'؟", options: ["فشل تشفير كلمة المرور", "زيادة سرعة الإنترنت", "توجيهك إلى موقع ويب مزيف أو خبيث"], correct: 2 }
@@ -850,18 +942,30 @@
                         { 
                             title: "11. أمان المحمول", storyTitle: "درعك في جيبك", 
                             dialogue: [
-                                { char: 'ahmed', text: "هاتفك المحمول هو درعك الأصغر، وهو بوابة أخرى لبياناتك. احمِ هذا الدرع الصغير جيداً." }, 
-                                { char: 'rital', text: "أهم شيء هو الانتباه لـ 'الصلاحيات' (الأذونات). يجب أن تفكر: هل يحتاج تطبيق الآلة الحاسبة أن يعرف موقعك الجغرافي؟" }, 
-                                { char: 'ahmed', text: "الأمان المزدوج: استخدم قفل الشاشة القوي، وقم بتفعيل Find My Device، ولا تتردد في حذف التطبيقات التي لا تستخدمها." }, 
-                                { char: 'recruit', text: "إذاً، كل صلاحية إضافية هي خطر محتمل." }
+                                { char: 'ahmed', text: "هاتفك المحمول هو درعك الأصغر، لكنه يحمل مفاتيح كل شيء! إنه البوابة الأكثر عرضة للسرقة المادية والبرمجية. احمه جيداً." }, 
+                                { char: 'rital', text: "أهم قاعدة هي **الصلاحيات (Permissions)**. هل يحتاج تطبيق الآلة الحاسبة أن يعرف موقعك الجغرافي؟ هل يحتاج تطبيق الخلفيات إلى الوصول لجهات اتصالك؟ فكّر في منطق الطلب." }, 
+                                { char: 'pharaoh', text: "كل صلاحية إضافية تُمنح لتطبيق هي خطر محتمل يجب تقليله." },
+                                { char: 'ahmed', text: "تأمين شامل: استخدم قفل الشاشة القوي، قم بتفعيل ميزة العثور على الجهاز (Find My Device)، ولا تتردد في حذف التطبيقات التي لا تستخدمها." }, 
+                                { char: 'recruit', text: "إذاً، يجب أن أكون بخيلاً في منح الصلاحيات للتطبيقات." }
                             ], 
                             practical: { id: "lab-11", title: "مدير الصلاحيات", description: "تطبيق 'المصباح' يطلب صلاحية الموقع. قم بتعطيل هذه الصلاحية الخطرة.", type: "mobile-perms" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: حماية البوابة الصغيرة</h4>
-                                <p>الهواتف الذكية هي أهداف ثمينة. يجب مراجعة الصلاحيات (Permissions) التي تطلبها التطبيقات، والتأكد من أنها منطقية لوظيفة التطبيق. كما يجب استخدام قفل قوي (بصمة، وجه، أو رمز معقد) لتأمين البيانات في حالة الفقد أو السرقة.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">اذهب إلى إعدادات تطبيقاتك الآن وراجع الصلاحيات. إذا وجدت تطبيقاً لا يحتاج إلى الميكروفون أو الموقع لكنه يطلبه، قم بتعطيل هذه الصلاحية فوراً.</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة: تطبيقات الألعاب الخبيثة (Adware)</h3>" +
+                                "<p>اكتشف باحثو الأمن عدداً كبيراً من تطبيقات الألعاب المجانية على متاجر التطبيقات كانت تطلب صلاحيات غير منطقية. بمجرد منحها صلاحية الوصول للرسائل وجهات الاتصال، كانت تقوم بجمع هذه البيانات وبيعها لجهات تسويقية مجهولة، أو في بعض الحالات، كانت تقوم بإرسال رسائل نصية قصيرة باهظة الثمن دون علم المستخدم. <!-- Placeholder image was here --> هذا النوع من الخطر يهدد الخصوصية (Privacy) والمال معاً.</p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: مراجعة إعدادات الخصوصية</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**راجع الصلاحيات بانتظام:** اذهب إلى إعدادات تطبيقاتك الآن وراجع الصلاحيات. قم بتعطيل أي صلاحية غير ضرورية (مثل الميكروفون أو الموقع) عن التطبيقات التي لا تحتاجها لوظيفتها الأساسية.</li>" +
+                                    "<li>**القفل البيومتري:** استخدم بصمة الإصبع أو بصمة الوجه (Face ID) لتأمين شاشة هاتفك. هذا أسرع وأكثر أماناً من الرمز المكون من 4 أرقام.</li>" +
+                                    "<li>**تجنب التحميل الجانبي (Sideloading):** لا تقم بتثبيت تطبيقات من خارج متاجر التطبيقات الرسمية (Google Play أو Apple Store)، حيث أن هذه التطبيقات لم تخضع لفحص أمني ويمكن أن تكون خبيثة.</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: تأمين البوابة الصغيرة</h4>" +
+                                "<p>هاتفك هو كنزك المتنقل. تأمينه يبدأ بالتحكم الصارم في **الصلاحيات (Permissions)** التي تمنحها للتطبيقات، واستخدام القفل القوي (بصمة/وجه).</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">لقد أمنت الدرع المحمول. تذكر أن اليقظة تبدأ بالشك في الطلبات الغريبة.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "أي من الصلاحيات التالية يعتبر الأكثر خطورة إذا تم منحها لتطبيق غير موثوق؟", options: ["الوصول إلى الكاميرا", "الوصول إلى جهات الاتصال والرسائل", "الوصول إلى الواي فاي"], correct: 1 },
                                 { q: "ما الإجراء الأمني الذي يمنع شخصاً غريباً من الوصول إلى بياناتك على هاتفك المفقود؟", options: ["تحديث التطبيقات", "تفعيل قفل الشاشة القوي (بصمة/رمز)", "إعادة تسمية الهاتف"], correct: 1 }
@@ -871,19 +975,30 @@
                         { 
                             title: "12. الخصوصية", storyTitle: "أثر الأقدام الرقمية", 
                             dialogue: [
-                                { char: 'pharaoh', text: "كل خطوة على الإنترنت تترك أثراً. هذا هو بصمتك الرقمية (Digital Footprint)." }, 
-                                { char: 'rital', text: "هذه البصمة تتكون من مشاركاتك، بيانات موقعك، وحتى ملفات تعريف الارتباط (Cookies) التي تخزنها المواقع." },
-                                { char: 'ahmed', text: "المهاجمون وشركات الإعلانات يستخدمون هذه البصمة لجمع المعلومات عنك واستهدافك. يجب أن تقلل ما تشاركه وتتحكم في إعدادات الخصوصية." },
-                                { char: 'recruit', text: "كيف يمكنني التحكم في ملفات تعريف الارتباط (Cookies)؟" },
-                                { char: 'rital', text: "يمكنك مسحها من إعدادات المتصفح، أو استخدام وضع التصفح المتخفي (Incognito Mode) لتقليل تتبعك مؤقتاً." }
+                                { char: 'pharaoh', text: "كل خطوة تقوم بها على الإنترنت تترك أثراً. هذا هو بصمتك الرقمية (Digital Footprint). وهي لا تُمحى بسهولة." }, 
+                                { char: 'rital', text: "هذه البصمة تتكون من مشاركاتك القديمة، بيانات موقعك، وحتى ملفات تعريف الارتباط (Cookies) التي تخزنها المواقع في متصفحك لتتبع نشاطك." },
+                                { char: 'ahmed', text: "المهاجمون وشركات الإعلانات يستخدمون هذه البصمة لجمع المعلومات عنك واستهدافك بدقة. يجب أن تقلل ما تشاركه وتتحكم في إعدادات الخصوصية باستمرار." },
+                                { char: 'recruit', text: "هل يمكنني مسح هذه البصمة بالكامل؟" },
+                                { char: 'rital', text: "صعب جداً، لكن يمكنك تقليلها! بمسح ملفات تعريف الارتباط من إعدادات المتصفح، واستخدام وضع التصفح المتخفي (Incognito Mode) لتقليل التتبع المؤقت." }
                             ], 
                             practical: { id: "lab-12", title: "مراجعة المنشور", description: "أنت على وشك نشر بيانات حساسة. اضغط على المعلومات الحساسة لحجبها.", type: "privacy-check" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: الحفاظ على الأثر</h4>
-                                <p>بصمتك الرقمية هي السجل الكامل لنشاطك على الإنترنت. لحماية خصوصيتك، يجب أن تكون حذراً جداً فيما تنشره، وأن تراجع إعدادات الخصوصية باستمرار. **ملفات تعريف الارتباط (Cookies)** هي أدوات تستخدمها المواقع لتتبعك، ويمكنك التحكم فيها عبر المتصفح.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">لا تنشر صوراً أو معلومات تظهر فيها بيانات حساسة (مثل تذكرة السفر التي تظهر كود الحجز أو رقم هاتفك). وقم بمسح تاريخ التصفح وملفات تعريف الارتباط مرة واحدة شهرياً على الأقل.</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة: فضيحة Cambridge Analytica</h3>" +
+                                "<p>كانت فضيحة Cambridge Analytica مثالاً على كيفية استغلال البصمة الرقمية. حيث قامت الشركة بجمع البيانات الشخصية لملايين مستخدمي فيسبوك دون موافقتهم الصريحة (عبر تطبيق اختبار شخصية)، واستخدمت هذه البيانات لإنشاء ملفات نفسية دقيقة لاستهدافهم برسائل سياسية وإعلانات محددة. <!-- Placeholder image was here --> هذا يظهر كيف أن المعلومات التي تشاركها يمكن أن تتحول إلى أداة للتلاعب.</p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: تقليل الأثر</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**لا تشارك بيانات السفر:** لا تنشر صوراً أو معلومات تظهر فيها بيانات حساسة مثل تذكرة السفر التي تظهر كود الحجز أو رقم هاتفك. هذه البيانات يمكن أن تُستخدم للتلاعب بحجزك.</li>" +
+                                    "<li>**ضبط الخصوصية:** خصص وقتاً لمراجعة إعدادات الخصوصية في كل تطبيق تواصل اجتماعي (من يستطيع رؤية ماذا؟). اجعل مشاركاتك لأضيق نطاق ممكن.</li>" +
+                                    "<li>**تنظيف المتصفح:** قم بمسح تاريخ التصفح وملفات تعريف الارتباط (Cookies) مرة واحدة شهرياً على الأقل. استخدم محركات بحث تحترم خصوصيتك (مثل DuckDuckGo).</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: الحفاظ على السر</h4>" +
+                                "<p>بصمتك الرقمية هي سجل نشاطك. حماية خصوصيتك تتطلب تقليص ما تنشره والتحكم الصارم في إعدادات ملفات تعريف الارتباط (Cookies).</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">لقد نجحت في حجب البيانات الحساسة. قلل من أثر أقدامك على الإنترنت.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "ما الذي يشكل جزءاً من بصمتك الرقمية؟", options: ["طولك ووزنك الفعلي", "سجل التصفح ومنشوراتك القديمة", "رقم هاتفك المحمول فقط"], correct: 1 },
                                 { q: "ما هي أفضل ممارسة لتقليل التتبع من المواقع؟", options: ["استخدام نفس كلمة المرور لكل المواقع", "مسح ملفات تعريف الارتباط (Cookies) بانتظام", "الموافقة على جميع شروط الخصوصية"], correct: 1 }
@@ -893,18 +1008,29 @@
                         { 
                             title: "13. النسخ الاحتياطي", storyTitle: "قارب النجاة السري", 
                             dialogue: [
-                                { char: 'ahmed', text: "ماذا لو نجح أحد الوحوش في تشفير كنزك بالكامل (برامج الفدية)؟ دفع الفدية ليس حلاً." }, 
-                                { char: 'rital', text: "الحل هو 'النسخ الاحتياطي' (Backup): الاحتفاظ بنسخة من الكنز في سفينة نجاة بعيدة. إذا غرقت السفينة الأساسية، لديك النسخة البديلة." },
-                                { char: 'ahmed', text: "القاعدة الذهبية هي قاعدة 3-2-1: ثلاث نسخ من بياناتك. على وسيطي تخزين مختلفين. وواحدة على الأقل في مكان بعيد (Offsite)." },
-                                { char: 'recruit', text: "إذاً، يجب أن يكون لدي نسخة في جهاز خارجي ونسخة أخرى في السحابة (Cloud)." }
+                                { char: 'ahmed', text: "السيناريو الأسوأ: نجح أحد الوحوش في تشفير كنزك بالكامل (برامج الفدية). ما هو الحل؟" }, 
+                                { char: 'rital', text: "النسخ الاحتياطي (Backup) هو خط دفاعك الأخير. إنه قارب النجاة. الاحتفاظ بنسخة من الكنز في سفينة بعيدة وآمنة." },
+                                { char: 'ahmed', text: "القاعدة الذهبية هي قاعدة 3-2-1 التي يجب أن تتذكرها: **ثلاث نسخ** من بياناتك. على **وسيطي تخزين مختلفين**. و**واحدة** على الأقل في مكان بعيد (Offsite) لضمان عدم تلفها مادياً." },
+                                { char: 'recruit', text: "إذاً، يجب أن يكون لدي نسخة في جهاز خارجي ونسخة أخرى في السحابة (Cloud)، بالإضافة للنسخة الأصلية." }
                             ], 
                             practical: { id: "lab-13", title: "استعادة النظام", description: "النظام مصاب ببرنامج فدية. اضغط 'Restore Backup' لاستعادة الملفات من النسخة الآمنة.", type: "backup-restore" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: خطة الطوارئ</h4>
-                                <p>النسخ الاحتياطي (Backup) هو أهم خطوة لضمان **التوافر** (Availability)، خاصة ضد برامج الفدية (Ransomware) التي تشفر جميع ملفاتك. يجب اتباع قاعدة 3-2-1: 3 نسخ من البيانات، على 2 وسيط تخزين مختلف (مثل قرص صلب وسحابة)، ونسخة 1 في موقع بعيد (Offsite) لضمان عدم فقدانها في حال الكوارث المادية.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">لتحقيق قاعدة 3-2-1 بسهولة، احتفظ بنسخة على جهاز الكمبيوتر الخاص بك، ونسخة على قرص صلب خارجي، ونسخة على خدمة سحابية موثوقة (مثل Google Drive أو OneDrive).</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة: هجوم برنامج الفدية WannaCry (2017)</h3>" +
+                                "<p>برنامج WannaCry هو أحد أشهر هجمات الفدية العالمية. استهدف آلاف الشركات والمستشفيات حول العالم، وشفر بياناتها وطالب بفدية مالية مقابل فك التشفير. العديد من الضحايا فقدوا جميع ملفاتهم بشكل دائم.  <!-- Placeholder image was here --> أما الشركات التي كانت تطبق قاعدة 3-2-1 للنسخ الاحتياطي، فقد تمكنت من مسح الأجهزة المصابة واستعادة العمل في غضون ساعات قليلة دون دفع أي فدية. هذا يثبت أن النسخ الاحتياطي هو مفتاح التوافر (Availability) المطلق.</p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: تطبيق قاعدة 3-2-1</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**3 نسخ:** الأصلية على حاسوبك، نسخة على قرص صلب خارجي، ونسخة على السحابة (مثال: Google Drive, OneDrive).</li>" +
+                                    "<li>**2 وسيط:** استخدم وسيطاً مادياً (القرص الصلب) ووسيطاً سحابياً (السحابة) لتجنب فشل نوع واحد من التخزين.</li>" +
+                                    "<li>**1 نسخة بعيدة (Offsite):** تخزين نسخة في السحابة أو في موقع جغرافي مختلف عن موقعك (مثل ترك القرص الصلب عند قريب) يمنع ضياع جميع النسخ في حال حدوث حريق أو كارثة مادية.</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: خطة الطوارئ</h4>" +
+                                "<p>النسخ الاحتياطي يضمن التوافر. **قاعدة 3-2-1** هي المعيار الذهبي لضمان أن بياناتك لن تُفقد أبداً، حتى في أسوأ السيناريوهات.</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">أعدت النظام بنجاح من النسخة الاحتياطية. لا تدفع فدية أبداً.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "ماذا تعني قاعدة '3-2-1' في النسخ الاحتياطي؟", options: ["3 أجهزة، 2 مستخدمين، 1 كلمة مرور", "3 نسخ، 2 وسيط، 1 نسخة بعيدة", "3 أيام، 2 تحديث، 1 إنذار"], correct: 1 },
                                 { q: "ما هو الإجراء الذي يضمن الحماية ضد برامج الفدية؟", options: ["عدم فتح أي بريد إلكتروني", "تحديث النظام بشكل يومي", "الاعتماد على النسخ الاحتياطي المنتظم والآمن"], correct: 2 }
@@ -914,18 +1040,29 @@
                         { 
                             title: "14. التصفح الآمن", storyTitle: "قفل الأمان", 
                             dialogue: [
-                                { char: 'rital', text: "عندما تتصفح مواقع حساسة، ابحث عن القفل الأخضر بجوار الرابط في شريط العنوان." }, 
-                                { char: 'ahmed', text: "هذا القفل يعني HTTPS. هذا ضمان بأن اتصالك بالموقع مشفّر ولا يمكن لأحد رؤية ما تفعله (ككلمات المرور)." },
-                                { char: 'rital', text: "النسخة القديمة (HTTP) غير آمنة وتسمح بالتجسس. إذا رأيت 'HTTP' بدون 'S' على موقع بنك أو تسوق، اهرب فوراً." },
-                                { char: 'pharaoh', text: "التشفير يضمن خصوصية الاتصال بين متصفحك وسيرفر الموقع." }
+                                { char: 'rital', text: "عندما تتصفح مواقع حساسة (كالبنوك أو الشراء)، يجب أن تشعر بالأمان. هذا الأمان يوفره بروتوكول HTTPS." }, 
+                                { char: 'ahmed', text: "القفلة الخضراء أو الرمادية بجوار الرابط تعني HTTPS.  <!-- Placeholder image was here --> هذا ضمان بأن اتصالك بالموقع مشفّر بواسطة طبقة الأمان (SSL/TLS) ولا يمكن لأحد رؤية ما تفعله." },
+                                { char: 'rital', text: "النسخة القديمة (HTTP) غير آمنة تماماً وتسمح بالتجسس. إذا رأيت 'HTTP' بدون 'S' على موقع بنك أو تسوق، اهرب فوراً ولا تدخل أي بيانات شخصية أو مالية." },
+                                { char: 'pharaoh', text: "التشفير يضمن خصوصية الاتصال بين متصفحك وسيرفر الموقع. لا تفتح الباب لأي شخص لا يملك قفل." }
                             ], 
                             practical: { id: "lab-14", title: "فحص الرابط", description: "لاحظ الرابط (HTTP غير آمن). اضغط الزر لتفعيل 'HTTPS' وتشفير الاتصال.", type: "https-check" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: طبقة الأمان (SSL/TLS)</h4>
-                                <p>القفلة الخضراء في شريط العنوان تعني أن الموقع يستخدم بروتوكول **HTTPS**، مما يضمن تشفير اتصالك وحماية بياناتك من التنصت. المواقع التي تستخدم **HTTP** فقط هي مواقع غير آمنة ويجب تجنب إدخال أي معلومات شخصية أو مالية بها.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">قبل إدخال كلمة مرورك أو معلومات بطاقتك الائتمانية في أي موقع، تأكد أولاً من وجود رمز القفل في بداية العنوان. إذا لم يكن موجوداً، أو كان الرابط يبدأ بـ 'HTTP' فقط، أغلق الموقع على الفور.</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة: هجوم التنصت على HTTP (Man-in-the-Middle)</h3>" +
+                                "<p>في الماضي، عندما كانت المواقع تستخدم HTTP، كان بإمكان المهاجمين الجلوس بينك وبين الموقع (هجوم الوسيط) ورؤية كل ما تكتبه بوضوح تام، بما في ذلك كلمات المرور! كان هذا شائعاً في شبكات الواي فاي العامة. بفضل الانتقال الإلزامي لـ HTTPS، أصبحت هذه الهجمات مستحيلة تقريباً لأن البيانات تكون رموزاً مشفرة لا يمكن فك شفرتها في المنتصف، وهذا يعزز السرية بشكل كبير.</p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: لا إدخال بيانات دون قفل</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**قاعدة الشراء/الدخول:** لا تدخل أبداً كلمة مرورك أو بيانات بطاقتك الائتمانية في أي موقع لا يحتوي على رمز القفل في شريط العنوان ولا يبدأ بـ HTTPS.</li>" +
+                                    "<li>**إضافة الأمان:** قم بتثبيت إضافات المتصفح التي تجبر المواقع على استخدام HTTPS كلما أمكن (مثل إضافة HTTPS Everywhere)، لضمان أنك تستخدم دائماً الاتصال المشفر.</li>" +
+                                    "<li>**تجنب التحذيرات:** إذا ظهر تحذير في المتصفح بأن الشهادة الأمنية للموقع (SSL Certificate) غير صالحة أو منتهية الصلاحية، لا تتجاهل التحذير! أغلق الموقع فوراً.</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: بروتوكول آمن</h4>" +
+                                "<p>**HTTPS** يضمن تشفير الاتصال بينك وبين الموقع. **HTTP** يعني أن اتصالك مكشوف ويمكن رؤية بياناتك بسهولة.</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">تم تفعيل الاتصال المشفر. لقد حميت بياناتك في الطريق نحو الموقع.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "ماذا يعني وجود 'HTTPS' بدلاً من 'HTTP' في عنوان الموقع؟", options: ["الموقع أسرع بكثير", "الاتصال بالموقع مشفّر وآمن", "الموقع جديد ولم يتم اختراقه بعد"], correct: 1 },
                                 { q: "ماذا يجب أن تفعل إذا رأيت موقعاً يطلب منك بيانات حساسة ويبدأ عنوانه بـ 'http://'؟", options: ["تكمل تصفح الموقع", "تغلق الموقع فوراً ولا تدخل أي بيانات", "تقوم بتحديث الصفحة"], correct: 1 }
@@ -935,18 +1072,29 @@
                         { 
                             title: "15. الأمن المادي", storyTitle: "حارس الجسد الرقمي", 
                             dialogue: [
-                                { char: 'ahmed', text: "الحماية ليست فقط برامج، بل حماية جهازك نفسه (جسده المادي)." }, 
-                                { char: 'rital', text: "أهم قاعدتين: دائماً أغلق جهازك (Lock) عند الابتعاد، حتى لو لدقيقة. هذا يمنع الوصول الفيزيائي." },
-                                { char: 'ahmed', text: "ولا تثق أبداً في أي قطعة (USB) تجدها ملقاة! قد تكون 'فخاً' مليئاً بالبرامج الضارة معداً خصيصاً لمهاجمتك." },
-                                { char: 'recruit', text: "إذاً، الأمن المادي هو خط الدفاع الأول قبل الجدار الناري." }
+                                { char: 'ahmed', text: "الحماية ليست فقط برامج، بل حماية جهازك نفسه (جسده المادي) ومحيطه. فالمهاجم قد لا يحتاج إلى الإنترنت للوصول إلى بياناتك." }, 
+                                { char: 'rital', text: "القاعدة الأولى: دائماً أغلق جهازك (Lock) عند الابتعاد، حتى لو لدقيقة واحدة! هذا يمنع الوصول الفيزيائي المباشر." },
+                                { char: 'ahmed', text: "القاعدة الثانية: لا تثق أبداً في أي قطعة (USB) تجدها ملقاة! <!-- Placeholder image was here --> قد تكون 'فخاً' مليئاً بالبرامج الضارة معداً خصيصاً لمهاجمتك (USB Drop Attack)." },
+                                { char: 'recruit', text: "إذاً، الأمن المادي هو خط الدفاع الأول قبل الجدار الناري والبرامج." }
                             ], 
                             practical: { id: "lab-15", title: "الفخ المادي", description: "أقفل جهازك، وتعامل بأمان مع فخ الـ USB المجهول (يجب الإبلاغ).", type: "physical-usb" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: تأمين المحيط</h4>
-                                <p>الأمن المادي يعني حماية الأجهزة الملموسة من الوصول غير المصرح به. يشمل ذلك قفل الشاشة عند مغادرة المكتب (حتى لدقائق)، والتعامل بحذر مع الوسائط الخارجية المجهولة (مثل أقراص USB المنسية)، حيث غالباً ما تستخدم هذه الأدوات لنشر البرامج الضارة.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">إذا اضطررت لترك جهازك، اضغط على (Windows + L) أو (Command + Control + Q) لقفل الشاشة فوراً. ولا تقم أبداً بتوصيل أي فلاش ميموري (USB) وجدته في مكان عام بجهازك الشخصي أو العمل.</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة: هجوم USB Drop على وزارة الدفاع الأمريكية (2008)</h3>" +
+                                "<p>وقع هجوم خطير على وزارة الدفاع الأمريكية (البنتاغون) عبر وسائط مادية بسيطة. قام عملاء خارجيون بترك أقراص USB مصابة بالفيروسات عمداً في مواقف سيارات تابعة للوزارة. فضول الموظفين دفعهم لتوصيل هذه الأقراص بأجهزة العمل لمعرفة محتوياتها. سمح هذا لبرنامج خبيث بالانتشار عبر شبكة الوزارة الحساسة، مما أجبرهم على إيقاف العمل لأسابيع كاملة لتنظيف النظام. هذا يثبت أن الضعف البشري والفضول يُستغلان في الأمن المادي.</p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: لا تترك الكنز مكشوفاً</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**قفل الشاشة الفوري:** اضغط على اختصار (Windows + L) أو (Command + Control + Q) لقفل الشاشة فوراً عند مغادرة مكتبك أو جهازك في مقهى.</li>" +
+                                    "<li>**تدمير البيانات القديمة:** لا ترمِ أقراصك الصلبة القديمة أو هواتفك في القمامة. قم بتدميرها مادياً أولاً لضمان عدم استعادة البيانات الحساسة منها (Data Destruction).</li>" +
+                                    "<li>**لا توصيل للمجهول:** لا تقم أبداً بتوصيل أي فلاش ميموري (USB) وجدته في مكان عام بجهازك الشخصي أو العمل. الإجراء الصحيح هو تسليمه لقسم الأمن أو تدميره.</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: تأمين المحيط</h4>" +
+                                "<p>الأمن المادي هو حماية جهازك ومحيطه الملموس. قفل الشاشة والتعامل بحذر مع الوسائط المجهولة هما أولى الخطوات.</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">لقد أمنت جسد النظام. خط الدفاع الأول أصبح قوياً.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "وجدت USB مجهولاً ملقى على مكتبك، ما هو الإجراء الأمني الأفضل؟", options: ["توصيله بجهازك لفحص محتواه", "تسليمه إلى قسم الأمن/الدعم الفني", "أخذه إلى المنزل لاستخدامه الشخصي"], correct: 1 },
                                 { q: "لماذا يجب قفل جهاز الكمبيوتر عند الابتعاد عنه؟", options: ["لتوفير الطاقة", "لمنع المتطفلين من الوصول إلى البيانات أثناء غيابك", "لأنها تزيد سرعة الإنترنت"], correct: 1 }
@@ -956,18 +1104,29 @@
                         { 
                             title: "16. التحديثات", storyTitle: "ترميم الجدار بشكل دائم", 
                             dialogue: [
-                                { char: 'pharaoh', text: "نظامك يحتاج لترميم مستمر. الأعداء يكتشفون شقوقاً جديدة كل يوم (Zero-Days)." }, 
-                                { char: 'ahmed', text: "التحديثات (Patches) هي عملية سد هذه الشقوق (Patches) فور اكتشافها. تحديث دائم = حماية دائمة." },
-                                { char: 'rital', text: "تجاهل التحديثات يعني أنك تترك الباب مفتوحاً للمهاجمين الذين يعرفون عن الثغرات القديمة. لا تؤجل تحديثات نظام التشغيل والتطبيقات!" },
-                                { char: 'recruit', text: "فهمت. التحديث ليس ترفاً، بل واجب أمني." }
+                                { char: 'pharaoh', text: "التهديدات لا تتوقف. نظامك يحتاج لترميم مستمر لأن الأعداء يكتشفون شقوقاً جديدة كل يوم (ما يُعرف بـ Zero-Days)." }, 
+                                { char: 'ahmed', text: "التحديثات (Patches) هي عملية سد هذه الشقوق فور اكتشافها. تحديث دائم = حماية دائمة. إذا لم تحدث نظامك، فأنت تعرضه لثغرات معروفة ومستغلة." },
+                                { char: 'rital', text: "تجاهل التحديثات يعني أنك تترك الباب مفتوحاً للمهاجمين. لا تؤجل أبداً تحديثات نظام التشغيل، برامج مكافحة الفيروسات، والمتصفحات. أتمتة التحديث هي الحل." },
+                                { char: 'recruit', text: "فهمت. التحديث ليس ترفاً لـ 'تحسين المظهر'، بل واجب أمني حاسم." }
                             ], 
                             practical: { id: "lab-16", title: "مركز التحديثات", description: "النظام يحوي ثغرات. اضغط 'Check for Updates' ثم 'Install Critical Patch' لإصلاحه.", type: "system-update" }, 
-                            summary: `
-                                <h4 class="text-2xl font-bold mb-3 text-cyber-blue">ملخص الدرس: الترميم المستمر</h4>
-                                <p>التحديثات (Updates) هي أهم ممارسة أمنية وقائية، حيث تقوم الشركات المصنعة بإطلاقها لسد الثغرات الأمنية المكتشفة حديثاً. عدم التحديث يعرضك لخطر استغلال هذه الثغرات من قبل المهاجمين. تأكد دائماً من أن جميع برامجك ونظام تشغيلك محدثة باستمرار.</p>
-                                <h4 class="text-lg font-bold mt-4 text-green-400">تطبيق حياتي (Cyber Life Lesson)</h4>
-                                <p class="text-base">لا تقم أبداً بتأجيل التحديثات الأمنية لوقت غير محدد. قم بضبط هاتفك وجهازك لتثبيت التحديثات تلقائياً ليلاً، لضمان أن دفاعاتك محدثة دون تعطيل عملك.</p>
-                            `, 
+                            applicationStory: " " +
+                                "<h3 class=\"text-xl font-bold text-red-400 mb-3\">قصة: هجوم Equifax وثغرة (Apache Struts)</h3>" +
+                                "<p>في عام 2017، تعرضت شركة Equifax، إحدى أكبر شركات تقارير الائتمان في العالم، لاختراق هائل أدى لسرقة بيانات 147 مليون مستهلك. المثير أن سبب الاختراق كان ثغرة معروفة في إطار عمل برمجي (Apache Struts) كان يتوفر لها تحديث أمني (Patch) قبل شهرين من الاختراق! <!-- Placeholder image was here --> فشل Equifax في تطبيق التحديث في الوقت المناسب أدى إلى كارثة أمنية عالمية. هذا يثبت أن عدم التحديث هو إهمال أمني جسيم.</p>" +
+                            " ", 
+                            applicationTips: " " +
+                                "<h3 class=\"text-xl font-bold text-green-400 mb-3\">التطبيق الحياتي: لا تؤجل عمل اليوم للغد</h3>" +
+                                "<ul class=\"list-disc pr-5 mt-2 space-y-3 text-base\">" +
+                                    "<li>**التحديث التلقائي:** قم بضبط هاتفك وجهازك لتثبيت التحديثات الأمنية تلقائياً ليلاً. هذا يضمن أن دفاعاتك محدثة دون تعطيل عملك.</li>" +
+                                    "<li>**تحديث كل شيء:** لا تقتصر التحديثات على نظام التشغيل فقط. تأكد من تحديث المتصفحات (Chrome, Firefox)، والتطبيقات المكتبية، وبرامج الحماية باستمرار.</li>" +
+                                    "<li>**التخلص من القديم:** لا تستخدم أجهزة قديمة جداً (مثل الهواتف التي تجاوز عمرها 7 سنوات) توقفت الشركات المصنعة عن توفير التحديثات الأمنية لها.</li>" +
+                                "</ul>" +
+                            " ", 
+                            summary: " " +
+                                "<h4 class=\"text-2xl font-bold mb-3 text-cyber-blue\">ملخص المهمة: الترميم الدوري</h4>" +
+                                "<p>التحديثات (Patches) هي أهم عملية وقائية. عدم التحديث يترك الأبواب مفتوحة للمهاجمين. يجب ترميم الشقوق (الثغرات) فوراً.</p>" +
+                                "<p class=\"text-lg font-bold mt-4 text-green-400\">لقد أتممت مسار الحارس المبتدئ بنجاح تام! أنت الآن مستعد للمستوى التالي.</p>" +
+                            " ", 
                             quiz: [
                                 { q: "لماذا تعتبر تحديثات النظام والتطبيقات ضرورية للأمن السيبراني؟", options: ["لتغيير شكل الواجهة فقط", "لسد الثغرات الأمنية وإصلاح نقاط الضعف", "لزيادة حجم ذاكرة الجهاز"], correct: 1 },
                                 { q: "ماذا تسمى الثغرة الأمنية التي يكتشفها المهاجم ويستغلها قبل أن يعلم بها المطورون؟", options: ["ثغرة صفرية (Zero-Day)", "تحديث أمني (Patch)", "برنامج إعلاني (Adware)"], correct: 0 }
@@ -975,14 +1134,15 @@
                         }
                     ]
                 },
+                // ... (Intermediate, UpperIntermediate, Advanced paths remain the same)
                 intermediate: {
                     title: "مسار الخبراء التكتيكيين",
                     description: "تكتيكات الحماية العميقة، تحليل الشبكات، وأساسيات الهجوم الأخلاقي.",
                     lessons: [
-                        { title: "1. نموذج OSI Model", storyTitle: "بوابات العالم السفلي السبعة", dialogue: [{ char: 'ahmed', text: "مرحباً بك في المستوى التالي. هنا نفهم كيف تعمل الأشياء." }, { char: 'pharaoh', text: "البيانات تمر بسبع بوابات (طبقات) لتعبر الشبكة." }, { char: 'rital', text: "من الأسلاك (Physical) إلى التطبيق (Application)." }, { char: 'ahmed', text: "افهم النموذج لتفهم الشبكات." }], practical: { id: "lab-int-01", title: "ترتيب الطبقات", description: "رتب طبقات OSI السبعة لضمان وصول الرسالة.", type: "osi-sort" }, summary: "نموذج OSI يتكون من 7 طبقات: Physical, Data Link, Network, Transport, Session, Presentation, Application.", quiz: [{ q: "ما الطبقة المسؤولة عن الكابلات؟", options: ["Application", "Network", "Physical"], correct: 2 }, { q: "أين توجد عناوين IP؟", options: ["Data Link", "Network", "Transport"], correct: 1 }] },
-                        { title: "2. بروتوكولات TCP/IP", storyTitle: "لغة التخاطب", dialogue: [{ char: 'ahmed', text: "الأجهزة تتحدث لغات تسمى بروتوكولات." }, { char: 'rital', text: "أهمها TCP و UDP. الـ TCP موثوق. الـ UDP سريع." }, { char: 'recruit', text: "كيف يبدأ TCP؟" }, { char: 'ahmed', text: "بالمصافحة الثلاثية: SYN, SYN-ACK, ACK." }], practical: { id: "lab-int-02", title: "المصافحة الثلاثية", description: "قم بإجراء اتصال TCP آمن.", type: "tcp-handshake" }, summary: "TCP يضمن وصول البيانات عبر المصافحة الثلاثية. UDP أسرع لكنه غير موثوق.", quiz: [{ q: "ما البروتوكول الموثوق؟", options: ["UDP", "TCP", "IP"], correct: 1 }] },
-                        { title: "3. تحليل الحزم (Wireshark)", storyTitle: "التنصت على الشبكة", dialogue: [{ char: 'pharaoh', text: "البيانات تسير كـ 'حزم'." }, { char: 'ahmed', text: "Wireshark يلتقط الحزم." }, { char: 'rital', text: "البروتوكولات غير المشفرة تكشف كل شيء." }], practical: { id: "lab-int-03", title: "صياد الحزم", description: "التقط الحزم وابحث عن كلمة مرور.", type: "packet-sniffer" }, summary: "تحليل الحزم يكشف البيانات. Telnet/FTP غير آمنة لأنها غير مشفرة.", quiz: [{ q: "ما الأداة لتحليل الحزم؟", options: ["Wireshark", "Notepad", "Paint"], correct: 0 }] },
-                        { title: "4. فحص المنافذ (Nmap)", storyTitle: "رسم خرائط العدو", dialogue: [{ char: 'ahmed', text: "اعرف ماذا يوجد هناك." }, { char: 'rital', text: "Nmap يفحص المنافذ المفتوحة." }, { char: 'pharaoh', text: "كل منفذ مفتوح هو باب محتمل." }], practical: { id: "lab-int-04", title: "فحص الشبكة", description: "استخدم Nmap لاكتشاف المنافذ.", type: "port-scan" }, summary: "Nmap تكشف الأجهزة والخدمات والمنافذ المفتوحة.", quiz: [{ q: "ما وظيفة Nmap؟", options: ["فحص المنافذ", "تصميم", "تشفير"], correct: 0 }] },
+                        { title: "1. نموذج OSI Model", storyTitle: "بوابات العالم السفلي السبعة", dialogue: [{ char: 'ahmed', text: "مرحباً بك في المستوى التالي. هنا نفهم كيف تعمل الأشياء." }, { char: 'pharaoh', text: "البيانات تمر بسبع بوابات (طبقات) لتعبر الشبكة." }, { char: 'rital', text: "من الأسلاك (Physical) إلى التطبيق (Application)." }, { char: 'ahmed', text: "افهم النموذج لتفهم الشبكات." }], practical: { id: "lab-int-01", title: "ترتيب الطبقات", description: "رتب طبقات OSI السبعة لضمان وصول الرسالة.", type: "osi-sort" }, summary: "نموذج OSI يتكون من 7 طبقات: Physical, Data Link, Network, Transport, Session, Presentation, Application.", quiz: [{ q: "ما الطبقة المسؤولة عن الكابلات؟", options: ["Application", "Network", "Physical"], correct: 2 }, { q: "أين توجد عناوين IP؟", options: ["Data Link", "Network", "Transport"], correct: 1 }] , applicationStory: ``, applicationTips: ``},
+                        { title: "2. بروتوكولات TCP/IP", storyTitle: "لغة التخاطب", dialogue: [{ char: 'ahmed', text: "الأجهزة تتحدث لغات تسمى بروتوكولات." }, { char: 'rital', text: "أهمها TCP و UDP. الـ TCP موثوق. الـ UDP سريع." }, { char: 'recruit', text: "كيف يبدأ TCP؟" }, { char: 'ahmed', text: "بالمصافحة الثلاثية: SYN, SYN-ACK, ACK." }], practical: { id: "lab-int-02", title: "المصافحة الثلاثية", description: "قم بإجراء اتصال TCP آمن.", type: "tcp-handshake" }, summary: "TCP يضمن وصول البيانات عبر المصافحة الثلاثية. UDP أسرع لكنه غير موثوق.", quiz: [{ q: "ما البروتوكول الموثوق؟", options: ["UDP", "TCP", "IP"], correct: 1 }], applicationStory: ``, applicationTips: `` },
+                        { title: "3. تحليل الحزم (Wireshark)", storyTitle: "التنصت على الشبكة", dialogue: [{ char: 'pharaoh', text: "البيانات تسير كـ 'حزم'." }, { char: 'ahmed', text: "Wireshark يلتقط الحزم." }, { char: 'rital', text: "البروتوكولات غير المشفرة تكشف كل شيء." }], practical: { id: "lab-int-03", title: "صياد الحزم", description: "التقط الحزم وابحث عن كلمة مرور.", type: "packet-sniffer" }, summary: "تحليل الحزم يكشف البيانات. Telnet/FTP غير آمنة لأنها غير مشفرة.", quiz: [{ q: "ما الأداة لتحليل الحزم؟", options: ["Wireshark", "Notepad", "Paint"], correct: 0 }], applicationStory: ``, applicationTips: `` },
+                        { title: "4. فحص المنافذ (Nmap)", storyTitle: "رسم خرائط العدو", dialogue: [{ char: 'ahmed', text: "اعرف ماذا يوجد هناك." }, { char: 'rital', text: "Nmap يفحص المنافذ المفتوحة." }, { char: 'pharaoh', text: "كل منفذ مفتوح هو باب محتمل." }], practical: { id: "lab-int-04", title: "فحص الشبكة", description: "استخدم Nmap لاكتشاف المنافذ.", type: "port-scan" }, summary: "Nmap تكشف الأجهزة والخدمات والمنافذ المفتوحة.", quiz: [{ q: "ما وظيفة Nmap؟", options: ["فحص المنافذ", "تصميم", "تشفير"], correct: 0 }], applicationStory: ``, applicationTips: `` },
                         {
                             title: "5. أساسيات Linux",
                             storyTitle: "سلاح المحارب",
@@ -1001,7 +1161,7 @@
                             summary: "لينكس هو نظام التشغيل المفضل للمختصين. التيرمينال يمنحك سيطرة كاملة وسرعة في التنفيذ.",
                             quiz: [
                                 { q: "ما الأمر الذي يعرض الملفات في المجلد الحالي؟", options: ["cd", "ls", "pwd"], correct: 1 }
-                            ]
+                            ], applicationStory: ``, applicationTips: ``
                         },
                         {
                             title: "6. سكربتات Bash",
@@ -1020,7 +1180,7 @@
                             summary: "Bash Scripting يسمح بتجميع أوامر لينكس في ملف واحد لأتمتة المهام المتكررة والمعقدة.",
                             quiz: [
                                 { q: "ما هو امتداد ملفات سكربت Bash؟", options: [".exe", ".sh", ".py"], correct: 1 }
-                            ]
+                            ], applicationStory: ``, applicationTips: ``
                         },
                         {
                             title: "7. حقن SQL (SQL Injection)",
@@ -1040,7 +1200,7 @@
                             summary: "SQL Injection هي ثغرة خطيرة تسمح للمهاجم بالتلاعب بقاعدة البيانات وسرقة المعلومات أو تجاوز المصادقة.",
                             quiz: [
                                 { q: "ما الهدف من هجوم SQL Injection؟", options: ["إيقاف الموقع", "التلاعب بقاعدة البيانات", "سرقة ملفات الصور"], correct: 1 }
-                            ]
+                            ], applicationStory: ``, applicationTips: ``
                         },
                         {
                             title: "8. هجمات XSS",
@@ -1059,7 +1219,7 @@
                             summary: "XSS تسمح بحقن كود خبيث في صفحات الويب يراه المستخدمون الآخرون، مما يؤدي لسرقة الجلسات أو التصيد.",
                             quiz: [
                                 { q: "أي لغة تستخدم عادة في هجمات XSS؟", options: ["Python", "JavaScript", "C++"], correct: 1 }
-                            ]
+                            ], applicationStory: ``, applicationTips: ``
                         },
                         {
                             title: "9. أنظمة كشف التسلل (IDS/IPS)",
@@ -1078,13 +1238,14 @@
                             summary: "IDS يكتشف الأنشطة المشبوهة وينبه المسؤولين. IPS يكتشفها ويمنعها تلقائياً (Active Defense).",
                             quiz: [
                                 { q: "ما الفرق الرئيسي بين IDS و IPS؟", options: ["IPS يمنع الهجوم، IDS يراقب فقط", "لا يوجد فرق", "IDS أسرع"], correct: 0 }
-                            ]
+                            ], applicationStory: ``, applicationTips: ``
                         },
-                        { title: "10. الشبكات الافتراضية (VPN & Proxies)", storyTitle: "النفق السري", dialogue: [], summary: "", quiz: [] },
-                        { title: "11. هجمات حجب الخدمة (DDoS)", storyTitle: "طوفان البيانات", dialogue: [], summary: "", quiz: [] },
-                        { title: "12. تأمين الخوادم (Server Hardening)", storyTitle: "تحصين القلاع", dialogue: [], summary: "", quiz: [] },
-                        { title: "13. تحليل السجلات (Log Analysis)", storyTitle: "قراءة أثر الأقدام", dialogue: [], summary: "", quiz: [] },
-                        { title: "14. إدارة الهوية والوصول (IAM)", storyTitle: "حراس البوابات الرقمية", dialogue: [], summary: "", quiz: [] }
+                        // Added application fields to remaining intermediate lessons to prevent runtime errors
+                        { title: "10. الشبكات الافتراضية (VPN & Proxies)", storyTitle: "النفق السري", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "11. هجمات حجب الخدمة (DDoS)", storyTitle: "طوفان البيانات", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "12. تأمين الخوادم (Server Hardening)", storyTitle: "تحصين القلاع", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "13. تحليل السجلات (Log Analysis)", storyTitle: "قراءة أثر الأقدام", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "14. إدارة الهوية والوصول (IAM)", storyTitle: "حراس البوابات الرقمية", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` }
                     ]
                 },
                 upperIntermediate: {
@@ -1092,18 +1253,18 @@
                     description: "تقنيات متقدمة في اختبار الاختراق، الاستجابة للحوادث، والتحليل الجنائي.",
                     lessons: [
                         /* -------------- دروس المستوى فوق المتوسط -------------- */
-                        { title: "1. إطار عمل ميتاسبلويت (Metasploit)", storyTitle: "الترسانة الشاملة", dialogue: [], summary: "", quiz: [] },
-                        { title: "2. اختراق الشبكات اللاسلكية (Wi-Fi)", storyTitle: "اختراق الأثير", dialogue: [], summary: "", quiz: [] },
-                        { title: "3. تصعيد الصلاحيات (Privilege Escalation)", storyTitle: "من جندي إلى ملك", dialogue: [], summary: "", quiz: [] },
-                        { title: "4. التحليل الجنائي الرقمي (Forensics)", storyTitle: "مسرح الجريمة الرقمي", dialogue: [], summary: "", quiz: [] },
-                        { title: "5. الاستجابة للحوادث (Incident Response)", storyTitle: "إطفاء الحرائق الرقمية", dialogue: [], summary: "", quiz: [] },
-                        { title: "6. الهندسة العكسية (Reverse Engineering)", storyTitle: "تفكيك القنبلة", dialogue: [], summary: "", quiz: [] },
-                        { title: "7. اختراق Active Directory", storyTitle: "السيطرة على المملكة", dialogue: [], summary: "", quiz: [] },
-                        { title: "8. تجاوز برامج الحماية (Evasion)", storyTitle: "فن التخفي", dialogue: [], summary: "", quiz: [] },
-                        { title: "9. أمن التطبيقات (AppSec)", storyTitle: "بناء بلا ثغرات", dialogue: [], summary: "", quiz: [] },
-                        { title: "10. استخبارات التهديدات (CTI)", storyTitle: "معرفة العدو قبل الضربة", dialogue: [], summary: "", quiz: [] },
-                        { title: "11. بايثون للأمن السيبراني", storyTitle: "برمجة أدواتك الخاصة", dialogue: [], summary: "", quiz: [] },
-                        { title: "12. التعامل مع برامج الفدية", storyTitle: "التفاوض وفك التشفير", dialogue: [], summary: "", quiz: [] }
+                        { title: "1. إطار عمل ميتاسبلويت (Metasploit)", storyTitle: "الترسانة الشاملة", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "2. اختراق الشبكات اللاسلكية (Wi-Fi)", storyTitle: "اختراق الأثير", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "3. تصعيد الصلاحيات (Privilege Escalation)", storyTitle: "من جندي إلى ملك", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "4. التحليل الجنائي الرقمي (Forensics)", storyTitle: "مسرح الجريمة الرقمي", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "5. الاستجابة للحوادث (Incident Response)", storyTitle: "إطفاء الحرائق الرقمية", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "6. الهندسة العكسية (Reverse Engineering)", storyTitle: "تفكيك القنبلة", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "7. اختراق Active Directory", storyTitle: "السيطرة على المملكة", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "8. تجاوز برامج الحماية (Evasion)", storyTitle: "فن التخفي", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "9. أمن التطبيقات (AppSec)", storyTitle: "بناء بلا ثغرات", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "10. استخبارات التهديدات (CTI)", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "11. بايثون للأمن السيبراني", storyTitle: "برمجة أدواتك الخاصة", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "12. التعامل مع برامج الفدية", storyTitle: "التفاوض وفك التشفير", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` }
                     ]
                 },
                 advanced: {
@@ -1111,16 +1272,16 @@
                     description: "القيادة، الحوكمة، أمن السحابة، والتقنيات المستقبلية.",
                     lessons: [
                         /* -------------- دروس المستوى المتقدم -------------- */
-                        { title: "1. أمن الحوسبة السحابية (Cloud Security)", storyTitle: "حماية السماء الرقمية", dialogue: [], summary: "", quiz: [] },
-                        { title: "2. معايير ISO 27001 و NIST", storyTitle: "دستور المملكة", dialogue: [], summary: "", quiz: [] },
-                        { title: "3. إدارة مراكز العمليات (SOC Management)", storyTitle: "غرفة الحرب", dialogue: [], summary: "", quiz: [] },
-                        { title: "4. منهجية DevSecOps", storyTitle: "الأمن في خط الإنتاج", dialogue: [], summary: "", quiz: [] },
-                        { title: "5. نموذج الثقة الصفرية (Zero Trust)", storyTitle: "لا تثق بأحد، تحقق دائماً", dialogue: [], summary: "", quiz: [] },
-                        { title: "6. الذكاء الاصطناعي في الأمن السيبراني", storyTitle: "حرب الآلات", dialogue: [], summary: "", quiz: [] },
-                        { title: "7. إدارة الأزمات السيبرانية", storyTitle: "القيادة تحت النار", dialogue: [], summary: "", quiz: [] },
-                        { title: "8. الأمن المادي (Physical Security)", storyTitle: "تأمين العتاد", dialogue: [], summary: "", quiz: [] },
-                        { title: "9. قوانين وتشريعات الجرائم الإلكترونية", storyTitle: "محكمة العدل الرقمية", dialogue: [], summary: "", quiz: [] },
-                        { title: "10. بناء فريق الأمن السيبراني", storyTitle: "تجنيد النخبة", dialogue: [], summary: "", quiz: [] }
+                        { title: "1. أمن الحوسبة السحابية (Cloud Security)", storyTitle: "حماية السماء الرقمية", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "2. معايير ISO 27001 و NIST", storyTitle: "دستور المملكة", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "3. إدارة مراكز العمليات (SOC Management)", storyTitle: "غرفة الحرب", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "4. منهجية DevSecOps", storyTitle: "الأمن في خط الإنتاج", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "5. نموذج الثقة الصفرية (Zero Trust)", storyTitle: "لا تثق بأحد، تحقق دائماً", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "6. الذكاء الاصطناعي في الأمن السيبراني", storyTitle: "حرب الآلات", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "7. إدارة الأزمات السيبرانية", storyTitle: "القيادة تحت النار", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "8. الأمن المادي (Physical Security)", storyTitle: "تأمين العتاد", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "9. قوانين وتشريعات الجرائم الإلكترونية", storyTitle: "محكمة العدل الرقمية", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` },
+                        { title: "10. بناء فريق الأمن السيبراني", storyTitle: "تجنيد النخبة", dialogue: [], summary: "", quiz: [], applicationStory: ``, applicationTips: `` }
                     ]
                 }
             }
@@ -1131,6 +1292,7 @@
             currentPathId: 'beginner',
             currentLessonIndex: 0,
             currentDialogueIndex: 0,
+            currentLessonStage: 'dialogue', // NEW: 'dialogue', 'practical', 'application', 'summary', 'quiz'
             currentQuizQuestion: 0,
             quizScore: 0,
             isTyping: false,
@@ -1169,7 +1331,11 @@
                 if (state.skipIntro) {
                     showScreen('path-selection-screen');
                 } else {
-                    setTimeout(initSplash, 2500); // FIX: Removed the immediate showScreen which caused the freeze
+                    // FIX: Changed setTimeout to use a shorter, more reliable chain after DOM content is fully loaded
+                    // We remove the loading screen immediately to avoid perceived freeze
+                    document.getElementById('loading-screen').classList.remove('active');
+                    showScreen('splash-screen');
+                    setTimeout(() => startIntro(), 3500); 
                 }
                 
                 initSettingsControls();
@@ -1315,6 +1481,8 @@
         }
 
         function initSplash() {
+            // FIX: Ensure 'loading-screen' is removed before showing 'splash-screen'
+            document.getElementById('loading-screen').classList.remove('active');
             showScreen('splash-screen');
             setTimeout(() => startIntro(), 3500);
         }
@@ -1390,23 +1558,39 @@
             }
         }
 
-        function updateSpeakerBar(char) {
-            const info = getCharacterInfo(char);
-            const speakerBar = document.getElementById('current-speaker-bar');
-            speakerBar.innerHTML = `
-                <div class="w-12 h-12 rounded-lg ${info.avatarColor} ${info.borderColor} border-2 flex items-center justify-center mr-4 ${info.glow}">
-                    <span class="text-xl font-bold text-white">${info.name.charAt(0)}</span>
-                </div>
-                <div>
-                    <p class="text-xl font-bold ${info.color} tracking-wide">${info.name}</p>
-                    <p class="text-xs text-gray-400 font-mono uppercase tracking-widest">${info.role}</p>
-                </div>
-            `;
+        function updateHeaderBar(stage, char = null) {
+            const headerBar = document.getElementById('lesson-header-bar');
+            headerBar.classList.remove('justify-start', 'justify-center');
+            headerBar.innerHTML = ''; 
+
+            if (stage === 'dialogue' && char) {
+                const info = getCharacterInfo(char);
+                headerBar.classList.add('justify-start');
+                headerBar.innerHTML = `
+                    <div class="w-12 h-12 rounded-lg ${info.avatarColor} ${info.borderColor} border-2 flex items-center justify-center mr-4 ${info.glow}">
+                        <span class="text-xl font-bold text-white">${info.name.charAt(0)}</span>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold ${info.color} tracking-wide">${info.name}</p>
+                        <p class="text-xs text-gray-400 font-mono uppercase tracking-widest">${info.role}</p>
+                    </div>
+                `;
+            } else {
+                headerBar.classList.add('justify-center');
+                let title = '';
+                let color = 'text-cyber-blue';
+                switch (stage) {
+                    case 'application': title = 'التطبيق الحياتي وقصص الاختراق'; color = 'text-green-400'; break;
+                    case 'summary': title = 'ملخص المهمة وما تم إنجازه'; color = 'text-cyber-gold'; break;
+                    default: title = 'جاري التحميل...'; color = 'text-gray-500'; break;
+                }
+                 headerBar.innerHTML = `<h3 class="text-xl md:text-2xl font-bold ${color}">${title}</h3>`;
+            }
         }
 
         function addChatMessage(char, text, containerId, onComplete = null) {
             const container = document.getElementById(containerId);
-            if (containerId === 'lesson-dialogue-area') updateSpeakerBar(char);
+            if (containerId === 'lesson-content-area') updateHeaderBar('dialogue', char);
 
             const info = getCharacterInfo(char);
             const isRecruit = (char === 'recruit');
@@ -1419,7 +1603,7 @@
                 ? 'bg-white/5 border-l-2 border-gray-500 rounded-tr-xl rounded-br-xl rounded-bl-xl' 
                 : `bg-gradient-to-br from-[#0f1623] to-[#0a0e17] border-r-2 ${info.borderColor} rounded-tl-xl rounded-bl-xl rounded-br-xl`;
             
-            bubble.className = `chat-bubble max-w-[85%] p-4 ${bubbleStyle} animate-float`;
+            bubble.className = `chat-bubble max-w-[90%] sm:max-w-[85%] p-4 ${bubbleStyle} animate-float`;
             
             if(containerId === 'intro-chat-messages') {
                 bubble.innerHTML = `<p class="text-xs font-bold mb-1 ${info.color} opacity-80">${info.name}</p>`;
@@ -1452,11 +1636,11 @@
                 const card = document.createElement('button');
                 
                 // Base classes for the card
-                card.className = `glass-panel p-5 text-right relative overflow-hidden group transition-all duration-300 hover:-translate-y-1`;
+                card.className = `glass-panel p-5 sm:p-6 text-right relative overflow-hidden group transition-all duration-300 hover:-translate-y-1`;
                 
                 let statusIcon = isLocked ? 
                     `<svg class="w-6 h-6 text-red-500 lock-icon-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>` :
-                    `<svg class="w-6 h-6 text-cyber-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+                    `<svg class="w-6 h-6 text-cyber-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132A1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
 
                 // Apply dynamic classing based on lock status
                 if (isLocked) {
@@ -1471,7 +1655,7 @@
                         <span class="font-mono text-xs text-gray-500">MISSION ${index + 1 < 10 ? '0'+(index+1) : index+1}</span>
                         <div class="lock-status-icon">${statusIcon}</div>
                     </div>
-                    <h3 class="text-lg md:text-xl font-bold text-white mb-1 group-hover:text-cyber-gold transition-colors">${lesson.title}</h3>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-1 group-hover:text-cyber-gold transition-colors">${lesson.title}</h3>
                     <p class="text-sm text-gray-400">${lesson.storyTitle}</p>
                 `;
                 
@@ -1541,55 +1725,58 @@
         // --- END NEW SKIP LOGIC ---
 
 
+        // --- LESSON FLOW CONTROL (New Logic) ---
+        function getLessonData() {
+            return database.paths[state.currentPathId].lessons[state.currentLessonIndex];
+        }
+
         function startLesson(index) {
             state.currentLessonIndex = index;
             state.currentDialogueIndex = 0;
+            state.currentLessonStage = 'dialogue'; // Reset stage
             showScreen('lesson-view-screen');
-            document.getElementById('lesson-dialogue-area').innerHTML = '';
-            document.getElementById('practical-action-area').classList.add('hidden');
+            document.getElementById('lesson-content-area').innerHTML = '';
+            
+            // Setup dynamic flow controls
+            const nextBtn = document.getElementById('next-stage-btn');
+            nextBtn.classList.add('hidden');
+            
             document.getElementById('tap-indicator').classList.remove('hidden');
+
+            // Start dialogue
             displayNextLessonMessage();
         }
 
         function displayNextLessonMessage() {
-            const lesson = database.paths[state.currentPathId].lessons[state.currentLessonIndex];
-            
-            // Fallback if dialogue is empty 
-            if (!lesson.dialogue || lesson.dialogue.length === 0) {
-                addChatMessage('pharaoh', "جاري تحميل بيانات المهمة... (المحتوى سيضاف قريباً)", 'lesson-dialogue-area');
-                document.getElementById('tap-indicator').classList.add('hidden');
-                // Auto unlock next just for preview purposes if user clicks empty lesson
-                setTimeout(() => {
-                     showSummaryScreen({ title: lesson.title, summary: "تم إنجاز المهمة (محاكاة).", quiz: [] });
-                }, 2000);
-                return;
-            }
+            const lesson = getLessonData();
+            const container = document.getElementById('lesson-content-area');
 
             if (state.currentDialogueIndex < lesson.dialogue.length) {
                 const msg = lesson.dialogue[state.currentDialogueIndex];
-                addChatMessage(msg.char, msg.text, 'lesson-dialogue-area');
+                addChatMessage(msg.char, msg.text, 'lesson-content-area');
             } else {
                 // End of dialogue
                 document.getElementById('tap-indicator').classList.add('hidden');
-                // Check if lesson has practical section
-                if (lesson.practical) {
-                    const pracBtnArea = document.getElementById('practical-action-area');
-                    pracBtnArea.classList.remove('hidden');
-                    document.getElementById('start-practical-btn').onclick = () => initPracticalLab(lesson);
-                } else {
-                    showSummaryScreen(lesson);
-                }
+                
+                // Dialogue finished, prompt to start practical
+                state.currentLessonStage = 'dialogue_done';
+                
+                // Show dynamic button to go to next stage (Practical)
+                setupNextStageButton('بدء التدريب العملي (Simulator)', 'practical');
             }
         }
-
+        
+        // Universal Handler for screen click on Dialogue mode
         document.getElementById('lesson-view-screen').addEventListener('click', (e) => {
-             // Check if click happened outside the settings/skip modal
-             if (document.getElementById('settings-modal').classList.contains('visible') || document.getElementById('lesson-skip-modal').classList.contains('visible')) return;
+            if (state.currentLessonStage !== 'dialogue') return;
+            
+            // Ignore if clicking on button/modal
+            if (e.target.closest('#next-stage-btn') || e.target.closest('.settings-overlay') || e.target.closest('#settings-btn')) return;
 
             if (state.isTyping) finishTyping();
             else {
                 // Only advance if not at the end
-                const lesson = database.paths[state.currentPathId].lessons[state.currentLessonIndex];
+                const lesson = getLessonData();
                 if (lesson.dialogue && state.currentDialogueIndex < lesson.dialogue.length) {
                     state.currentDialogueIndex++;
                     displayNextLessonMessage();
@@ -1597,43 +1784,105 @@
             }
         });
 
-        /* ---------------- PRACTICAL LAB LOGIC (ENHANCED FOR MOBILE VIEW) ---------------- */
+        function setupNextStageButton(text, targetStage) {
+             const nextBtn = document.getElementById('next-stage-btn');
+             nextBtn.querySelector('#next-stage-text').innerHTML = `
+                ${text} 
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+             `;
+             nextBtn.classList.remove('hidden');
+             nextBtn.onclick = () => {
+                 if (targetStage === 'practical') initPracticalLab(getLessonData());
+                 else if (targetStage === 'application') showApplicationScreen(getLessonData());
+                 else if (targetStage === 'summary') showSummaryScreen(getLessonData());
+                 else if (targetStage === 'quiz') startQuiz(getLessonData().quiz);
+                 else if (targetStage === 'next_lesson') { unlockNextLesson(); showLessonList(state.currentPathId); }
+             }
+             document.getElementById('lesson-content-area').scrollTo({ top: document.getElementById('lesson-content-area').scrollHeight, behavior: 'smooth' });
+        }
+
+        function showApplicationScreen(lesson) {
+            state.currentLessonStage = 'application';
+            showScreen('lesson-view-screen');
+            document.getElementById('tap-indicator').classList.add('hidden');
+            document.getElementById('lesson-content-area').innerHTML = " " +
+                "<div id=\"application-content-wrapper\" class=\"w-full\">" +
+                    "<div class=\"glass-panel p-6 mb-8 border-l-4 border-l-red-500\">" +
+                        (lesson.applicationStory || '<!-- لا يوجد قصة اختراق محددة لهذا الدرس. -->') +
+                    "</div>" +
+                    "<div class=\"glass-panel p-6 border-l-4 border-l-green-500\">" +
+                        (lesson.applicationTips || '<!-- لا توجد نصائح حياتية محددة لهذا الدرس. -->') +
+                    "</div>" +
+                "</div>" +
+            " ";
+            updateHeaderBar('application');
+            setupNextStageButton('المتابعة إلى الملخص النهائي', 'summary');
+        }
+
+        function showSummaryScreen(lesson) {
+            state.currentLessonStage = 'summary';
+            showScreen('lesson-view-screen');
+            document.getElementById('tap-indicator').classList.add('hidden');
+            
+            document.getElementById('lesson-content-area').innerHTML = " " +
+                "<div id=\"summary-content-wrapper\" class=\"w-full\">" +
+                    "<div id=\"summary-content\" class=\"bg-black/40 p-6 rounded-lg border-r-2 border-cyber-gold text-gray-300 leading-loose text-lg mb-8 shadow-inner custom-scrollbar\">" +
+                        (lesson.summary || '<!-- لا يوجد ملخص محدد لهذا الدرس. -->') +
+                    "</div>" +
+                "</div>" +
+            " ";
+            
+            updateHeaderBar('summary');
+
+            if (lesson.quiz && lesson.quiz.length > 0) {
+                 setupNextStageButton('بدء اختبار التحقق', 'quiz');
+            } else {
+                 setupNextStageButton('العودة إلى قائمة الدروس', 'next_lesson');
+            }
+        }
+        // --- END LESSON FLOW CONTROL ---
+
+
+        /* ---------------- PRACTICAL LAB LOGIC (TRIGGERED BY FLOW) ---------------- */
         document.getElementById('toggle-instructions-btn').onclick = () => {
             const sidebar = document.getElementById('lab-instructions-sidebar');
             const workspace = document.getElementById('lab-workspace');
+            const toggleBtn = document.getElementById('toggle-instructions-btn');
             
-            // Toggle visibility class
             sidebar.classList.toggle('instructions-hidden');
             
-            // Adjust grid layout dynamically based on visibility
             if (sidebar.classList.contains('instructions-hidden')) {
-                 // Full width for workspace
                 workspace.classList.remove('md:w-2/3');
                 workspace.classList.add('w-full');
+                toggleBtn.textContent = 'إظهار التعليمات';
             } else {
-                // Split view
                 workspace.classList.add('md:w-2/3');
                 workspace.classList.remove('w-full');
+                toggleBtn.textContent = 'إخفاء التعليمات';
             }
         };
 
         function initPracticalLab(lesson) {
+            state.currentLessonStage = 'practical';
             showScreen('practical-screen');
             const lab = lesson.practical;
             
-            // Set initial instructions visibility based on screen size (default hidden on small screens)
+            // Set initial instructions visibility
             const sidebar = document.getElementById('lab-instructions-sidebar');
             const workspace = document.getElementById('lab-workspace');
             const isMobile = window.innerWidth < 768;
+            const toggleBtn = document.getElementById('toggle-instructions-btn');
 
             if (isMobile) {
                  sidebar.classList.add('instructions-hidden');
                  workspace.classList.remove('md:w-2/3');
                  workspace.classList.add('w-full');
+                 toggleBtn.textContent = 'إظهار التعليمات';
             } else {
                  sidebar.classList.remove('instructions-hidden');
                  workspace.classList.add('md:w-2/3');
                  workspace.classList.remove('w-full');
+                 toggleBtn.textContent = 'إخفاء التعليمات';
             }
             
             // Set Header Info
@@ -1657,10 +1906,10 @@
             skipBtn.classList.remove('hidden');
             skipBtn.onclick = () => {
                 labSuccess(completeBtn, feedback, "تم تخطي المحاكي بنجاح! انتقل للملخص.");
-                completeBtn.onclick = () => showSummaryScreen(lesson);
+                completeBtn.onclick = () => showApplicationScreen(lesson); // Jump to application screen
             }
 
-            // Render Lab based on type
+            // Render Lab based on type (Logic kept as is from original code)
             if (lab.type === 'shield-defense') {
                 renderShieldLab(workspace, stepsList, completeBtn, feedback);
             } else if (lab.type === 'cia-balance') {
@@ -1713,10 +1962,8 @@
                 renderIDSLab(workspace, stepsList, completeBtn, feedback);
             }
             
-            // Attach generic complete handler if not already done in the lab logic
-            if (!completeBtn.onclick) {
-                completeBtn.onclick = () => showSummaryScreen(lesson);
-            }
+            // The complete button now always leads to the Application Screen
+            completeBtn.onclick = () => showApplicationScreen(lesson);
         }
 
         function labSuccess(completeBtn, feedback, msg) {
@@ -1978,8 +2225,7 @@
                 }
             };
         }
-        // ********* END FIXED LESSON 8 *********
-
+        
         function renderSocialLab(container, steps, btn, feedback) {
             steps.innerHTML = '<li>أنت تتلقى مكالمة مشبوهة.</li><li>اختر الرد الأمني الصحيح لعدم كشف معلوماتك.</li>';
             const chat = document.createElement('div');
@@ -2007,7 +2253,7 @@
         }
 
         function renderPhishingLab(container, steps, btn, feedback) {
-            steps.innerHTML = '<li>قارن بين الروابط التالية.</li><li>اضغط على الرابط "المزيف" (Phishing) للإبلاغ عنه وتأمين النظام.</li>';
+            steps.innerHTML = '<li>قارن بين الروابط التالية.</li><li>اضغط على الرابط "المزيف" (Phishing) للإبلاق عنه وتأمين النظام.</li>';
             const wrapper = document.createElement('div'); wrapper.className = 'flex flex-col gap-4 w-full max-w-md';
             const links = [
                 { url: 'https://www.paypal.com/login', safe: true },
@@ -2675,14 +2921,6 @@
         }
         /* ---------------- END PRACTICAL LOGIC ---------------- */
 
-        function showSummaryScreen(lesson) {
-            showScreen('summary-screen');
-            document.getElementById('summary-content').innerHTML = `
-                ${lesson.summary || 'أتممت هذا الدرس بنجاح. استمر في التقدم!'}
-            `;
-            document.getElementById('start-quiz-btn').onclick = () => startQuiz(lesson.quiz);
-        }
-
         let currentQuizData = [];
         function startQuiz(quizData) {
             if (!quizData || !quizData.length) {
@@ -2714,6 +2952,7 @@
                     else if (state.currentPathId === 'upperIntermediate') state.progress.advancedUnlockedLesson = Math.max(0, state.progress.advancedUnlockedLesson);
                 }
                 saveUserData();
+                updatePathButtonsState(); // Update main screen to show unlocked paths
             }
         }
 
