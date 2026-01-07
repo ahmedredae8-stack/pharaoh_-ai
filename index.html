@@ -251,7 +251,134 @@
         #lab-instructions-sidebar.instructions-hidden {
             display: none;
         }
+/* --- تصميم الخريطة الاحترافي (Duolingo Style) --- */
+        .map-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px; /* عرض أضيق لتركيز المسار */
+            margin: 0 auto;
+            padding: 100px 0 150px 0; /* مساحة كبيرة فوق وتحت */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
+        .map-svg-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* خلف الأزرار */
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        /* حاوية الزر لضبط التموج */
+        .node-wrapper {
+            position: relative;
+            z-index: 10;
+            margin-bottom: 70px; /* مسافة كبيرة بين الدروس */
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* تصميم الزر الدائري ثلاثي الأبعاد */
+        .map-node {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* الحالة: مكتمل (ذهبي) */
+        .node-completed {
+            background: linear-gradient(to bottom, #ffd700, #ffb700);
+            box-shadow: 
+                0 8px 0 #b38f00, /* الظل السفلي الصلب (3D) */
+                0 15px 20px rgba(255, 215, 0, 0.3); /* توهج */
+        }
+
+        /* الحالة: الحالي (أزرق نيون) */
+        .node-current {
+            background: linear-gradient(to bottom, #00f0ff, #00bfff);
+            box-shadow: 
+                0 8px 0 #008cb3, 
+                0 0 25px rgba(0, 240, 255, 0.6);
+            animation: bounce 2s infinite;
+        }
+
+        /* الحالة: مغلق (رمادي غامق) */
+        .node-locked {
+            background: #1f2937;
+            border: 2px solid #374151;
+            box-shadow: 0 8px 0 #111827;
+            color: #4b5563;
+        }
+
+        /* تأثير الضغط (الهبوط للأسفل) */
+        .map-node:active {
+            transform: translateY(8px); /* يهبط بمقدار الظل */
+            box-shadow: 0 0 0 transparent !important; /* إخفاء الظل ليبدو مضغوطاً */
+        }
+
+        /* التاج أو الأيقونة داخل الزر */
+        .node-icon svg {
+            width: 40px;
+            height: 40px;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+        }
+
+        /* عنوان الدرس (عائم في الأسفل) */
+        .node-title-bubble {
+            position: absolute;
+            top: 105px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            white-space: nowrap;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .node-wrapper:hover .node-title-bubble,
+        .node-current .node-title-bubble {
+            opacity: 1;
+            top: 110px;
+        }
+
+        /* سهم صغير للعنوان */
+        .node-title-bubble::after {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 6px 6px;
+            border-style: solid;
+            border-color: transparent transparent #1e293b transparent;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-cyber-gold selection:text-black">
@@ -2800,61 +2927,142 @@
             typewriter(textEl, text, onComplete);
         }
 
+        // --- دالة عرض خريطة "فرعون" الاحترافية (Zigzag v2) ---
         function showLessonList(pathId) {
             showScreen('lesson-list-screen');
             const pathData = database.paths[pathId];
             document.getElementById('path-title').textContent = pathData.title;
+            
             const grid = document.getElementById('lesson-grid');
             grid.innerHTML = '';
+            
+            // تطبيق كلاس الحاوية الجديد
+            grid.className = 'map-container custom-scrollbar overflow-y-auto';
+
+            // 1. طبقة الرسم الخلفي (SVG)
+            const svgNS = "http://www.w3.org/2000/svg";
+            const svgLayer = document.createElementNS(svgNS, "svg");
+            svgLayer.setAttribute("class", "map-svg-layer");
+            grid.appendChild(svgLayer);
 
             const unlockedKey = `${pathId}UnlockedLesson`;
             const unlockedLesson = state.progress[unlockedKey] || 0;
 
+            // إعدادات التعرج
+            const waveAmplitude = 70; // مدى البعد عن الوسط
+
+            // تخزين إحداثيات الأزرار لرسم الخط لاحقاً
+            const nodePositions = [];
+
             pathData.lessons.forEach((lesson, index) => {
                 const isLocked = index > unlockedLesson;
-                const card = document.createElement('button');
-                
-                // Base classes for the card
-                card.className = `glass-panel p-5 sm:p-6 text-right relative overflow-hidden group transition-all duration-300 hover:-translate-y-1`;
-                
-                let statusIcon = isLocked ? 
-                    `<svg class="w-6 h-6 text-red-500 lock-icon-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>` :
-                    `<svg class="w-6 h-6 text-cyber-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132A1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+                const isCompleted = index < unlockedLesson;
+                const isCurrent = index === unlockedLesson;
 
-                // Apply dynamic classing based on lock status
-                if (isLocked) {
-                    card.classList.add('cursor-pointer', 'opacity-80', 'hover:border-red-500/50');
-                } else {
-                    card.classList.add('cursor-pointer', 'hover:border-cyber-gold/50');
-                }
+                // إنشاء حاوية للزر (لضبط التموضع)
+                const wrapper = document.createElement('div');
+                wrapper.className = 'node-wrapper';
+                
+                // حساب الإزاحة (يمين/يسار)
+                // نستخدم sine wave لعمل شكل الثعبان
+                const xOffset = Math.sin(index * 2.5) * waveAmplitude;
+                wrapper.style.transform = `translateX(${xOffset}px)`;
 
-                card.innerHTML = `
-                    <div class="absolute top-0 right-0 w-1 h-full ${isLocked ? 'bg-red-700' : 'bg-cyber-gold'}"></div>
-                    <div class="flex justify-between items-start mb-3">
-                        <span class="font-mono text-xs text-gray-500">MISSION ${index + 1 < 10 ? '0'+(index+1) : index+1}</span>
-                        <div class="lock-status-icon">${statusIcon}</div>
+                // إنشاء الزر نفسه
+                const btn = document.createElement('button');
+                
+                // تحديد الكلاس بناءً على الحالة
+                if (isCompleted) btn.className = 'map-node node-completed';
+                else if (isCurrent) btn.className = 'map-node node-current';
+                else btn.className = 'map-node node-locked';
+
+                // الأيقونة الداخلية
+                let iconHTML = '';
+                if (isLocked) iconHTML = `<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>`;
+                else if (isCompleted) iconHTML = `<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="text-black"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>`;
+                else iconHTML = `<svg fill="currentColor" viewBox="0 0 24 24" class="text-black"><path d="M8 5v14l11-7z"/></svg>`; // زر التشغيل (Play)
+
+                btn.innerHTML = `
+                    <div class="node-icon">${iconHTML}</div>
+                    <div class="node-title-bubble">
+                        <div class="text-[10px] text-gray-400">مهمة ${index + 1}</div>
+                        ${lesson.title}
                     </div>
-                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-1 group-hover:text-cyber-gold transition-colors">${lesson.title}</h3>
-                    <p class="text-sm text-gray-400">${lesson.storyTitle}</p>
                 `;
-                
-                // Attach click handlers
+
+                // التفاعلات
                 if (isLocked) {
-                    // Clicks on locked card trigger skip attempt (index > 0 ensures we don't try to skip lesson 0)
-                    if (index > 0) {
-                        // Attach the handler to the entire locked card to simplify the target area for the user
-                        card.onclick = () => handleLessonSkipAttempt(index, lesson.title);
-                    } else {
-                        // Keep locked lesson 0 completely disabled/unclickable as it's the anchor
-                        card.classList.add('opacity-50', 'grayscale', 'cursor-not-allowed', 'hover:border-none', 'pointer-events-none');
-                    }
+                    if (index > 0) btn.onclick = () => handleLessonSkipAttempt(index, lesson.title);
+                    else btn.style.cursor = 'not-allowed';
                 } else {
-                    // Clicks on unlocked card start the lesson
-                    card.onclick = () => startLesson(index);
+                    btn.onclick = () => startLesson(index);
                 }
-                
-                grid.appendChild(card);
+
+                wrapper.appendChild(btn);
+                grid.appendChild(wrapper);
+
+                // حفظ بيانات الموقع للرسم
+                // ملاحظة: بما أننا نستخدم transform، المركز هو 50% + xOffset
+                nodePositions.push({ x: xOffset, index: index });
             });
+
+            // 2. رسم المسار (SVG Path) بعد وضع العناصر
+            setTimeout(() => {
+                // ضبط ارتفاع الـ SVG ليغطي كامل القائمة القابلة للتمرير
+                svgLayer.style.height = grid.scrollHeight + 'px';
+                
+                // نحتاج لعرض الحاوية لحساب المركز الحقيقي
+                const centerX = grid.clientWidth / 2;
+                const nodeVerticalSpacing = 160; // 90px height + 70px margin (تقريبي)
+                const startYOffset = 95; // مسافة من الأعلى لمركز أول زر
+
+                let pathString = "";
+                
+                // رسم مسار الخلفية (الخط الرمادي)
+                for (let i = 0; i < nodePositions.length - 1; i++) {
+                    const curr = nodePositions[i];
+                    const next = nodePositions[i+1];
+
+                    // الإحداثيات الحقيقية
+                    const x1 = centerX + curr.x;
+                    const y1 = startYOffset + (i * nodeVerticalSpacing); // نستخدم الحساب الثابت لدقة أفضل
+                    const x2 = centerX + next.x;
+                    const y2 = startYOffset + ((i + 1) * nodeVerticalSpacing);
+
+                    if (i === 0) pathString += `M ${x1} ${y1} `;
+
+                    // رسم منحنى بيزيه انسيابي
+                    const cp1x = x1;
+                    const cp1y = y1 + (y2 - y1) * 0.5;
+                    const cp2x = x2;
+                    const cp2y = y1 + (y2 - y1) * 0.5;
+
+                    pathString += `C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${x2} ${y2} `;
+                }
+
+                // إضافة المسار للـ SVG
+                // المسار الخلفي العريض
+                const bgPath = document.createElementNS(svgNS, "path");
+                bgPath.setAttribute("d", pathString);
+                bgPath.setAttribute("stroke", "#1f2937"); // لون المسار الغامق
+                bgPath.setAttribute("stroke-width", "12");
+                bgPath.setAttribute("stroke-linecap", "round");
+                bgPath.setAttribute("fill", "none");
+                
+                // المسار الأمامي (التقدم) - اختياري، يمكن جعله بلون ذهبي للدروس المكتملة
+                const fgPath = document.createElementNS(svgNS, "path");
+                fgPath.setAttribute("d", pathString);
+                fgPath.setAttribute("stroke", "#374151"); // لون أفتح قليلاً
+                fgPath.setAttribute("stroke-width", "6");
+                fgPath.setAttribute("stroke-linecap", "round");
+                fgPath.setAttribute("stroke-dasharray", "10 15"); // منقط
+                fgPath.setAttribute("fill", "none");
+
+                svgLayer.innerHTML = '';
+                svgLayer.appendChild(bgPath);
+                svgLayer.appendChild(fgPath);
+
+            }, 100);
         }
 
         // --- NEW SKIP LOGIC (Now triggered by single click on locked lesson card) ---
