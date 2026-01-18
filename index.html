@@ -3248,6 +3248,834 @@
                 toggleBtn.textContent = 'إخفاء التعليمات';
             }
         };
+  // ============================================================
+    //  💪 المحركات الاحترافية (Pro Engines) - ألصق هذا الجزء في الأسفل
+    // ============================================================
+
+    // 1. محرك التيرمينال الشامل (Universal Terminal Engine)
+    // هذا المحرك سنستخدمه لكل دروس سطر الأوامر (Nmap, Linux, Bash)
+    function renderTerminalLab(container, stepsList, completeBtn, feedback, config) {
+        stepsList.innerHTML = config.stepsText;
+        
+        container.innerHTML = `
+            <div class="w-full max-w-2xl h-[400px] bg-[#0c0c0c] rounded-lg border border-gray-700 shadow-2xl flex flex-col font-mono text-sm relative overflow-hidden">
+                <div class="bg-gray-800 px-4 py-2 flex items-center gap-2 border-b border-gray-700">
+                    <div class="flex gap-1.5">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div class="text-gray-400 text-xs ml-2">Terminal - Root Access</div>
+                </div>
+                
+                <div class="flex-grow p-4 overflow-y-auto custom-scrollbar" id="term-body" style="font-family: 'Courier New', monospace;">
+                    <div class="text-green-500 mb-2">Welcome to Pharaoh OS v2.0</div>
+                    <div class="text-gray-500 mb-4">Type 'help' for available commands.</div>
+                    
+                    <div id="term-history"></div>
+                    
+                    <div class="flex items-center text-white">
+                        <span class="text-green-400 mr-2 shrink-0">${config.prompt}</span>
+                        <input type="text" id="term-input" class="bg-transparent border-none outline-none flex-grow text-white" autocomplete="off" autofocus>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const input = container.querySelector('#term-input');
+        const history = container.querySelector('#term-history');
+        const body = container.querySelector('#term-body');
+
+        // التركيز دائماً على المؤشر
+        container.addEventListener('click', () => input.focus());
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = input.value.trim();
+                
+                // إضافة الأمر للسجل
+                const cmdLine = document.createElement('div');
+                cmdLine.innerHTML = `<span class="text-green-400 mr-2">${config.prompt}</span><span class="text-white">${cmd}</span>`;
+                history.appendChild(cmdLine);
+                input.value = '';
+
+                // معالجة الأمر (Simulated Delay)
+                const loadingLine = document.createElement('div');
+                loadingLine.className = 'text-gray-400 animate-pulse';
+                loadingLine.textContent = 'Executing...';
+                history.appendChild(loadingLine);
+
+                setTimeout(() => {
+                    loadingLine.remove();
+                    const responseDiv = document.createElement('div');
+                    responseDiv.className = 'text-gray-300 mb-2 whitespace-pre-wrap leading-tight';
+
+                    if (config.validCommands[cmd]) {
+                        // أمر صحيح
+                        const result = config.validCommands[cmd];
+                        responseDiv.innerHTML = result.output;
+                        history.appendChild(responseDiv);
+                        
+                        if (result.isSuccess) {
+                            labSuccess(completeBtn, feedback, result.successMsg);
+                            input.disabled = true;
+                        }
+                    } else if (cmd === 'clear') {
+                        history.innerHTML = '';
+                    } else if (cmd === '') {
+                        // Do nothing
+                    } else {
+                        // أمر خاطئ
+                        responseDiv.className = 'text-red-400 mb-2';
+                        responseDiv.textContent = `bash: ${cmd}: command not found`;
+                        history.appendChild(responseDiv);
+                        labError(feedback, "أمر غير صحيح. راجع التعليمات وحاول مرة أخرى.");
+                    }
+                    
+                    // التمرير للأسفل
+                    body.scrollTop = body.scrollHeight;
+                }, 600); // تأخير بسيط للواقعية
+            }
+        });
+    }
+
+    // 2. محرك OSI Model (Drag & Drop الاحترافي)
+    function renderOSILabPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>رتب طبقات نموذج OSI السبعة بالترتيب الصحيح من الأسفل (1) إلى الأعلى (7).</li><li>اسحب اسم الطبقة وضعه في مكانه الصحيح.</li>';
+        
+        container.innerHTML = `
+            <div class="flex w-full gap-4 h-[450px]">
+                <div class="w-1/3 flex flex-col gap-2 p-2 bg-white/5 rounded border border-white/10" id="source-zone">
+                    </div>
+
+                <div class="w-2/3 flex flex-col gap-2 relative">
+                    <div class="absolute -right-8 top-0 h-full flex flex-col justify-between py-4 text-xs text-gray-500 font-mono">
+                        <span>L7</span><span>L6</span><span>L5</span><span>L4</span><span>L3</span><span>L2</span><span>L1</span>
+                    </div>
+                    <div class="drop-zone h-12 bg-black/40 border border-dashed border-gray-600 rounded flex items-center justify-center text-gray-600" data-id="7">Application</div>
+                    <div class="drop-zone h-12 bg-black/40 border border-dashed border-gray-600 rounded flex items-center justify-center text-gray-600" data-id="6">Presentation</div>
+                    <div class="drop-zone h-12 bg-black/40 border border-dashed border-gray-600 rounded flex items-center justify-center text-gray-600" data-id="5">Session</div>
+                    <div class="drop-zone h-12 bg-black/40 border border-dashed border-gray-600 rounded flex items-center justify-center text-gray-600" data-id="4">Transport</div>
+                    <div class="drop-zone h-12 bg-black/40 border border-dashed border-gray-600 rounded flex items-center justify-center text-gray-600" data-id="3">Network</div>
+                    <div class="drop-zone h-12 bg-black/40 border border-dashed border-gray-600 rounded flex items-center justify-center text-gray-600" data-id="2">Data Link</div>
+                    <div class="drop-zone h-12 bg-black/40 border border-dashed border-gray-600 rounded flex items-center justify-center text-gray-600" data-id="1">Physical</div>
+                </div>
+            </div>
+        `;
+
+        const layers = [
+            {id: 1, name: "Physical (الفيزيائية)"},
+            {id: 2, name: "Data Link (الربط)"},
+            {id: 3, name: "Network (الشبكة)"},
+            {id: 4, name: "Transport (النقل)"},
+            {id: 5, name: "Session (الجلسة)"},
+            {id: 6, name: "Presentation (التقديم)"},
+            {id: 7, name: "Application (التطبيق)"}
+        ].sort(() => Math.random() - 0.5); // خلط عشوائي
+
+        const sourceZone = container.querySelector('#source-zone');
+        
+        layers.forEach(l => {
+            const el = document.createElement('div');
+            el.className = 'draggable-item bg-cyber-blue/10 border border-cyber-blue text-cyber-blue p-2 rounded cursor-grab active:cursor-grabbing text-center text-sm font-bold shadow-lg';
+            el.draggable = true;
+            el.textContent = l.name;
+            el.dataset.id = l.id;
+            
+            el.addEventListener('dragstart', e => {
+                e.dataTransfer.setData('text/plain', l.id);
+                e.target.classList.add('opacity-50');
+            });
+            el.addEventListener('dragend', e => e.target.classList.remove('opacity-50'));
+            
+            sourceZone.appendChild(el);
+        });
+
+        const dropZones = container.querySelectorAll('.drop-zone');
+        let correctCount = 0;
+
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', e => {
+                e.preventDefault();
+                zone.classList.add('bg-white/10');
+            });
+            zone.addEventListener('dragleave', e => zone.classList.remove('bg-white/10'));
+            
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('bg-white/10');
+                const id = e.dataTransfer.getData('text/plain');
+                const targetId = zone.dataset.id;
+
+                if (id === targetId) {
+                    // إجابة صحيحة
+                    zone.innerHTML = '';
+                    zone.classList.remove('border-dashed', 'text-gray-600', 'bg-black/40');
+                    zone.classList.add('bg-green-600', 'text-white', 'border-solid', 'border-green-400');
+                    
+                    // البحث عن العنصر الأصلي وإخفائه
+                    const original = document.querySelector(`.draggable-item[data-id="${id}"]`);
+                    if(original) {
+                        zone.textContent = original.textContent;
+                        original.remove();
+                    }
+                    
+                    correctCount++;
+                    if(correctCount === 7) {
+                        labSuccess(completeBtn, feedback, "عبقري! لقد بنيت الهيكل الأساسي للإنترنت بشكل صحيح.");
+                    }
+                } else {
+                    labError(feedback, "مكان خاطئ! حاول مرة أخرى.");
+                }
+            });
+        });
+    }
+
+    // 3. محرك TCP Handshake (Interactive Animation)
+    function renderTCPHandshakeLabPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>بروتوكول TCP يتطلب "مصافحة" قبل إرسال البيانات.</li><li>اضغط الأزرار بالترتيب لإتمام الاتصال: SYN ثم SYN-ACK ثم ACK.</li>';
+        
+        container.innerHTML = `
+            <div class="w-full h-full flex flex-col justify-between py-10 relative">
+                <div class="flex justify-between px-10">
+                    <div class="text-center z-10">
+                        <div class="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center text-3xl shadow-[0_0_20px_blue]">💻</div>
+                        <div class="mt-2 font-bold text-blue-400">Client</div>
+                    </div>
+                    <div class="text-center z-10">
+                        <div class="w-16 h-16 bg-purple-600 rounded-lg flex items-center justify-center text-3xl shadow-[0_0_20px_purple]">🖥️</div>
+                        <div class="mt-2 font-bold text-purple-400">Server</div>
+                    </div>
+                </div>
+
+                <div class="absolute top-16 left-20 right-20 h-1 bg-gray-700 top-[60px]"></div>
+
+                <div class="flex-grow relative" id="packet-zone"></div>
+
+                <div class="flex justify-center gap-4 mt-8">
+                    <button id="btn-syn" class="btn-cyber px-6 py-2">1. Send SYN</button>
+                    <button id="btn-syn-ack" class="btn-cyber px-6 py-2 opacity-50 cursor-not-allowed" disabled>2. Send SYN-ACK</button>
+                    <button id="btn-ack" class="btn-cyber px-6 py-2 opacity-50 cursor-not-allowed" disabled>3. Send ACK</button>
+                </div>
+            </div>
+        `;
+
+        const btnSyn = container.querySelector('#btn-syn');
+        const btnSynAck = container.querySelector('#btn-syn-ack');
+        const btnAck = container.querySelector('#btn-ack');
+        const zone = container.querySelector('#packet-zone');
+
+        function sendPacket(type, direction) { // direction: 'right' or 'left'
+            const packet = document.createElement('div');
+            packet.className = `absolute top-1/2 -translate-y-1/2 px-3 py-1 rounded text-xs font-bold text-white shadow-lg transition-all duration-1000 ease-in-out`;
+            packet.style.backgroundColor = direction === 'right' ? '#3B82F6' : '#9333EA'; // Blue or Purple
+            packet.textContent = type;
+            
+            if (direction === 'right') {
+                packet.style.left = '10%';
+                zone.appendChild(packet);
+                setTimeout(() => packet.style.left = '85%', 50);
+            } else {
+                packet.style.left = '85%';
+                zone.appendChild(packet);
+                setTimeout(() => packet.style.left = '10%', 50);
+            }
+
+            setTimeout(() => {
+                packet.classList.add('opacity-0'); // Fade out
+                setTimeout(() => packet.remove(), 500);
+            }, 1000);
+        }
+
+        btnSyn.onclick = () => {
+            sendPacket('SYN', 'right');
+            btnSyn.disabled = true; btnSyn.classList.add('opacity-50');
+            setTimeout(() => {
+                btnSynAck.disabled = false; btnSynAck.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnSynAck.classList.add('animate-pulse');
+            }, 1200);
+        };
+
+        btnSynAck.onclick = () => {
+            sendPacket('SYN-ACK', 'left');
+            btnSynAck.disabled = true; btnSynAck.classList.add('opacity-50');
+            btnSynAck.classList.remove('animate-pulse');
+            setTimeout(() => {
+                btnAck.disabled = false; btnAck.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnAck.classList.add('animate-pulse');
+            }, 1200);
+        };
+
+        btnAck.onclick = () => {
+            sendPacket('ACK', 'right');
+            btnAck.disabled = true; btnAck.classList.add('opacity-50');
+            btnAck.classList.remove('animate-pulse');
+            setTimeout(() => {
+                container.querySelector('.bg-gray-700').classList.replace('bg-gray-700', 'bg-green-500'); // Turn wire green
+                container.querySelector('.bg-gray-700')?.classList.add('shadow-[0_0_10px_green]');
+                labSuccess(completeBtn, feedback, "تم إنشاء الاتصال بنجاح! القناة الآن مفتوحة وموثوقة.");
+            }, 1200);
+        };
+    }
+
+    // 4. محرك Wireshark (تحليل الحزم)
+    function renderWiresharkPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>هذه البيانات الحية تمر عبر الشبكة.</li><li>ابحث عن حزمة تحتوي على بيانات حساسة (كلمة مرور) واضغط عليها.</li><li>تلميح: ابحث عن بروتوكول HTTP أو FTP.</li>';
+        
+        container.innerHTML = `
+            <div class="w-full h-full bg-white text-black font-sans text-xs flex flex-col rounded overflow-hidden border border-gray-600">
+                <div class="bg-gray-200 border-b border-gray-400 p-1 flex gap-4 font-bold">
+                    <div class="w-16">No.</div>
+                    <div class="w-16">Time</div>
+                    <div class="w-24">Source</div>
+                    <div class="w-24">Destination</div>
+                    <div class="w-16">Protocol</div>
+                    <div class="flex-grow">Info</div>
+                </div>
+                <div class="flex-grow overflow-y-auto bg-white" id="packet-list">
+                    </div>
+                <div class="h-24 bg-gray-100 border-t border-gray-400 p-2 font-mono text-gray-500" id="hex-view">
+                    Select a packet to inspect bytes...
+                </div>
+            </div>
+        `;
+
+        const list = container.querySelector('#packet-list');
+        const hexView = container.querySelector('#hex-view');
+        
+        const traffic = [
+            { no: 1, time: "0.000", src: "192.168.1.5", dst: "1.1.1.1", proto: "DNS", info: "Standard query A google.com", color: "bg-blue-100" },
+            { no: 2, time: "0.045", src: "1.1.1.1", dst: "192.168.1.5", proto: "DNS", info: "Standard query response A 142.250.1.1", color: "bg-blue-100" },
+            { no: 3, time: "1.120", src: "192.168.1.5", dst: "142.250.1.1", proto: "TCP", info: "4433 > 80 [SYN] Seq=0 Win=64240 Len=0", color: "bg-gray-100" },
+            { no: 4, time: "1.150", src: "142.250.1.1", dst: "192.168.1.5", proto: "TCP", info: "80 > 4433 [SYN, ACK] Seq=0 Ack=1 Win=29200 Len=0", color: "bg-gray-100" },
+            { no: 5, time: "2.001", src: "192.168.1.5", dst: "192.168.1.100", proto: "HTTP", info: "POST /login.php HTTP/1.1 (application/x-www-form-urlencoded)", color: "bg-green-100", bad: true },
+            { no: 6, time: "2.050", src: "192.168.1.100", dst: "192.168.1.5", proto: "HTTP", info: "HTTP/1.1 200 OK (text/html)", color: "bg-green-100" },
+        ];
+
+        traffic.forEach(p => {
+            const row = document.createElement('div');
+            row.className = `${p.color} border-b border-gray-300 p-1 flex gap-4 cursor-pointer hover:bg-blue-500 hover:text-white transition-colors`;
+            row.innerHTML = `
+                <div class="w-16">${p.no}</div>
+                <div class="w-16">${p.time}</div>
+                <div class="w-24">${p.src}</div>
+                <div class="w-24">${p.dst}</div>
+                <div class="w-16">${p.proto}</div>
+                <div class="flex-grow truncate">${p.info}</div>
+            `;
+            
+            row.onclick = () => {
+                if (p.bad) {
+                    hexView.innerHTML = `<span class="text-red-600 font-bold">⚠️ SENSITIVE DATA FOUND:</span><br>USER=admin&PASS=<span class="bg-yellow-300">secret123</span>`;
+                    labSuccess(completeBtn, feedback, "اكتشاف رائع! بروتوكول HTTP يرسل كلمات المرور كنص واضح (Clear Text).");
+                } else {
+                    hexView.textContent = "Encrypted or safe data. Nothing to see here.";
+                    labError(feedback, "هذه الحزمة آمنة أو لا تحتوي بيانات مفيدة. استمر في البحث.");
+                }
+            };
+            list.appendChild(row);
+        });
+    }
+
+    // 5. محرك SQL Injection الاحترافي
+    function renderSQLiPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>حاول الدخول كمدير (Admin) دون معرفة كلمة المرور.</li><li>في خانة المستخدم، استخدم "الحقن" لإيهام قاعدة البيانات.</li><li>الكود السحري: <span class="font-mono text-yellow-400">admin\' OR \'1\'=\'1</span></li>';
+        
+        container.innerHTML = `
+            <div class="glass-panel w-full max-w-sm p-8 flex flex-col gap-4 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyber-blue to-transparent"></div>
+                <h2 class="text-2xl font-bold text-center text-white mb-4">SECURE LOGIN</h2>
+                
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">USERNAME</label>
+                    <input type="text" id="sqli-user" class="w-full bg-black/50 border border-gray-700 p-3 text-white rounded focus:border-cyber-blue focus:outline-none transition-colors" placeholder="Enter username">
+                </div>
+                
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">PASSWORD</label>
+                    <input type="password" id="sqli-pass" class="w-full bg-black/50 border border-gray-700 p-3 text-white rounded focus:border-cyber-blue focus:outline-none transition-colors" placeholder="••••••••">
+                </div>
+
+                <button id="sqli-btn" class="btn-cyber w-full py-3 mt-4 font-bold">AUTHENTICATE</button>
+                
+                <div class="mt-6 p-3 bg-black rounded border border-gray-800 text-[10px] font-mono text-gray-500">
+                    <div>Backend Query Preview:</div>
+                    <div id="query-preview" class="text-blue-400 break-all mt-1">SELECT * FROM users WHERE user = '...' AND pass = '...'</div>
+                </div>
+            </div>
+        `;
+
+        const userIn = container.querySelector('#sqli-user');
+        const queryView = container.querySelector('#query-preview');
+        const loginBtn = container.querySelector('#sqli-btn');
+
+        // تحديث الكود الحي
+        userIn.addEventListener('input', () => {
+            const val = userIn.value;
+            // تلوين الكود المحقون
+            queryView.innerHTML = `SELECT * FROM users WHERE user = '<span class="text-white">${val}</span>' AND pass = '...'`;
+        });
+
+        loginBtn.onclick = () => {
+            const val = userIn.value;
+            // التحقق الذكي من أي شكل من أشكال 1=1
+            if (val.includes("'") && (val.includes("OR 1=1") || val.includes("OR '1'='1"))) {
+                queryView.classList.add('text-green-400');
+                queryView.innerHTML += `<br><br>✅ QUERY TRUE: (1=1) is always true!`;
+                labSuccess(completeBtn, feedback, "تم الاختراق! لقد تجاوزت المصادقة لأن الشرط (1=1) صحيح دائماً.");
+            } else {
+                userIn.classList.add('border-red-500');
+                setTimeout(() => userIn.classList.remove('border-red-500'), 500);
+                labError(feedback, "فشل الدخول. قاعدة البيانات لم تنخدع.");
+            }
+        };
+    }
+    // ============================================================
+    //  🚀 محركات المستوى الثالث (نخبة الظل) - Level 3 Engines
+    // ============================================================
+
+    // 1. محرك اختراق الواي فاي (Wifi Cracker)
+    function renderWifiPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>1. اختر شبكة "Target_Network".</li><li>2. اضغط "Capture Handshake".</li><li>3. اضغط "Crack Password".</li>';
+        
+        container.innerHTML = `
+            <div class="glass-panel w-full max-w-lg p-4 relative overflow-hidden font-sans">
+                <div class="flex justify-between border-b border-gray-600 pb-2 mb-2">
+                    <span class="text-cyber-blue font-mono">Airodump-ng [Scanner]</span>
+                    <span class="animate-pulse text-green-500">● Scanning</span>
+                </div>
+                <div class="space-y-2 mb-4" id="wifi-list">
+                    </div>
+                <div class="h-24 bg-black border border-gray-700 p-2 font-mono text-xs text-gray-400 mb-4 overflow-y-auto" id="terminal-log">
+                    [00:00:01] Scanning channel 1...<br>
+                    [00:00:02] Found 3 networks.
+                </div>
+                <div class="flex gap-2">
+                    <button id="capture-btn" class="btn-cyber flex-grow text-sm" disabled>Capture Handshake</button>
+                    <button id="crack-btn" class="btn-cyber flex-grow text-sm opacity-50" disabled>Crack Password</button>
+                </div>
+            </div>
+        `;
+
+        const wifiList = container.querySelector('#wifi-list');
+        const networks = [
+            { ssid: "Home_WiFi", pwr: "90%", enc: "WPA2" },
+            { ssid: "Target_Network", pwr: "75%", enc: "WPA2", target: true },
+            { ssid: "Free_Coffee", pwr: "40%", enc: "OPEN" }
+        ];
+
+        let selected = null;
+
+        networks.forEach(net => {
+            const row = document.createElement('div');
+            row.className = 'flex justify-between items-center p-2 bg-white/5 hover:bg-white/10 cursor-pointer rounded border border-transparent';
+            row.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="font-bold">${net.ssid}</span>
+                    <span class="text-xs px-1 rounded ${net.enc==='OPEN'?'bg-green-600':'bg-red-600'}">${net.enc}</span>
+                </div>
+                <span class="text-xs text-gray-400">${net.pwr}</span>
+            `;
+            row.onclick = () => {
+                if(container.querySelector('.border-cyber-blue')) 
+                    container.querySelector('.border-cyber-blue').classList.remove('border-cyber-blue');
+                row.classList.add('border-cyber-blue');
+                selected = net;
+                container.querySelector('#capture-btn').disabled = false;
+            };
+            wifiList.appendChild(row);
+        });
+
+        const log = container.querySelector('#terminal-log');
+        const capBtn = container.querySelector('#capture-btn');
+        const crackBtn = container.querySelector('#crack-btn');
+
+        capBtn.onclick = () => {
+            if(!selected) return;
+            log.innerHTML += `<br>[+] Targeting ${selected.ssid}...<br>[+] Sending Deauth...<br>[+] Handshake CAPTURED!`;
+            log.scrollTop = log.scrollHeight;
+            capBtn.disabled = true;
+            crackBtn.disabled = false;
+            crackBtn.classList.remove('opacity-50');
+            crackBtn.classList.add('animate-pulse');
+        };
+
+        crackBtn.onclick = () => {
+            log.innerHTML += `<br>[*] Starting Dictionary Attack...<br>[*] Testing: 123456... password...<br>[+] KEY FOUND: "supersecret1"`;
+            log.scrollTop = log.scrollHeight;
+            crackBtn.disabled = true;
+            if(selected.target) {
+                labSuccess(completeBtn, feedback, "تم كسر كلمة المرور! الشبكة مخترقة.");
+            } else {
+                labError(feedback, "الشبكة الخطأ، لكن الطريقة صحيحة.");
+                completeBtn.disabled = false; completeBtn.classList.remove('opacity-50');
+            }
+        };
+    }
+
+    // 2. محرك التحليل الجنائي (Hex Editor)
+    function renderForensicsPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>هذا ملف صورة تالف. ابحث في الـ Hex Dump عن النص المخفي "FLAG".</li><li>اضغط على النص المخفي لاستخراجه.</li>';
+        
+        container.innerHTML = `
+            <div class="w-full max-w-2xl bg-gray-900 border border-gray-600 font-mono text-sm shadow-xl rounded overflow-hidden">
+                <div class="bg-gray-800 p-2 text-gray-400 text-xs">evidence.jpg - Hex Viewer</div>
+                <div class="grid grid-cols-[auto_1fr_1fr] h-64 overflow-y-auto p-2 gap-x-4">
+                    <div class="text-blue-400 border-r border-gray-700 pr-2" id="hex-offsets"></div>
+                    <div class="text-gray-300 tracking-widest" id="hex-bytes"></div>
+                    <div class="text-yellow-500 border-l border-gray-700 pl-2" id="hex-ascii"></div>
+                </div>
+            </div>
+        `;
+
+        const offsets = container.querySelector('#hex-offsets');
+        const bytes = container.querySelector('#hex-bytes');
+        const ascii = container.querySelector('#hex-ascii');
+
+        for(let i=0; i<16; i++) {
+            offsets.innerHTML += `000000${i.toString(16).toUpperCase()}0<br>`;
+            let bLine = "", aLine = "";
+            if (i === 8) { 
+                bLine = "46 4C 41 47 7B 48 61 63 6B 65 64 7D 00 00 00 00";
+                aLine = `<span class="cursor-pointer bg-red-600 text-white px-1 hover:scale-110 inline-block transition-transform" id="hidden-flag">FLAG{Hacked}</span>....`;
+            } else {
+                for(let j=0; j<16; j++) {
+                    bLine += Math.floor(Math.random()*255).toString(16).padStart(2,'0').toUpperCase() + " ";
+                    aLine += ".";
+                }
+            }
+            bytes.innerHTML += bLine + "<br>";
+            ascii.innerHTML += aLine + "<br>";
+        }
+
+        setTimeout(() => {
+            const flag = container.querySelector('#hidden-flag');
+            flag.onclick = () => {
+                flag.classList.replace('bg-red-600', 'bg-green-500');
+                labSuccess(completeBtn, feedback, "أحسنت! وجدت الدليل الرقمي المخفي.");
+            };
+        }, 100);
+    }
+
+    // 3. محرك Active Directory
+    function renderActiveDirectoryPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>المهاجم في حساب "Guest".</li><li>تتبع المسار للوصول إلى "Domain Admin".</li><li>اضغط على "Domain Admin" لإغلاق الثغرة.</li>';
+        
+        container.innerHTML = `
+            <div class="w-full max-w-lg bg-white text-black rounded shadow-lg overflow-hidden flex flex-col h-80">
+                <div class="bg-blue-800 text-white p-2 text-sm font-bold">Active Directory Users and Computers</div>
+                <div class="flex-grow flex">
+                    <div class="w-1/3 border-r border-gray-300 p-2 bg-gray-100 text-xs">
+                        <div class="font-bold">Corp.local</div><div class="pl-2">📂 Computers</div><div class="pl-2">📂 Users</div>
+                    </div>
+                    <div class="w-2/3 p-4 bg-white relative">
+                        <div class="absolute top-4 left-4 border border-red-500 p-2 rounded bg-red-100 text-xs text-center w-24">👿 Guest</div>
+                        <div class="absolute top-10 left-28 w-16 h-0.5 bg-gray-400"></div>
+                        <div class="absolute top-4 left-44 border border-gray-500 p-2 rounded bg-gray-100 text-xs text-center w-24">👤 HR_Manager</div>
+                        <div class="absolute top-10 left-[270px] w-16 h-0.5 bg-gray-400"></div>
+                        <div id="target-admin" class="absolute top-4 right-4 border border-green-500 p-2 rounded bg-green-100 text-xs text-center w-28 cursor-pointer hover:bg-green-200 shadow-lg animate-pulse">👑 Domain Admin</div>
+                        <div class="absolute bottom-4 text-[10px] text-gray-500">* Attack Path Analysis (BloodHound)</div>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.querySelector('#target-admin').onclick = function() {
+            this.classList.replace('bg-green-100', 'bg-blue-500');
+            this.classList.add('text-white');
+            this.innerHTML = "🔒 Secured";
+            labSuccess(completeBtn, feedback, "تم قطع مسار الهجوم وتغيير كلمة مرور المدير.");
+        };
+    }
+
+    // 4. محرك الاستجابة للحوادث (IR)
+    function renderIRPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>جهاز "WS-04" مصاب وينشر العدوى.</li><li>اضغط عليه لعزله (Isolate) فوراً.</li>';
+        container.innerHTML = `
+            <div class="w-full max-w-xl glass-panel p-4 text-center">
+                <div class="h-4 w-full bg-gray-700 rounded mb-6 overflow-hidden">
+                    <div id="infection-bar" class="h-full bg-red-600 w-10 transition-all duration-1000 ease-linear"></div>
+                </div>
+                <div class="flex justify-center gap-4">
+                    <div class="p-4 bg-green-900/50 rounded border border-green-600">🖥️ WS-01</div>
+                    <div class="p-4 bg-red-900/50 rounded border border-red-600 relative overflow-hidden cursor-pointer animate-pulse" id="infected-pc">
+                        <div class="text-2xl">🧟</div><div class="text-xs">WS-04</div>
+                    </div>
+                </div>
+            </div>
+        `;
+        const bar = container.querySelector('#infection-bar');
+        const pc = container.querySelector('#infected-pc');
+        let width = 10;
+        const interval = setInterval(() => {
+            width += 5; bar.style.width = width + '%';
+            if(width >= 100) { clearInterval(interval); labError(feedback, "فشلت المهمة! العدوى انتشرت."); pc.style.pointerEvents = 'none'; }
+        }, 500);
+        pc.onclick = () => {
+            clearInterval(interval);
+            pc.classList.replace('bg-red-900/50', 'bg-gray-700');
+            pc.classList.remove('animate-pulse');
+            pc.innerHTML = `<div class="text-2xl">🔒</div><div class="text-xs">Isolated</div>`;
+            labSuccess(completeBtn, feedback, "تم العزل بنجاح! تم احتواء الحادث.");
+        };
+    }
+
+    // 5. محرك الهندسة العكسية (Debugger)
+    function renderReverseEngPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>البرنامج يطلب الرقم السري.</li><li>غير شرط القفز من (JE) إلى (JMP) في الكود لتجاوز الفحص.</li>';
+        container.innerHTML = `
+            <div class="w-full max-w-md bg-[#1e1e1e] border border-gray-600 font-mono text-sm p-4 rounded shadow-2xl">
+                <div class="flex justify-between text-gray-400 border-b border-gray-700 pb-2 mb-2"><span>x64dbg</span><span>Running</span></div>
+                <div class="space-y-1">
+                    <div class="text-gray-500">00401000  MOV EAX, 1</div>
+                    <div class="text-gray-500">00401005  CMP EAX, 0</div>
+                    <div class="flex items-center gap-4 bg-blue-900/30 p-1 rounded">
+                        <span class="text-yellow-500">00401008</span>
+                        <span class="text-white font-bold cursor-pointer hover:bg-blue-600 px-1 rounded" id="instruction">JE 00401050</span>
+                        <span class="text-green-400">// Jump if Equal</span>
+                    </div>
+                </div>
+                <div class="mt-4 border-t border-gray-700 pt-2 text-center text-red-500" id="status-box">Access Denied</div>
+            </div>
+        `;
+        const instr = container.querySelector('#instruction');
+        instr.onclick = () => {
+            instr.textContent = "JMP 00401050"; instr.classList.add("text-red-400");
+            container.querySelector('#status-box').textContent = "Access Granted";
+            container.querySelector('#status-box').className = "mt-4 border-t border-gray-700 pt-2 text-center text-green-500";
+            labSuccess(completeBtn, feedback, "عبقري! لقد عدلت كود البرنامج وتجاوزت الحماية.");
+        };
+    }
+
+    // 6. محرك Evasion
+    function renderEvasionPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>اضغط "Encrypt Payload" لتشفير الكود وتجاوز الحماية.</li>';
+        container.innerHTML = `
+            <div class="glass-panel p-6 text-center w-64">
+                <div class="mb-4 text-left font-mono text-xs bg-black p-2 rounded text-green-400 h-20 overflow-hidden" id="code-view">buf = "\\x90\\x90"<br>// Detected by AV</div>
+                <button id="enc-payload" class="btn-cyber px-4 py-1 text-sm w-full mb-2">Encrypt Payload</button>
+                <div id="av-result" class="mt-4 font-bold h-6"></div>
+            </div>
+        `;
+        const codeView = container.querySelector('#code-view');
+        const encBtn = container.querySelector('#enc-payload');
+        encBtn.onclick = () => {
+            codeView.innerHTML = `X = "QWERTY"<br>Y = AES(X)<br>// Encrypted`;
+            codeView.classList.replace('text-green-400', 'text-yellow-400');
+            encBtn.disabled = true;
+            setTimeout(() => {
+                container.querySelector('#av-result').textContent = "✅ Clean (Undetected)";
+                container.querySelector('#av-result').classList.add("text-green-500");
+                labSuccess(completeBtn, feedback, "نجح التخطي! الكود المشفر لم يتم اكتشافه.");
+            }, 800);
+        };
+    }
+
+    // 7. محرك AppSec Pipeline
+    function renderAppSecPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>اضغط "Fix Vulnerability" لإصلاح الثغرة في الكود ونشر التطبيق.</li>';
+        container.innerHTML = `
+            <div class="w-full max-w-lg bg-gray-900 p-4 rounded border border-gray-700 text-center">
+                <div class="flex items-center justify-center gap-4 mb-4">
+                    <div class="p-2 bg-blue-900 rounded">Code</div>➜<div class="p-2 bg-red-900 rounded border border-red-500">Scan (Failed)</div>➜<div class="p-2 bg-gray-700 rounded opacity-50">Deploy</div>
+                </div>
+                <div class="text-red-400 text-xs font-mono mb-4">CRITICAL: SQL Injection found at line 42</div>
+                <button id="fix-code" class="btn-cyber px-4 py-2">Fix Vulnerability</button>
+            </div>
+        `;
+        container.querySelector('#fix-code').onclick = () => {
+            container.innerHTML = `<div class="w-full max-w-lg bg-gray-900 p-4 rounded border border-green-500 text-center"><div class="flex items-center justify-center gap-4"><div class="p-2 bg-blue-900 rounded">Code</div>➜<div class="p-2 bg-green-900 rounded">Scan (Passed)</div>➜<div class="p-2 bg-blue-900 rounded">Deploy (Success)</div></div><div class="text-green-400 text-xs font-mono mt-4">Pipeline Completed Successfully</div></div>`;
+            labSuccess(completeBtn, feedback, "تم تأمين التطبيق ونشره بنجاح!");
+        };
+    }
+
+    // 8. محرك CTI
+    function renderCTIPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>تحقق من الـ IP المشبوه.</li><li>إذا كان خبيثاً، أضفه للقائمة السوداء.</li>';
+        container.innerHTML = `
+            <div class="glass-panel w-full max-w-md p-4 text-center">
+                <div class="mb-4 text-xl">IP: 45.33.2.1</div>
+                <button id="check-ip" class="btn-cyber px-4 mb-2">Check Reputation</button>
+                <div id="ip-res" class="hidden text-red-500 font-bold mb-2">MALICIOUS (APT28)</div>
+                <button id="block-ip" class="btn-cyber bg-red-600/50 hidden">Block IP</button>
+            </div>
+        `;
+        const check = container.querySelector('#check-ip');
+        const block = container.querySelector('#block-ip');
+        check.onclick = () => { check.disabled = true; setTimeout(() => { container.querySelector('#ip-res').classList.remove('hidden'); block.classList.remove('hidden'); }, 800); };
+        block.onclick = () => { block.textContent = "BLOCKED"; block.disabled = true; labSuccess(completeBtn, feedback, "تم استباق الهجوم! استخبارات التهديدات حمت الشبكة."); };
+    }
+
+    // 9. محرك Ransomware
+    function renderRansomPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>الملفات مشفرة. لا تدفع الفدية!</li><li>اضغط على القرص الخارجي (Backup) لاستعادتها.</li>';
+        container.innerHTML = `
+            <div class="flex gap-8 items-center justify-center">
+                <div class="w-32 h-24 bg-red-900 border-2 border-red-500 rounded flex items-center justify-center text-center text-xs p-1" id="pc-screen">🔒 FILES LOCKED<br>Pay $500</div>
+                <div class="w-20 h-32 bg-gray-700 rounded border-2 border-gray-500 flex flex-col items-center justify-center cursor-pointer hover:border-green-400" id="backup-drv"><div class="text-3xl">💾</div><div class="text-[10px]">Backup</div></div>
+            </div>
+        `;
+        container.querySelector('#backup-drv').onclick = () => {
+            const pc = container.querySelector('#pc-screen');
+            pc.classList.replace('bg-red-900', 'bg-green-900');
+            pc.classList.replace('border-red-500', 'border-green-500');
+            pc.innerHTML = "✅ Restored";
+            labSuccess(completeBtn, feedback, "النسخة الاحتياطية أنقذت الموقف!");
+        };
+    }
+
+    // ============================================================
+    //  👑 محركات المستوى الرابع (قائد الفيلق) - Level 4 Engines
+    // ============================================================
+
+    function renderCloudPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>1. حدد "finance-data".</li><li>2. حوله إلى "Private" لحماية البيانات.</li>';
+        container.innerHTML = `<div class="bg-white text-black p-4 h-64 rounded"><div class="border p-2 mb-2 cursor-pointer hover:bg-gray-200 flex justify-between" id="bucket"><span>📂 finance-data</span><span class="text-red-500 font-bold">Public 🔓</span></div><button id="private-btn" class="bg-blue-600 text-white px-4 py-1 rounded hidden">Make Private</button></div>`;
+        const bucket = container.querySelector('#bucket');
+        const btn = container.querySelector('#private-btn');
+        bucket.onclick = () => btn.classList.remove('hidden');
+        btn.onclick = () => { bucket.innerHTML = `<span>📂 finance-data</span><span class="text-green-600 font-bold">Private 🔒</span>`; labSuccess(completeBtn, feedback, "تم تأمين السحابة."); };
+    }
+
+    function renderSOCPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>اضغط على العمود الأحمر (Spike) لحظره.</li>';
+        container.innerHTML = `<div class="h-40 flex items-end gap-1 bg-gray-900 p-2 border border-gray-600" id="soc-graph"></div>`;
+        const graph = container.querySelector('#soc-graph');
+        for(let i=0; i<20; i++) {
+            const h = Math.floor(Math.random() * 40) + 10;
+            const bar = document.createElement('div');
+            bar.className = 'w-2 bg-blue-500';
+            bar.style.height = h + '%';
+            if(i === 15) { 
+                bar.style.height = '90%'; 
+                bar.className = 'w-2 bg-red-500 cursor-pointer animate-pulse'; 
+                bar.onclick = () => { bar.classList.replace('bg-red-500', 'bg-green-500'); bar.style.height='20%'; labSuccess(completeBtn, feedback, "تم حظر الهجوم (DDoS Mitigation)."); };
+            }
+            graph.appendChild(bar);
+        }
+    }
+
+    function renderZeroTrustPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>جهاز غير معروف يطلب الدخول. اضغط "Deny".</li>';
+        container.innerHTML = `<div class="glass-panel p-4 max-w-md"><div class="text-red-400 mb-2 font-bold">Alert: Unknown Device Requesting Access</div><div class="flex gap-2"><button class="btn-cyber bg-green-600/50" onclick="labError(arguments[0], 'خطأ! لا تثق أبداً.')">Allow</button><button class="btn-cyber bg-red-600/50" id="deny-btn">Deny</button></div></div>`;
+        container.querySelector('#deny-btn').onclick = () => labSuccess(completeBtn, feedback, "أحسنت! مبدأ Zero Trust: لا تثق أبداً، تحقق دائماً.");
+    }
+
+    function renderAIPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>حلل الصوت لكشف التزييف العميق.</li>';
+        container.innerHTML = `<div class="glass-panel p-4 text-center"><div class="mb-4 text-4xl">🗣️</div><button id="ai-scan" class="btn-cyber px-4 py-2">AI Deepfake Scan</button></div>`;
+        container.querySelector('#ai-scan').onclick = function() { this.textContent = "Fake Detected! (Artifacts found)"; this.classList.add('text-red-500'); labSuccess(completeBtn, feedback, "تم كشف الصوت المزيف بواسطة خوارزميات AI."); };
+    }
+
+    function renderCrisisPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>الشركة تحت الهجوم. ماذا تقول للصحافة؟</li>';
+        container.innerHTML = `<div class="flex flex-col gap-2 w-full max-w-md"><button class="btn-cyber p-2 text-left" onclick="labError(arguments[0], 'الإنكار يدمر المصداقية.')">A. "لا يوجد اختراق، شائعات."</button><button class="btn-cyber p-2 text-left" id="valid-crisis">B. "نعترف بوجود حادث ونعمل على حله بشفافية."</button></div>`;
+        container.querySelector('#valid-crisis').onclick = () => labSuccess(completeBtn, feedback, "قرار قيادي سليم. الشفافية تبني الثقة.");
+    }
+
+    function renderISOPro(container, stepsList, completeBtn, feedback) {
+         stepsList.innerHTML = '<li>اضغط على الورقة المكتوب عليها كلمة السر (مخالفة!).</li>';
+         container.innerHTML = `<div class="relative bg-gray-800 h-32 w-full rounded border border-gray-600"><div class="absolute top-4 left-4 text-xs text-gray-500">Office Desk</div><div class="absolute top-10 left-10 w-8 h-8 bg-yellow-200 text-black text-[6px] cursor-pointer shadow hover:scale-110 transition-transform flex items-center justify-center" id="iso-item">Pass:123</div></div>`;
+         container.querySelector('#iso-item').onclick = function() { this.style.border = "2px solid red"; labSuccess(completeBtn, feedback, "مخالفة أمنية واضحة! (Clean Desk Policy)."); };
+    }
+    // ==========================================
+    // ابدأ النسخ من هنا
+    // ==========================================
+
+    function renderDevSecOpsPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>اضغط "Inject Security" لدمج الفحص في خط الإنتاج.</li>';
+        
+        container.innerHTML = `
+            <div class="w-full max-w-lg bg-gray-900 p-4 rounded border border-gray-700 text-center">
+                <div id="pipeline-view" class="flex items-center justify-center gap-4 mb-4">
+                    <div class="p-2 bg-blue-900 rounded">Code</div>
+                    <div class="h-1 w-8 bg-gray-600"></div>
+                    <div class="p-2 bg-blue-900 rounded">Build</div>
+                </div>
+                <div class="text-center mt-4">
+                    <button id="inject-sec" class="btn-cyber px-4">Inject Security</button>
+                </div>
+            </div>
+        `;
+
+        const btn = container.querySelector('#inject-sec');
+        if(btn) {
+            btn.onclick = function() { 
+                this.disabled = true; 
+                const view = container.querySelector('#pipeline-view');
+                if (view) {
+                    view.innerHTML = `
+                        <div class="p-2 bg-blue-900 rounded">Code</div>
+                        <div class="h-1 w-4 bg-gray-600"></div>
+                        <div class="p-2 bg-green-600 rounded text-xs font-bold">SAST</div>
+                        <div class="h-1 w-4 bg-gray-600"></div>
+                        <div class="p-2 bg-blue-900 rounded">Build</div>
+                    `;
+                }
+                labSuccess(completeBtn, feedback, "تم تأمين خط الإنتاج (Shift Left).");
+            };
+        }
+    }
+
+    // هذه هي الدالة التي كانت تسبب المشكلة (تم دمجها هنا بشكل صحيح)
+    function renderPhysicalPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>شخص غريب يحاول الدخول خلف الموظف (Tailgating).</li><li>اضغط على "بوابة الأمان" لإغلاقها ومنع التسلل.</li>';
+        
+        container.innerHTML = `
+            <div class="relative w-full max-w-md h-64 bg-gray-900 border border-gray-700 rounded overflow-hidden flex items-center justify-center">
+                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+                
+                <div class="flex flex-col items-center absolute left-10 transition-all duration-1000" id="employee">
+                    <div class="text-4xl">👨‍💼</div>
+                    <div class="text-[10px] text-green-400">Employee</div>
+                </div>
+
+                <div class="flex flex-col items-center absolute left-2 transition-all duration-1000" id="intruder">
+                    <div class="text-4xl">🕵️‍♂️</div>
+                    <div class="text-[10px] text-red-500">Intruder</div>
+                </div>
+
+                <div id="security-gate" class="h-full w-4 bg-green-500/20 border-x-2 border-green-500 absolute left-1/2 cursor-pointer hover:bg-green-500/40 transition-colors flex items-center justify-center">
+                    <div class="text-xs text-white -rotate-90 whitespace-nowrap">Man-Trap Gate</div>
+                </div>
+
+                <div class="absolute top-4 right-4 text-xs text-gray-400">Security Cam 01</div>
+            </div>
+        `;
+
+        const gate = container.querySelector('#security-gate');
+        const intruder = container.querySelector('#intruder');
+        const employee = container.querySelector('#employee');
+
+        // تحريك الشخصيات
+        setTimeout(() => {
+            if(employee) employee.style.left = '40%';
+            if(intruder) intruder.style.left = '30%'; 
+        }, 500);
+
+        if(gate) {
+            gate.onclick = () => {
+                // إغلاق البوابة
+                gate.classList.replace('bg-green-500/20', 'bg-red-600');
+                gate.classList.replace('border-green-500', 'border-red-600');
+                gate.innerHTML = '<div class="text-xs text-white -rotate-90 whitespace-nowrap font-bold">LOCKED</div>';
+                
+                // الموظف يعبر، المتسلل يصطدم
+                if(employee) employee.style.left = '80%';
+                if(intruder) intruder.style.left = '42%'; // يتوقف عند البوابة
+                
+                labSuccess(completeBtn, feedback, "تم تفعيل المصيدة (Man-Trap)! تم عزل المتسلل بنجاح.");
+            };
+        }
+    }
+
+    // ==========================================
+    // انتهى النسخ هنا
+    // ==========================================
+    function renderTeamPro(container, stepsList, completeBtn, feedback) {
+        stepsList.innerHTML = '<li>اختر القائد المناسب لفريقك.</li>';
+        container.innerHTML = `<div class="flex gap-2 justify-center"><div class="glass-panel p-2 cursor-pointer w-32 text-center" onclick="labError(arguments[0], 'مهاري لكن لا يعمل مع فريق')">Lone Wolf<br><span class="text-xs text-gray-500">Skill: 10/10</span></div><div class="glass-panel p-2 cursor-pointer w-32 text-center border border-cyber-gold" id="leader-choice">Mentor<br><span class="text-xs text-gray-500">Team: 10/10</span></div></div>`;
+        container.querySelector('#leader-choice').onclick = () => labSuccess(completeBtn, feedback, "اختيار ممتاز! القائد المعلم يبني الفريق.");
+    }
 
         function initPracticalLab(lesson) {
             state.currentLessonStage = 'practical';
@@ -3348,6 +4176,180 @@
             } else if (lab.type === 'ids-monitor') {
                 renderIDSLab(workspace, stepsList, completeBtn, feedback);
             }
+              // ============================================================
+        //  بداية محاكيات المستوى الثاني (الخبير التكتيكي) - النظام الجديد
+        // ============================================================
+        
+        else if (lab.type === 'osi-dual') {
+            renderOSILabPro(workspace, stepsList, completeBtn, feedback);
+        } 
+        else if (lab.type === 'tcp-dual') {
+            renderTCPHandshakeLabPro(workspace, stepsList, completeBtn, feedback);
+        } 
+        else if (lab.type === 'wireshark-dual') {
+            renderWiresharkPro(workspace, stepsList, completeBtn, feedback);
+        } 
+        else if (lab.type === 'nmap-dual') {
+            // نستخدم محرك التيرمينال الذكي لهذا الدرس
+            renderTerminalLab(workspace, stepsList, completeBtn, feedback, {
+                prompt: "root@kali:~#",
+                stepsText: '<li>المهمة: اكتشاف المنافذ المفتوحة على السيرفر الهدف.</li><li>اكتب الأمر: <span class="text-cyber-gold font-mono">nmap -sS 192.168.1.5</span></li><li>حلل النتيجة واضغط على المنفذ المفتوح.</li>',
+                validCommands: {
+                    "nmap -sS 192.168.1.5": {
+                        output: `
+Starting Nmap 7.92 ( https://nmap.org )
+Nmap scan report for 192.168.1.5 (Target-Server)
+Host is up (0.0023s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE
+21/tcp   open  ftp
+80/tcp   open  http
+3306/tcp open  mysql
+MAC Address: 00:0C:29:BD:E7:91 (VMware)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.45 seconds
+                        `,
+                        isSuccess: true,
+                        successMsg: "أحسنت! الفحص ناجح. المنافذ 21, 80, 3306 مفتوحة وهي نقاط دخول محتملة."
+                    },
+                    "help": { output: "الأوامر المتاحة: nmap [options] [target]" }
+                }
+            });
+        }
+        else if (lab.type === 'linux-dual') {
+             renderTerminalLab(workspace, stepsList, completeBtn, feedback, {
+                prompt: "user@linux-server:~$",
+                stepsText: '<li>المهمة: تغيير صلاحيات ملف "passwords.txt" لمنع الغرباء من قراءته.</li><li>حالياً الصلاحيات مفتوحة (777). اجعلها للمالك فقط.</li><li>اكتب: <span class="text-cyber-gold font-mono">chmod 600 passwords.txt</span></li>',
+                validCommands: {
+                    "ls -l": { output: "-rwxrwxrwx 1 root root 1024 Jan 10 10:00 passwords.txt" },
+                    "chmod 600 passwords.txt": { 
+                        output: "changed ownership of 'passwords.txt' to 600 (-rw-------)",
+                        isSuccess: true,
+                        successMsg: "ممتاز! الآن المالك فقط (Root) يمكنه قراءة وكتابة الملف. لقد أمنت البيانات."
+                    }
+                }
+            });
+        }
+        else if (lab.type === 'bash-dual') {
+             renderTerminalLab(workspace, stepsList, completeBtn, feedback, {
+                prompt: "hacker@kali:~/scripts#",
+                stepsText: '<li>المهمة: تشغيل سكربت الأتمتة لفحص الشبكة.</li><li>السكربت جاهز باسم "auto_scan.sh".</li><li>اكتب: <span class="text-cyber-gold font-mono">./auto_scan.sh</span> لتشغيله.</li>',
+                validCommands: {
+                    "ls": { output: "auto_scan.sh  notes.txt" },
+                    "./auto_scan.sh": { 
+                        output: `
+[+] Starting Automation Script...
+[+] Target identified: 10.10.10.15
+[+] Launching Ping Sweep... Done.
+[+] Launching Port Scan... Open ports found: 22, 80.
+[+] Saving results to log.txt...
+Done.
+                        `,
+                        isSuccess: true,
+                        successMsg: "السكربت يعمل بنجاح! الأتمتة توفر وقتك وتجعلك أسرع من المدافعين."
+                    }
+                }
+            });
+        }
+        else if (lab.type === 'sqli-dual') {
+            renderSQLiPro(workspace, stepsList, completeBtn, feedback);
+        }
+              // ============================================================
+        //  بداية محاكيات المستوى الثالث (نخبة الظل) - Shadow Elite
+        // ============================================================
+
+        else if (lab.type === 'metasploit-dual') {
+            renderTerminalLab(workspace, stepsList, completeBtn, feedback, {
+                prompt: "msf6 >",
+                stepsText: '<li>المهمة: استغلال ثغرة EternalBlue.</li><li>1. اختر الثغرة: <span class="text-cyber-gold font-mono">use exploit/windows/smb/ms17_010_eternalblue</span></li><li>2. حدد الهدف: <span class="text-cyber-gold font-mono">set RHOSTS 192.168.1.10</span></li><li>3. ابدأ الهجوم: <span class="text-cyber-gold font-mono">exploit</span></li>',
+                validCommands: {
+                    "use exploit/windows/smb/ms17_010_eternalblue": { output: "[*] Payload configured to windows/x64/meterpreter/reverse_tcp" },
+                    "set RHOSTS 192.168.1.10": { output: "RHOSTS => 192.168.1.10" },
+                    "exploit": { 
+                        output: `[*] Started reverse TCP handler on 10.0.2.15:4444 \n[+] 192.168.1.10:445 - EternalBlue overwrite completed successfully.\n[*] Meterpreter session 1 opened`,
+                        isSuccess: true,
+                        successMsg: "تم الاختراق! أنت الآن داخل النظام (Session Opened)."
+                    }
+                }
+            });
+        }
+        else if (lab.type === 'wifi-dual') {
+            renderWifiPro(workspace, stespsList, completeBtn, feedback);
+        }
+                 
+        
+        else if (lab.type === 'forensics-dual') {
+            renderForensicsPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'ir-dual') {
+            renderIRPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 're-dual') {
+            renderReverseEngPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'ad-dual') {
+            renderActiveDirectoryPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'evasion-dual') {
+            renderEvasionPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'appsec-dual') {
+            renderAppSecPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'cti-dual') {
+            renderCTIPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'python-dual') {
+            renderTerminalLab(workspace, stepsList, completeBtn, feedback, {
+                prompt: "dev@workstation:~$",
+                stepsText: '<li>المهمة: تشغيل سكربت بايثون للفحص.</li><li>اكتب: <span class="text-cyber-gold font-mono">python3 scanner.py</span></li>',
+                validCommands: {
+                    "python3 scanner.py": { 
+                        output: "Scanning target 10.10.10.5...\nPort 80: OPEN\nPort 443: OPEN\nDone.",
+                        isSuccess: true,
+                        successMsg: "السكربت يعمل! لقد صنعت أداتك الخاصة."
+                    }
+                }
+            });
+        }
+        else if (lab.type === 'ransom-dual') {
+            renderRansomPro(workspace, stepsList, completeBtn, feedback);
+        }
+
+        // ============================================================
+        //  بداية محاكيات المستوى الرابع (قائد الفيلق) - Digital Legion Commander
+        // ============================================================
+
+        else if (lab.type === 'cloud-dual') {
+            renderCloudPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'iso-dual') {
+            renderISOPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'soc-dual') {
+            renderSOCPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'devsecops-dual') {
+            renderDevSecOpsPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'zerotrust-dual') {
+            renderZeroTrustPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'ai-dual') {
+            renderAIPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'crisis-dual') {
+            renderCrisisPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'phy-dual') {
+            renderPhysicalPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'law-dual') {
+            renderLawPro(workspace, stepsList, completeBtn, feedback);
+        }
+        else if (lab.type === 'team-dual') {
+            renderTeamPro(workspace, stepsList, completeBtn, feedback);
+        }
             
             // The complete button now always leads to the Application Screen
             completeBtn.onclick = () => showApplicationScreen(lesson);
